@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
+    alias(libs.plugins.publishing.module)
 }
 
 android {
@@ -83,3 +84,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
+
+publishingModule {
+    // this will add jetpack compose dependencies to the pom.xml file
+    addExternalDependencies = true
+}
+
