@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- UnlockContent strings -->
+    <string name="unlock_content_lock_error_description">Erro de fechadura</string>
+    <string name="unlock_content_unlocking_failed_title">Desbloqueio falhou</string>
+    <string name="unlock_content_unlocking_failed_description">A porta não pôde ser desbloqueada. Tente manter o telefone mais próximo da fechadura.</string>
+    <string name="unlock_content_door_unlock_failed_message">A porta não pôde ser desbloqueada.</string>
+    <string name="unlock_content_try_again_button">Tentar novamente</string>
+    <string name="unlock_content_tap_to_unlock">Toque para desbloquear</string>
+    <string name="unlock_content_connecting">Conectando…</string>
+    <string name="unlock_content_unlocked">Desbloqueado</string>
+    <string name="unlock_content_failed">Falhou</string>
+    <string name="unlock_content_scanning_instruction">Mantenha a parte traseira do telefone contra a fechadura</string>
+
+    <!-- UnlockInstructions strings -->
+    <string name="unlock_instructions_step1">Pressionar botão</string>
+    <string name="unlock_instructions_step2">Aproximar telefone da fechadura</string>
+    <string name="unlock_instructions_step3">Aguardar e abrir porta</string>
+    <string name="unlock_instructions_phone_illustration_description">Ilustração do telefone para fechadura</string>
+
+    <!-- Otp strings -->
+    <string name="otp_title">Autorização</string>
+
+    <!-- Generic strings -->
+    <string name="done">Concluído</string>
+    <string name="cancel">Cancelar</string>
+    <string name="unlock_try_again">Tentar novamente</string>
+    <string name="empty_keys_title">Você não tem chaves móveis</string>
+    <string name="empty_keys_subtitle">Entre em contato com a recepção para garantir que suas chaves móveis foram ativadas</string>
+    <string name="empty_keys_button">Atualizar</string>
+
+    <!-- UnlockHeader strings -->
+    <string name="check_out_label">Check-out: %1$s</string>
+
+    <!-- BluetoothRedirectScreen strings -->
+    <string name="bluetooth_turned_off_title">Bluetooth está desligado</string>
+    <string name="bluetooth_turned_off_description">O aplicativo não pode desbloquear portas sem Bluetooth. Você pode ligá-lo nas Configurações do seu telefone.</string>
+    <string name="go_to_settings">Ir para Configurações</string>
+    <string name="skip">Pular</string>
+
+    <!-- KeyCardComponent strings -->
+    <string name="check_out_uppercase">CHECK-OUT</string>
+
+    <!-- LoadingScreen strings -->
+    <string name="loading">Carregando…</string>
+    <string name="initializing_mobile_credentials">Inicializando credenciais móveis…</string>
+    <string name="loading_credentials">Carregando credenciais…</string>
+    <string name="loading_mobile_keys">Carregando suas chaves móveis…</string>
+
+    <!-- ErrorInternet strings -->
+    <string name="error_internet_title">Não conectado à Internet</string>
+    <string name="error_internet_description">Você ainda pode acessar suas chaves, mas as informações que vê podem não estar atualizadas.</string>
+    <string name="error_internet_image_description">Ícone de sem conexão com a internet</string>
+
+    <!-- ErrorContent strings -->
+    <string name="error_content_title">Erro</string>
+    <string name="error_content_try_again">Tentar novamente</string>
+    <string name="access_code_label">CÓDIGO</string>
+    <string name="error_initialization_required">O SDK precisa ser inicializado antes do uso. Por favor, entre em contato com o suporte.</string>
+    <string name="error_activation_required">Sua conta precisa ser ativada. Por favor, entre em contato com o suporte.</string>
+    <string name="error_integration_not_found">A integração necessária não foi encontrada. Por favor, entre em contato com o suporte.</string>
+    <string name="error_already_initialized">O SDK já foi inicializado.</string>
+    <string name="error_deactivation_in_progress">A desativação está em andamento. Por favor, aguarde.</string>
+    <string name="error_invalid_credential_id">O ID da credencial é inválido. Por favor, entre em contato com o suporte.</string>
+    <string name="error_internet_connection_required">Uma conexão com a internet é necessária para esta operação.</string>
+    <string name="error_invalid_client_session_token">Sua sessão expirou. Por favor, faça login novamente.</string>
+    <string name="error_invalid_unlock_proximity">Você precisa estar mais perto da fechadura para desbloqueá-la.</string>
+    <string name="error_unknown">Ocorreu um erro inesperado. Por favor, tente novamente.</string>
+</resources>

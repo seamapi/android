@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- UnlockContent strings -->
+    <string name="unlock_content_lock_error_description">Erreur de serrure</string>
+    <string name="unlock_content_unlocking_failed_title">Déverrouillage échoué</string>
+    <string name="unlock_content_unlocking_failed_description">La porte n\'a pas pu être déverrouillée. Essayez de maintenir votre téléphone plus près de la serrure.</string>
+    <string name="unlock_content_door_unlock_failed_message">La porte n\'a pas pu être déverrouillée.</string>
+    <string name="unlock_content_try_again_button">Réessayer</string>
+    <string name="unlock_content_tap_to_unlock">Toucher pour déverrouiller</string>
+    <string name="unlock_content_connecting">Connexion…</string>
+    <string name="unlock_content_unlocked">Déverrouillé</string>
+    <string name="unlock_content_failed">Échoué</string>
+    <string name="unlock_content_scanning_instruction">Maintenez l\'arrière de votre téléphone contre la serrure</string>
+
+    <!-- UnlockInstructions strings -->
+    <string name="unlock_instructions_step1">Appuyer sur le bouton</string>
+    <string name="unlock_instructions_step2">Approcher le téléphone de la serrure</string>
+    <string name="unlock_instructions_step3">Attendre et ouvrir la porte</string>
+    <string name="unlock_instructions_phone_illustration_description">Illustration téléphone vers serrure</string>
+
+    <!-- Otp strings -->
+    <string name="otp_title">Autorisation</string>
+
+    <!-- Generic strings -->
+    <string name="done">Terminé</string>
+    <string name="cancel">Annuler</string>
+    <string name="unlock_try_again">Réessayer</string>
+    <string name="empty_keys_title">Vous n\'avez pas de clés mobiles</string>
+    <string name="empty_keys_subtitle">Contactez la réception pour vous assurer que vos clés mobiles ont été activées</string>
+    <string name="empty_keys_button">Actualiser</string>
+
+    <!-- UnlockHeader strings -->
+    <string name="check_out_label">Check-out : %1$s</string>
+
+    <!-- BluetoothRedirectScreen strings -->
+    <string name="bluetooth_turned_off_title">Bluetooth est désactivé</string>
+    <string name="bluetooth_turned_off_description">L\'application ne peut pas déverrouiller les portes sans Bluetooth. Vous pouvez l\'activer dans les Paramètres de votre téléphone.</string>
+    <string name="go_to_settings">Aller aux Paramètres</string>
+    <string name="skip">Ignorer</string>
+
+    <!-- KeyCardComponent strings -->
+    <string name="check_out_uppercase">CHECK-OUT</string>
+
+    <!-- LoadingScreen strings -->
+    <string name="loading">Chargement…</string>
+    <string name="initializing_mobile_credentials">Initialisation des identifiants mobiles…</string>
+    <string name="loading_credentials">Chargement des identifiants…</string>
+    <string name="loading_mobile_keys">Chargement de vos clés mobiles…</string>
+
+    <!-- ErrorInternet strings -->
+    <string name="error_internet_title">Pas connecté à Internet</string>
+    <string name="error_internet_description">Vous pouvez toujours accéder à vos clés, mais les informations que vous voyez peuvent ne pas être à jour.</string>
+    <string name="error_internet_image_description">Icône d\'aucune connexion internet</string>
+
+    <!-- ErrorContent strings -->
+    <string name="error_content_title">Erreur</string>
+    <string name="error_content_try_again">Réessayer</string>
+    <string name="access_code_label">CODE</string>
+    <string name="error_initialization_required">Le SDK doit être initialisé avant utilisation. Veuillez contacter le support.</string>
+    <string name="error_activation_required">Votre compte doit être activé. Veuillez contacter le support.</string>
+    <string name="error_integration_not_found">L\'intégration requise n\'a pas été trouvée. Veuillez contacter le support.</string>
+    <string name="error_already_initialized">Le SDK a déjà été initialisé.</string>
+    <string name="error_deactivation_in_progress">La désactivation est en cours. Veuillez patienter.</string>
+    <string name="error_invalid_credential_id">L\'ID d\'identification est invalide. Veuillez contacter le support.</string>
+    <string name="error_internet_connection_required">Une connexion internet est requise pour cette opération.</string>
+    <string name="error_invalid_client_session_token">Votre session a expiré. Veuillez vous reconnecter.</string>
+    <string name="error_invalid_unlock_proximity">Vous devez être plus près de la serrure pour la déverrouiller.</string>
+    <string name="error_unknown">Une erreur inattendue s\'est produite. Veuillez réessayer.</string>
+</resources>
