@@ -25,29 +25,20 @@
 package co.seam.seamcomponents.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SheetValue
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,137 +67,85 @@ fun SeamUnlockCardView(
 ) {
     val unlockPhase by viewModel.unlockPhase.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
-    val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp.dp
-    val peekHeight = screenHeight - 64.dp
 
-    val bottomSheetState = rememberStandardBottomSheetState(
-        initialValue = SheetValue.Hidden,
-        skipHiddenState = false
-    )
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = bottomSheetState
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
     )
 
-    // Animate sheet to peek height when screen loads
-    LaunchedEffect(Unit) {
-        bottomSheetState.partialExpand()
+    // Handle dismiss - reset state and navigate back
+    val handleDismiss = {
+        viewModel.resetState()
+        onNavigateBack()
     }
 
-    // Handle dismiss - when sheet is hidden, navigate back
-    LaunchedEffect(bottomSheetState.currentValue) {
-        if (bottomSheetState.currentValue == SheetValue.Hidden && bottomSheetState.targetValue == SheetValue.Hidden) {
-            viewModel.resetState() // Reset state
-            onNavigateBack()
-        }
-    }
-
-    // Calculate background alpha based on sheet position for smooth transparency animation
-    val backgroundAlpha by remember {
-        derivedStateOf {
-            if (bottomSheetState.hasPartiallyExpandedState) {
-                val peekHeightPx = peekHeight.value * configuration.densityDpi / 160f
-                val screenHeightPx = screenHeight.value * configuration.densityDpi / 160f
-
-                val offset = bottomSheetState.requireOffset()
-
-                val dragPosition = (offset - (screenHeightPx - peekHeightPx)).coerceAtLeast(0.001f)
-                val dragProgress = dragPosition / peekHeightPx
-                1f - dragProgress
-            } else {
-                1f
-            }
-        }
-    }
-
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
+    // Use ModalBottomSheet which renders at window level
+    ModalBottomSheet(
+        onDismissRequest = handleDismiss,
+        sheetState = bottomSheetState,
         modifier = modifier
-            .fillMaxSize(),
-        sheetPeekHeight = peekHeight,
-        sheetContainerColor = MaterialTheme.colorScheme.background,
-        containerColor = Color.Transparent,
-        sheetDragHandle = {
-            BottomSheetDefaults.DragHandle(
-                color = MaterialTheme.colorScheme.background.darken(0.8f)
-            )
-        },
-        sheetContent = {
-            // Bottom sheet content - fillMaxHeight to allow full expansion
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-            ) {
-                if (unlockPhase == UnlockPhase.FAILED) {
-                    UnlockError(
-                        title = stringResource(R.string.unlock_content_unlocking_failed_title),
-                        description = stringResource(R.string.unlock_content_unlocking_failed_description),
-                        modifier = Modifier.padding(top = 16.dp),
-                        onTryAgain = { viewModel.unlockCredential(keyCard.id) },
-                    )
-                } else {
-                    UnlockContent(
-                        unlockPhase = unlockPhase,
-                        modifier = Modifier.padding(top = 16.dp),
-                        onPressPrimaryButton = {
-                            if (unlockPhase == UnlockPhase.IDLE) {
-                                viewModel.unlockCredential(keyCard.id)
-                            } else if (unlockPhase == UnlockPhase.SCANNING) {
-                                viewModel.cancelUnlock()
-                            }
-                        }
-                    )
-                }
-
-                // Spacer to push buttons to bottom when fully expanded
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
-
-                // Footer with Cancel/Done button
-                if (unlockPhase == UnlockPhase.SUCCESS || unlockPhase == UnlockPhase.FAILED) {
-                    SeamPrimaryButton(
-                        buttonText = stringResource(R.string.done),
-                        onClick = {
-                            viewModel.resetState() // Reset state
-                            onNavigateBack()
-                        },
-                        modifier = Modifier.padding(bottom = 72.dp)
-                    )
-                } else if (unlockPhase == UnlockPhase.SCANNING) {
-                    SeamSecondaryButton(
-                        buttonText = stringResource(R.string.cancel),
-                        onClick = {
-                            viewModel.resetState() // Reset state
-                            onNavigateBack()
-                        },
-                        modifier = Modifier.padding(bottom = 72.dp)
-                    )
-                }
-            }
-        }
-    ) { innerPadding ->
-        // Main content - Fixed header at top
-        Box(
+            .safeDrawingPadding()
+            .padding(top = 32.dp),
+        shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
+        containerColor = MaterialTheme.colorScheme.background,
+        tonalElevation = 8.dp,
+        dragHandle = null
+    ) {
+        // Bottom sheet content with minimum height for peek behavior
+        Column(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize()
-                .statusBarsPadding()
-                .background(
-                    color = MaterialTheme.colorScheme.background.darken(0.8f)
-                        .copy(alpha = backgroundAlpha)
-                )
-                .padding(innerPadding)
-                .alpha(backgroundAlpha)
         ) {
-            UnlockHeader(
-                keyCard = keyCard,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+            if (unlockPhase == UnlockPhase.FAILED) {
+                UnlockError(
+                    title = stringResource(R.string.unlock_content_unlocking_failed_title),
+                    description = stringResource(R.string.unlock_content_unlocking_failed_description),
+                    modifier = Modifier.padding(16.dp),
+                    onTryAgain = { viewModel.unlockCredential(keyCard.id) },
+                )
+            } else {
+                UnlockHeader(
+                    keyCard = keyCard,
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background.darken(0.5f))
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                )
+                ErrorBanner(
+                    errorMessage = errorState,
+                    onDismiss = viewModel::clearError
+                )
+                UnlockContent(
+                    unlockPhase = unlockPhase,
+                    modifier = Modifier.padding(16.dp),
+                    onPressPrimaryButton = {
+                        if (unlockPhase == UnlockPhase.IDLE) {
+                            viewModel.unlockCredential(keyCard.id)
+                        } else if (unlockPhase == UnlockPhase.SCANNING) {
+                            viewModel.cancelUnlock()
+                        }
+                    }
+                )
+            }
+
+            // Spacer to push buttons to bottom when fully expanded
+            Spacer(
+                modifier = Modifier.weight(1f)
             )
-            ErrorBanner(
-                errorMessage = errorState,
-                onDismiss = viewModel::clearError
-            )
+
+            // Footer with Cancel/Done button
+            if (unlockPhase == UnlockPhase.SUCCESS || unlockPhase == UnlockPhase.FAILED) {
+                SeamPrimaryButton(
+                    buttonText = stringResource(R.string.done),
+                    onClick = handleDismiss,
+                    modifier = Modifier.padding(bottom = 72.dp).padding(horizontal = 16.dp)
+                )
+            } else if (unlockPhase == UnlockPhase.SCANNING) {
+                SeamSecondaryButton(
+                    buttonText = stringResource(R.string.cancel),
+                    onClick = { viewModel.cancelUnlock() },
+                    modifier = Modifier.padding(bottom = 72.dp).padding(horizontal = 16.dp)
+                )
+            }
         }
     }
 }
