@@ -261,6 +261,43 @@ private val LightColorScheme =
         ...
     )
 
+// Create your Theme as usual
+@Composable
+fun MyTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
+    
+
+    // Instead of MaterialTheme use SeamComponentsTheme here
+    SeamComponentsTheme(
+        colorScheme = colorScheme,
+        content = content,
+    )
+}
+```
+
+### Custom Typography
+
+Typography is optioal, but you can Material Typography as usual
+
+```kotlin
+
+private val DarkColorScheme =
+    darkColorScheme(
+        primary = Color(0xFFADC7FF),
+        onPrimary = Color(0xFF002E69),
+        ...
+    )
+
+private val LightColorScheme =
+    darkColorScheme(
+        primary = Color(0xFFAD00FF),
+        onPrimary = Color(0xFFBA2E69),
+        ...
+    )
+
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontWeight = FontWeight.Normal,
@@ -270,6 +307,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
     ),
+    ...
 )
 // Create your Theme as usual
 @Composable

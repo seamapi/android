@@ -76,7 +76,7 @@ fun SeamButton(
     ) {
         Text(
             text = text,
-            style = theme.typography.buttonText,
+            style = theme.typography.labelLarge,
         )
     }
 }

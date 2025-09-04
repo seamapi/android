@@ -25,7 +25,6 @@
 package co.seam.seamcomponents.ui.components.unlock
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,13 +40,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
-import co.seam.seamcomponents.ui.components.common.darken
 import co.seam.seamcomponents.ui.components.keys.KeyCard
-import co.seam.seamcomponents.ui.theme.SeamFontWeight
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 import coil.compose.AsyncImage
@@ -81,7 +78,6 @@ fun UnlockHeader(
             Text(
                 text = keyCard.name,
                 style = seamTheme.typography.labelMedium,
-                fontWeight = SeamFontWeight.medium,
                 color = headerTitleColor,
             )
 

@@ -37,8 +37,13 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 @Immutable
-data class SeamComponentsThemeData(
+internal data class SeamComponentsThemeData(
     val typography: SeamTypography = SeamTypography.default,
+    val keyCard: SeamKeyCardStyle = SeamKeyCardStyle.default,
+    val unlockCard: SeamUnlockCardStyle = SeamUnlockCardStyle.default,
+)
+
+data class SeamTheme(
     val keyCard: SeamKeyCardStyle = SeamKeyCardStyle.default,
     val unlockCard: SeamUnlockCardStyle = SeamUnlockCardStyle.default,
 )
@@ -81,17 +86,21 @@ internal fun SeamThemeProvider(
 
 @Composable
 fun SeamComponentsTheme(
-    seamTheme: SeamComponentsThemeData = SeamComponentsThemeData(),
+    seamTheme: SeamTheme = SeamTheme(),
+    typography: Typography = SeamTypography.default.toMaterial3Typography(),
     colorScheme: ColorScheme,
-    typography: Typography,
     content: @Composable () -> Unit,
 ) {
+    val seamComponentsTheme = SeamComponentsThemeData(
+        keyCard = seamTheme.keyCard,
+        unlockCard = seamTheme.unlockCard,
+        typography = typography.fromMaterial3Typography(),
+    )
     CompositionLocalProvider(
-        LocalSeamComponentsTheme provides seamTheme,
+        LocalSeamComponentsTheme provides seamComponentsTheme,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = typography,
             content = content,
         )
     }
