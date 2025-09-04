@@ -147,9 +147,9 @@ fun SeamAccessView(
                 }
                 SeamSDKState.Initialized -> {
                     SeamCredentialsView(
-                        onNavigateToUnlock = { keyCardId ->
+                        onNavigateToUnlock = { keyCard ->
                             // Find the keyCard and show overlay instead of navigation
-                            val keyCard = keysViewModel.getKeyCardById(keyCardId)
+                            val keyCard = keysViewModel.getKeyCardById(keyCard.id)
                             keyCard?.let {
                                 if (!keyCard.isLoading) {
                                     selectedKeyCard = it
@@ -193,12 +193,7 @@ fun SeamAccessView(
 
         }
 
-        // Overlay layer - UnlockScreen with animation
-        AnimatedVisibility(
-            visible = showUnlockOverlay && selectedKeyCard != null,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
+        if (showUnlockOverlay) {
             selectedKeyCard?.let { keyCard ->
                 SeamUnlockCardView(
                     keyCard = keyCard,

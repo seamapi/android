@@ -58,7 +58,6 @@
     <!-- ErrorContent strings -->
     <string name="error_content_title">Error</string>
     <string name="error_content_try_again">Intentar de nuevo</string>
-    <string name="access_code_label">CÓDIGO</string>
     <string name="error_initialization_required">El SDK necesita ser inicializado antes de su uso. Por favor, contacta al soporte.</string>
     <string name="error_activation_required">Tu cuenta necesita ser activada. Por favor, contacta al soporte.</string>
     <string name="error_integration_not_found">La integración requerida no fue encontrada. Por favor, contacta al soporte.</string>

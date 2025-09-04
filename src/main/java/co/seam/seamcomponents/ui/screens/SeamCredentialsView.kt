@@ -61,7 +61,7 @@ import java.time.LocalDateTime
 
 @Composable
 fun SeamCredentialsView(
-    onNavigateToUnlock: (String) -> Unit = {},
+    onNavigateToUnlock: (keyCard: KeyCard) -> Unit = {},
     viewModel: KeysViewModel = viewModel(),
     modifier: Modifier = Modifier,
 ) {
@@ -95,7 +95,7 @@ fun SeamCredentialsView(
                         keys = currentState.keys,
                         hasInternetError = hasInternetErrorState,
                         onKeyCardClick = { keyCard ->
-                            onNavigateToUnlock(keyCard.id)
+                            onNavigateToUnlock(keyCard)
                         },
                         onRefresh = { viewModel.refreshCredentials() },
                     )
