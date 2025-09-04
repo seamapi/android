@@ -24,6 +24,7 @@
 
 package co.seam.seamcomponents.ui.components.keys
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +32,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +42,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,6 +55,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,8 +73,8 @@ import java.util.Locale
 @Composable
 fun KeyCardComponent(
     keyCard: KeyCard,
-    onPress: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    onPress: (() -> Unit)? = null,
 ) {
 
     // Use theme for all styling
@@ -84,9 +89,6 @@ fun KeyCardComponent(
     val formatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
     val formattedDate = keyCard.checkoutDate?.format(formatter) ?: "No expiry"
 
-    val now = LocalDateTime.now()
-    val hasExpired = keyCard.checkoutDate != null && keyCard.checkoutDate.isBefore(now)
-
     val borderGradient = Brush.linearGradient(
         colors = listOf(
             Color(0xff939393), // Bottom left color
@@ -95,6 +97,7 @@ fun KeyCardComponent(
         start = Offset(0f, Float.POSITIVE_INFINITY), // Bottom left
         end = Offset(Float.POSITIVE_INFINITY, 0f)    // Top right
     )
+    val isCardEnabled = onPress != null && !keyCard.isExpired
     ShadowCard(
         modifier =
             modifier
@@ -110,7 +113,7 @@ fun KeyCardComponent(
                 Modifier
                     .fillMaxSize()
                     .border(0.5.dp, borderGradient, RoundedCornerShape(cornerRadius))
-                    .clickable(enabled = onPress != null && !hasExpired) { onPress?.invoke() },
+                    .clickable(enabled = isCardEnabled) { onPress?.invoke() },
         ) {
             // Gradient background
             Box(
@@ -233,27 +236,58 @@ fun KeyCardComponent(
                 }
             }
 
-            if (hasExpired) {
+            if (keyCard.isExpired) {
                 Box(
                     modifier = Modifier.fillMaxSize().background(Color(0xAAFFFFFF))
                 )
-                Row(
-                    modifier = Modifier.align(Alignment.TopStart).padding(16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_error),
-                        tint = MaterialTheme.colorScheme.error,
-                        contentDescription = "Error icon",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(
-                        text = "Expired",
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+                CardStatus(
+                    icon = R.drawable.icon_error,
+                    text = stringResource(R.string.key_card_expired)
+                )
+            } else if (keyCard.isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize().background(Color(0xAAFFFFFF))
+                )
+                CardStatus(
+                    iconVector = Icons.Filled.Refresh,
+                    text = stringResource(R.string.key_card_loading)
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun BoxScope.CardStatus(
+    @DrawableRes icon: Int? = null,
+    iconVector: ImageVector? = null,
+    text: String
+) {
+    Row(
+        modifier = Modifier
+            .align(Alignment.TopStart)
+            .padding(16.dp)
+    ) {
+        if (icon != null) {
+            Icon(
+                painter = painterResource(id = icon),
+                tint = MaterialTheme.colorScheme.error,
+                contentDescription = "Error icon",
+                modifier = Modifier.padding(end = 8.dp).size(18.dp)
+            )
+        } else if (iconVector != null) {
+            Icon(
+                imageVector = iconVector,
+                tint = MaterialTheme.colorScheme.error,
+                contentDescription = "Error icon",
+                modifier = Modifier.padding(end = 8.dp).size(18.dp)
+            )
+        }
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }
 
@@ -307,6 +341,26 @@ fun KeyCardComponentExpiredPreview() {
                     name = "1201",
                     checkoutDate = LocalDateTime.now().minusDays(1),
                     code = null,
+                    isExpired = true,
+                ),
+            onPress = { },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun KeyCardComponentLoadingPreview() {
+    SeamThemeProvider {
+        KeyCardComponent(
+            keyCard =
+                KeyCard(
+                    id = "4",
+                    location = "Grand Hotel & Spa",
+                    name = "205",
+                    code = "1234",
+                    checkoutDate = LocalDateTime.now().plusDays(2),
+                    isLoading = true,
                 ),
             onPress = { },
         )

@@ -116,6 +116,7 @@ private fun KeysSuccessContent(
     keys: List<KeyCard>,
     onKeyCardClick: (KeyCard) -> Unit,
     hasInternetError: Boolean,
+    modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
 ) {
     var isRefreshing by remember { mutableStateOf(false) }
@@ -127,11 +128,11 @@ private fun KeysSuccessContent(
             onRefresh()
             isRefreshing = false
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(24.dp),
+            contentPadding = PaddingValues(vertical = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             if (hasInternetError) {
@@ -193,6 +194,7 @@ fun KeysScreenSuccessPreview() {
             keys = mockKeys,
             hasInternetError = false,
             onKeyCardClick = {},
+            modifier = Modifier,
             onRefresh = {},
         )
     }

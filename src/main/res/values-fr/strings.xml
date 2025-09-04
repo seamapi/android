@@ -40,6 +40,9 @@
 
     <!-- KeyCardComponent strings -->
     <string name="check_out_uppercase">CHECK-OUT</string>
+    <string name="access_code_label">CODE</string>
+    <string name="key_card_expired">Expiré</string>
+    <string name="key_card_loading">Chargement</string>
 
     <!-- LoadingScreen strings -->
     <string name="loading">Chargement…</string>

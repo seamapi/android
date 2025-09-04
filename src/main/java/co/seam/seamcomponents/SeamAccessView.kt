@@ -151,8 +151,10 @@ fun SeamAccessView(
                             // Find the keyCard and show overlay instead of navigation
                             val keyCard = keysViewModel.getKeyCardById(keyCardId)
                             keyCard?.let {
-                                selectedKeyCard = it
-                                showUnlockOverlay = true
+                                if (!keyCard.isLoading) {
+                                    selectedKeyCard = it
+                                    showUnlockOverlay = true
+                                }
                             }
                             // reset otp skipped state
                             isOtpScreenSkipped = false

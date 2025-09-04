@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toJavaLocalDateTime
 import java.net.URL
+import java.time.LocalDateTime
 
 /**
  * UI state for the Keys screen - handles content and loading states
@@ -159,15 +160,19 @@ class KeysViewModel : ViewModel() {
      * Converts a SeamCredential to a KeyCard for UI display
      */
     private fun convertSeamCredentialToKeyCard(credential: SeamCredential): KeyCard {
+        val checkoutDate = credential.expiry?.toJavaLocalDateTime()
+        val isExpired = checkoutDate?.isBefore(LocalDateTime.now()) ?: false
+        val isLoading = credential.errors.filterIsInstance<SeamCredentialError.Loading>().isNotEmpty()
         return KeyCard(
             id = credential.id ?: "",
             location = credential.location,
             name = credential.name,
             checkoutDate = credential.expiry?.toJavaLocalDateTime(),
             code = credential.code,
+            isExpired = isExpired,
+            isLoading = isLoading,
         )
     }
-
 
     /**
      * Refreshes credentials from the server

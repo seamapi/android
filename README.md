@@ -17,43 +17,84 @@ Pre-built Jetpack Compose views for unlocking, credential handling, error states
 
 ## Requirements
 
-- **Android Studio** — Arctic Fox (2020.3.1) or later
-- **Compile SDK** — 34 or higher
-- **Minimum SDK** — 24 (Android 7.0) or higher*
-- **Kotlin** — 2.1.0 or later
-- **Jetpack Compose** — 1.5.0 or later
+To integrate the Seam Phone Android SDK into your application, please ensure your project meets the following minimum requirements:
 
-*Higher minimum SDK may be required depending on Seam integration modules used (see [Seam SDK Requirements](../README.md#requirements)).
+*   **Compile SDK:** 34
+*   **Kotlin Version:** 2.1.0 or greater
+*   **Minimum Android SDK:** The required `minSdk` depends on the specific Seam integration modules you include:
+    *   Base SDK (Core, API, Common, Network, Analytics): **API Level 24** (Android 7.0)
+    *   Including `saltoks` or `saltospace`: **API Level 24** (Android 7.0)
+    *   Including `latch`: **API Level 26** (Android 8.0)
+    *   Including `assaabloy`: **API Level 28** (Android 9.0)
 
----
+    Your application's `minSdk` must be set to the **highest** level required by any of the Seam modules you use.
 
-## Installation
+## Dependencies and Credentials
 
-### 1. Add GitHub Packages Repository
+This project relies on the Seam Mobile SDK artifacts hosted on GitHub Packages. To successfully build the project, you need appropriate credentials.
 
-Add the Seam GitHub Packages repository to your project's `settings.gradle.kts` (or `settings.gradle`):
+### GitHub Packages Repository
+
+The `settings.gradle.kts` file configures Gradle to look for dependencies in the Seam GitHub Packages repository:
 
 ```kotlin
+// getPropertyOrNull is a helper function defined in settings.gradle.kts
+// to safely read properties from local.properties
+fun getPropertyOrNull(propertyName: String): String? {
+    val propertiesFile = file("local.properties")
+
+    if (!propertiesFile.exists()) return null
+
+    val properties = Properties()
+    properties.load(propertiesFile.inputStream())
+    return properties.getProperty(propertyName, null)
+}
+
 // settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/seampkg/seam-mobile-sdk")
-            credentials {
-                username = project.findProperty("seamUsername") as String? ?: System.getenv("SEAM_USERNAME")
-                password = project.findProperty("seamPat") as String? ?: System.getenv("SEAM_PAT")
-            }
+repositories {
+    // ... other repositories
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/seampkg/seam-mobile-sdk")
+        credentials {
+            username = getPropertyOrNull("seamUsername")
+            password = getPropertyOrNull("seamPat")
         }
     }
 }
 ```
 
-### 2. Configure Credentials
+if you are using groovy, your `settings.gradle` should look like this:
+```groovy
+// getPropertyOrNull is a helper function defined in settings.gradle
+// to safely read properties from local.properties
+String getPropertyOrNull(String propertyName) {
+    def propertiesFile = file("local.properties")
 
-Create a `local.properties` file in your project root with your GitHub credentials:
+    if (!propertiesFile.exists()) return null
+
+    def properties = new Properties()
+    properties.load(propertiesFile.inputStream())
+    return properties.getProperty(propertyName, null)
+}
+
+// settings.gradle
+repositories {
+    // ... other repositories
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/seampkg/seam-mobile-sdk")
+        credentials {
+            username = getPropertyOrNull("seamUsername")
+            password = getPropertyOrNull("seamPat")
+        }
+    }
+}
+```
+
+### Credentials (`local.properties`)
+
+Gradle requires a username and a Personal Access Token (PAT) with `read:packages` scope to access this repository. These credentials **must** be defined in a `local.properties` file at the root of the project:
 
 ```properties
 # local.properties (DO NOT COMMIT THIS FILE)
@@ -61,27 +102,56 @@ seamUsername=YOUR_GITHUB_USERNAME
 seamPat=YOUR_SEAM_PROVIDED_PAT
 ```
 
-**Important:** Contact Seam to obtain a Personal Access Token (PAT) with `read:packages` scope.
+Replace `YOUR_GITHUB_USERNAME` with your GitHub username. For the Personal Access Token (PAT), please **ask Seam for a token** with the necessary `read:packages` scope.
 
-### 3. Add Dependencies
+**Important:** The `local.properties` file is included in `.gitignore` and should **never** be committed to your version control system.
 
-Add SeamComponents to your app's `build.gradle.kts`:
+### Seam SDK Dependencies
 
+The specific Seam SDK components are included in the `app/build.gradle.kts`.
+The `seam-phone-sdk-android-core` contains the core code for the SDK. It is necessary for all other components to work.
+The other dependencies are related to specific integrations. For example, if you want to use the Salto Space integration, you need to add `seam-phone-sdk-android-saltospace` to the project.
+You can add more integrations dependencies as needed.
+
+Kotlin script (`app/build.gradle.kts`)
 ```kotlin
-dependencies {
-    // Seam Components (UI)
-    implementation("co.seam:seam-phone-sdk-android-seamcomponents:$seamVersion")
+val seamVersion = "2.0.0" // Or the desired version
 
-    // Seam SDK Core (required)
+dependencies {
+    // ... other dependencies
+    implementation("co.seam:seam-phone-sdk-android-seamcomponents:$seamVersion")
     implementation("co.seam:seam-phone-sdk-android-core:$seamVersion")
 
-    // Integration modules (add as needed)
+    // include as needed
     implementation("co.seam:seam-phone-sdk-android-saltoks:$seamVersion")
     implementation("co.seam:seam-phone-sdk-android-saltospace:$seamVersion")
     implementation("co.seam:seam-phone-sdk-android-latch:$seamVersion")
     implementation("co.seam:seam-phone-sdk-android-assaabloy:$seamVersion")
+    // ...
 }
 ```
+
+Groovy script (`app/build.gradle`)
+```groovy
+// app/build.gradle.kts
+def seamVersion = "2.0.0" // Or the desired version
+
+dependencies {
+    // ... other dependencies
+    implementation "co.seam:seam-phone-sdk-android-seamcomponents:$seamVersion"
+    implementation "co.seam:seam-phone-sdk-android-core:$seamVersion"
+    implementation "co.seam:seam-phone-sdk-android-saltoks:$seamVersion"
+    implementation "co.seam:seam-phone-sdk-android-saltospace:$seamVersion"
+    implementation "co.seam:seam-phone-sdk-android-latch:$seamVersion"
+    implementation "co.seam:seam-phone-sdk-android-assaabloy:$seamVersion"
+    // ...
+}
+```
+
+## Setup
+
+Before running the app, you need a **Client Session Token (CST)**. This token authenticates the mobile device with Seam's backend. You typically obtain this token through your backend server after authenticating the user.
+Pleas ask Seam on how to obtain a CST since it is not part of the mobile SDK.
 
 ---
 
@@ -90,38 +160,17 @@ dependencies {
 The fastest way to get started is with `SeamAccessView`, which orchestrates all underlying components to deliver a complete unlock experience:
 
 ```kotlin
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.fillMaxSize
 import co.seam.seamcomponents.SeamAccessView
 
 @Composable
 fun MyAccessScreen() {
     SeamAccessView(
-        clientSessionToken = "seam_cst_your_token_here",
-        modifier = Modifier.fillMaxSize()
+        clientSessionToken = "seam_cst_your_token_here"
     )
 }
 ```
 
-**Note:** You'll need a valid Client Session Token (CST) from your Seam backend. See the [Authentication](#authentication) section below.
-
 That's it — you now have a fully functional unlock UI in your Android app.
-
----
-
-## Authentication
-
-Seam Components require a **Client Session Token (CST)** to authenticate with Seam's backend services. This token:
-
-- Must be obtained from your backend server after user authentication
-- Should start with `seam_cst_`
-- Provides secure access to user credentials and unlock capabilities
-
-Contact your Seam integration team for guidance on CST generation and management.
-
-## How It Works with Seam Mobile SDK
-
 `SeamAccessView` automatically integrates with the Seam Mobile SDK for:
 
 - **SDK initialization** — Automatic setup with your CST
@@ -130,7 +179,7 @@ Contact your Seam integration team for guidance on CST generation and management
 - **Unlock flows** — Provider-specific unlock sequences
 - **Error handling** — Network, permission, and hardware error recovery
 
-The components handle SDK initialization, activation, and state management transparently.
+The Seam Components handle SDK initialization, activation, and state management transparently.
 
 ---
 
