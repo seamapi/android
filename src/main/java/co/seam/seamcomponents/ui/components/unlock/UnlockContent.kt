@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 
 @Composable
 fun UnlockContent(
@@ -51,12 +52,15 @@ fun UnlockContent(
     modifier: Modifier = Modifier,
     onPressPrimaryButton: () -> Unit,
 ) {
+    val unlockCardStyle = seamTheme.unlockCard
+    val containerColor = unlockCardStyle.cardBackground
+        ?: MaterialTheme.colorScheme.background
     // Normal unlock UI
     Column(
         modifier =
             modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
+                .background(containerColor)
                 .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

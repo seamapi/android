@@ -25,11 +25,15 @@
 package co.seam.seamcomponents.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +42,9 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,6 +60,7 @@ import co.seam.seamcomponents.ui.components.unlock.UnlockError
 import co.seam.seamcomponents.ui.components.unlock.UnlockHeader
 import co.seam.seamcomponents.ui.components.unlock.UnlockPhase
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 import co.seam.seamcomponents.ui.viewmodel.UnlockViewModel
 import java.time.LocalDateTime
 
@@ -65,6 +72,11 @@ fun SeamUnlockCardView(
     modifier: Modifier = Modifier,
     viewModel: UnlockViewModel = viewModel(),
 ) {
+    val unlockCardStyle = seamTheme.unlockCard
+    val containerColor = unlockCardStyle.cardBackground ?: MaterialTheme.colorScheme.background
+    val headerContainerColor = unlockCardStyle.headerBackground
+        ?: MaterialTheme.colorScheme.background.darken(0.7f)
+
     val unlockPhase by viewModel.unlockPhase.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
 
@@ -85,17 +97,35 @@ fun SeamUnlockCardView(
         modifier = modifier
             .safeDrawingPadding()
             .padding(top = 32.dp),
-        shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
-        containerColor = MaterialTheme.colorScheme.background,
+        shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+        containerColor = containerColor,
         tonalElevation = 8.dp,
         dragHandle = null
     ) {
         // Bottom sheet content with minimum height for peek behavior
         Column(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
+                .background(containerColor)
                 .fillMaxSize()
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(headerContainerColor)
+                    .padding(top = 4.dp)
+            ) {
+                Box(
+                    modifier
+                        .align(Alignment.CenterHorizontally)
+                        .width(32.dp)
+                        .height(6.dp)
+                        .background(containerColor, RoundedCornerShape(2.dp))
+                )
+                UnlockHeader(
+                    keyCard = keyCard,
+                )
+            }
+
             if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
                     title = stringResource(R.string.unlock_content_unlocking_failed_title),
@@ -104,12 +134,6 @@ fun SeamUnlockCardView(
                     onTryAgain = { viewModel.unlockCredential(keyCard.id) },
                 )
             } else {
-                UnlockHeader(
-                    keyCard = keyCard,
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background.darken(0.5f))
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                )
                 ErrorBanner(
                     errorMessage = errorState,
                     onDismiss = viewModel::clearError
@@ -137,13 +161,17 @@ fun SeamUnlockCardView(
                 SeamPrimaryButton(
                     buttonText = stringResource(R.string.done),
                     onClick = handleDismiss,
-                    modifier = Modifier.padding(bottom = 72.dp).padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .padding(bottom = 72.dp)
+                        .padding(horizontal = 16.dp)
                 )
             } else if (unlockPhase == UnlockPhase.SCANNING) {
                 SeamSecondaryButton(
                     buttonText = stringResource(R.string.cancel),
                     onClick = { viewModel.cancelUnlock() },
-                    modifier = Modifier.padding(bottom = 72.dp).padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .padding(bottom = 72.dp)
+                        .padding(horizontal = 16.dp)
                 )
             }
         }

@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 data class SeamComponentsThemeData(
     val typography: SeamTypography = SeamTypography.default,
     val keyCard: SeamKeyCardStyle = SeamKeyCardStyle.default,
+    val unlockCard: SeamUnlockCardStyle = SeamUnlockCardStyle.default,
 )
 
 /**
@@ -80,13 +81,13 @@ internal fun SeamThemeProvider(
 
 @Composable
 fun SeamComponentsTheme(
-    seamComponentsTheme: SeamComponentsThemeData = SeamComponentsThemeData(),
+    seamTheme: SeamComponentsThemeData = SeamComponentsThemeData(),
     colorScheme: ColorScheme,
     typography: Typography,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalSeamComponentsTheme provides seamComponentsTheme,
+        LocalSeamComponentsTheme provides seamTheme,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

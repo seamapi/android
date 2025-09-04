@@ -63,6 +63,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.ShadowCard
+import co.seam.seamcomponents.ui.theme.SeamComponentsTheme
+import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
+import co.seam.seamcomponents.ui.theme.SeamKeyCardStyle
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 import coil.compose.AsyncImage
@@ -78,12 +81,16 @@ fun KeyCardComponent(
 ) {
 
     // Use theme for all styling
-    val gradientColors = listOf(
+    val gradientColors = seamTheme.keyCard.backgroundGradient ?: listOf(
         MaterialTheme.colorScheme.surface,
         MaterialTheme.colorScheme.surfaceVariant
     )
 
-    val cornerRadius = 16.dp
+    val keyCardStyle = seamTheme.keyCard
+    val cornerRadius = keyCardStyle.cornerRadius ?: 16.dp
+    val shadowColor = keyCardStyle.shadowColor ?: Color(0x33000000)
+    val shadowOffsetY = keyCardStyle.shadowYOffset ?: 5.dp
+    val accentColor = keyCardStyle.accentColor ?: MaterialTheme.colorScheme.primary
 
     // Format checkout date
     val formatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
@@ -104,9 +111,9 @@ fun KeyCardComponent(
                 .fillMaxWidth()
                 .height(192.dp),
         cornerRadius = cornerRadius,
-        shadowColor = Color(0x33000000),
+        shadowColor = shadowColor,
         shadowBlur = 8.dp,
-        shadowOffsetY = 5.dp,
+        shadowOffsetY = shadowOffsetY,
     ) {
         Box(
             modifier =
@@ -144,7 +151,7 @@ fun KeyCardComponent(
                         .width(149.dp)
                         .height(8.dp)
                         .clip(RoundedCornerShape(topEnd = cornerRadius))
-                        .background(MaterialTheme.colorScheme.primary),
+                        .background(accentColor),
             )
 
             // Card content
@@ -263,6 +270,8 @@ private fun BoxScope.CardStatus(
     iconVector: ImageVector? = null,
     text: String
 ) {
+    val keyCardStyle = seamTheme.keyCard
+    val errorColor = keyCardStyle.errorColor ?: MaterialTheme.colorScheme.error
     Row(
         modifier = Modifier
             .align(Alignment.TopStart)
@@ -271,21 +280,21 @@ private fun BoxScope.CardStatus(
         if (icon != null) {
             Icon(
                 painter = painterResource(id = icon),
-                tint = MaterialTheme.colorScheme.error,
+                tint = errorColor,
                 contentDescription = "Error icon",
                 modifier = Modifier.padding(end = 8.dp).size(18.dp)
             )
         } else if (iconVector != null) {
             Icon(
                 imageVector = iconVector,
-                tint = MaterialTheme.colorScheme.error,
+                tint = errorColor,
                 contentDescription = "Error icon",
                 modifier = Modifier.padding(end = 8.dp).size(18.dp)
             )
         }
         Text(
             text = text,
-            color = MaterialTheme.colorScheme.error,
+            color = errorColor,
             style = MaterialTheme.typography.bodyMedium,
         )
     }
@@ -351,7 +360,17 @@ fun KeyCardComponentExpiredPreview() {
 @Preview(showBackground = true)
 @Composable
 fun KeyCardComponentLoadingPreview() {
-    SeamThemeProvider {
+    SeamThemeProvider(
+        seamComponentsTheme = SeamComponentsThemeData(
+            keyCard = SeamKeyCardStyle(
+                backgroundGradient = listOf(Color.Red, Color.Cyan),
+                accentColor = Color.Green,
+                cornerRadius = 24.dp,
+                shadowColor = Color.Yellow,
+                shadowYOffset = 5.dp,
+            ),
+        )
+    ) {
         KeyCardComponent(
             keyCard =
                 KeyCard(

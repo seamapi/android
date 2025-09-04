@@ -115,7 +115,7 @@ You can add more integrations dependencies as needed.
 
 Kotlin script (`app/build.gradle.kts`)
 ```kotlin
-val seamVersion = "2.0.0" // Or the desired version
+val seamVersion = "3.0.12" // Or the desired version
 
 dependencies {
     // ... other dependencies
@@ -134,7 +134,7 @@ dependencies {
 Groovy script (`app/build.gradle`)
 ```groovy
 // app/build.gradle.kts
-def seamVersion = "2.0.0" // Or the desired version
+val seamVersion = "3.0.12" // Or the desired version
 
 dependencies {
     // ... other dependencies
@@ -189,7 +189,6 @@ The Seam Components handle SDK initialization, activation, and state management 
 
 - **`SeamAccessView`** — Complete access management interface
 - **`SeamUnlockCardView`** — Individual credential unlock interface
-- **`SeamOtpView`** — OTP authorization handling
 - **`SeamCredentialsView`** — Credential list and management
 
 ### UI Components
@@ -202,98 +201,186 @@ The Seam Components handle SDK initialization, activation, and state management 
 
 ---
 
-## Theming
-
-Seam Mobile Components are fully brandable using Material3 theming via `SeamThemeProvider`. Customize colors, typography, and component styles:
+## Using separated components
 
 ```kotlin
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.ui.graphics.Color
-import co.seam.seamcomponents.ui.theme.SeamThemeProvider
-import co.seam.seamcomponents.ui.theme.SeamTheme
-import co.seam.seamcomponents.ui.theme.SeamTypography
-import co.seam.seamcomponents.ui.theme.SeamKeyCardStyle
+import co.seam.seamcomponents.SeamAccessView
 
 @Composable
-fun MyApp() {
-    SeamThemeProvider(
-        lightColorScheme = lightColorScheme(
-            primary = Color(0xFFFF6B35), // Your brand color
-            secondary = Color(0xFF03DAC5),
-            background = Color(0xFFF8F9FA)
-        ),
-        darkColorScheme = darkColorScheme(
-            primary = Color(0xFFFF8A65),
-            secondary = Color(0xFF03DAC5),
-            background = Color(0xFF121212)
-        ),
-        seamTheme = SeamTheme(
-            typography = SeamTypography.default,
-            keyCard = SeamKeyCardStyle.default
+fun MyAccessScreen() {
+    // Let's initialize the Seam SDK with the client session token
+    val context = LocalContext.current
+    LaunchedEffect(showSeamComponent) {
+        SeamSDK.initialize(
+            context,
+            "seam_cst_your_token_here"
         )
-    ) {
-        SeamAccessView(clientSessionToken = "seam_cst_...")
+        // Let's activate the Seam SDK after initializing it
+        SeamSDK.getInstance().activate()
     }
+
+    var unlockKeyCard by remember { mutableStateOf<KeyCard?>(null) }
+    // Rendering the Cards view
+    SeamCredentialsView(
+        onNavigateToUnlock = { keyCard ->
+            // handling card click. 
+            unlockKeyCard = keyCard
+        }
+    )
+
+    // Navigate to Unlock view when unlockKeyCard is not null 
+    unlockKeyCard?.let {
+        SeamUnlockCardView(
+            keyCard = it,
+            onNavigateBack = {
+                unlockKeyCard = null
+            }
+        )
+    }
+}
+```
+
+
+## Theming
+
+Seam Mobile Components are fully brandable using Material3 theming via `SeamComponentsTheme`. Customize colors, typography, and component styles.
+
+```kotlin
+
+private val DarkColorScheme =
+    darkColorScheme(
+        primary = Color(0xFFADC7FF),
+        onPrimary = Color(0xFF002E69),
+        ...
+    )
+
+private val LightColorScheme =
+    darkColorScheme(
+        primary = Color(0xFFAD00FF),
+        onPrimary = Color(0xFFBA2E69),
+        ...
+    )
+
+val Typography = Typography(
+    bodyLarge = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+    ),
+    titleLarge = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 22.sp,
+    ),
+)
+// Create your Theme as usual
+@Composable
+fun MyTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
+    
+
+    // Instead of MaterialTheme use SeamComponentsTheme here
+    SeamComponentsTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content,
+    )
 }
 ```
 
 ### Custom Key Card Styling
 
-Customize the appearance of credential cards:
-
-```kotlin
-import androidx.compose.ui.unit.dp
-import co.seam.seamcomponents.ui.theme.SeamKeyCardStyle
-
-SeamThemeProvider(
-    seamTheme = SeamTheme(
-        typography = SeamTypography.default,
-        keyCard = SeamKeyCardStyle.default.copy(
-            cornerRadius = 16.dp,
-            elevation = 4.dp
-            // Colors are handled through Material3 ColorScheme
-        )
-    )
-) {
-    SeamAccessView(clientSessionToken = "seam_cst_...")
-}
-```
-
----
-
-## Advanced Usage
-
-### Custom Integration
-
-Use individual components for custom flows:
+It is possible to go further with customization by setting the `seamTheme` attribute on `SeamComponentsTheme`.
 
 ```kotlin
 @Composable
-fun CustomUnlockFlow(credential: KeyCard) {
-    var unlockPhase by remember { mutableStateOf(UnlockPhase.IDLE) }
+fun MyTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
+    
+    // Define the Key Card Style
+    val keyCardStyle = SeamKeyCardStyle(
+        backgroundGradient = listOf(Color.Red, Color.Cyan),
+        accentColor = Color.Green,
+        cornerRadius = 24.dp,
+        shadowColor = Color.Gray,
+        shadowYOffset = 15.dp,
+        errorColor = Color.Cyan
+    )
+    val seamComponentsThemeData = SeamComponentsThemeData(
+        keyCard = keyCardStyle
+    )
 
-    Column {
-        UnlockHeader(
-            keyCard = credential,
-            modifier = Modifier.padding(16.dp)
-        )
-
-        UnlockContent(
-            unlockPhase = unlockPhase,
-            onPressPrimaryButton = {
-                // Handle unlock logic
-            }
-        )
-
-        if (unlockPhase == UnlockPhase.FAILED) {
-            ErrorBanner(
-                errorMessage = "Unlock failed",
-                onDismiss = { /* handle dismiss */ }
-            )
-        }
-    }
+    // Instead of MaterialTheme use SeamComponentsTheme here
+    SeamComponentsTheme(
+        seamTheme = seamComponentsThemeData,
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content,
+    )
 }
+
+
+```
+
+### Custom Unlock Card Styling
+
+It is similar to the Key Card customization
+
+```kotlin
+@Composable
+fun MyTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
+    
+    // Define the Key Card Style
+    val keyCardStyle = SeamKeyCardStyle(
+        backgroundGradient = listOf(Color.Red, Color.Cyan),
+        accentColor = Color.Green,
+        cornerRadius = 24.dp,
+        shadowColor = Color.Gray,
+        shadowYOffset = 15.dp,
+        errorColor = Color.Cyan
+    )
+
+    // Define Unlock Card Style
+    val unlockCardStyle = SeamUnlockCardStyle(
+        keyButtonGradient = listOf(Color.Red, Color.Cyan),
+        keyButtonShadowColor = Color.Red,
+        keyButtonShadowRadius = 12.dp,
+        bulletBackground = Color.Magenta,
+        bulletTextColor = Color.Cyan,
+        instructionTextColor = Color.Green,
+        headerBackground = Color.Cyan,
+        headerTitleColor = Color.Green,
+        headerSubtitleColor = Color.Magenta,
+        keyIconColorIdle = Color.Green,
+        keyIconColorActive = Color.Cyan,
+        successColor = Color.Magenta,
+        successIconColor = Color.Green,
+        errorColor = Color.Cyan,
+    )
+
+    val seamComponentsThemeData = SeamComponentsThemeData(
+        keyCard = keyCardStyle,
+        unlockCard = unlockCardStyle
+    )
+
+    // Instead of MaterialTheme use SeamComponentsTheme here
+    SeamComponentsTheme(
+        seamTheme = seamComponentsThemeData,
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content,
+    )
+}
+
+
 ```
 
 ---

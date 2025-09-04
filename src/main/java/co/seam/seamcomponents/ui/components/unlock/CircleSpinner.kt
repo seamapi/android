@@ -34,6 +34,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -46,6 +47,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 
 @Composable
 fun CircleSpinner(
@@ -55,7 +57,13 @@ fun CircleSpinner(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {},
 ) {
-    val colors = listOf(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.primary)
+    val unlockCardStyle = seamTheme.unlockCard
+    val spinnerColorPrimary = unlockCardStyle.keyButtonGradient?.getOrNull(0)
+        ?: MaterialTheme.colorScheme.primary
+    val spinnerColorSecondary = unlockCardStyle.cardBackground
+        ?: MaterialTheme.colorScheme.background
+    // colors are inverted to make the animation look better
+    val colors = listOf(spinnerColorSecondary, spinnerColorPrimary)
     val infiniteTransition = rememberInfiniteTransition(label = "spinner_rotation")
     val rotation by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -123,7 +131,7 @@ fun CircleSpinnerWithContentPreview() {
             size = 160,
             showBackgroundRing = true,
         ) {
-            androidx.compose.material3.Text(
+            Text(
                 text = "Loading...",
                 color = MaterialTheme.colorScheme.onSecondary,
             )

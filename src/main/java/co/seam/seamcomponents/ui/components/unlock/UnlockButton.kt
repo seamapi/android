@@ -47,6 +47,7 @@ import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.lighten
 import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 import co.seam.seamcomponents.ui.theme.success
 
 /**
@@ -59,9 +60,25 @@ fun UnlockButton(
     onPress: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val unlockCardStyle = seamTheme.unlockCard
+    val backgroundColor = unlockCardStyle.cardBackground
+        ?: MaterialTheme.colorScheme.background
+    val buttonGradientColors = unlockCardStyle.keyButtonGradient
 
-    val buttonPrimaryColorLighter = MaterialTheme.colorScheme.primary.lighten(0.5f)
-    val buttonPrimaryColor = MaterialTheme.colorScheme.primary
+    val buttonPrimaryColorLighter = buttonGradientColors?.getOrNull(0)
+        ?: MaterialTheme.colorScheme.primary.lighten(0.5f)
+    val buttonPrimaryColor = buttonGradientColors?.getOrNull(1)
+        ?: MaterialTheme.colorScheme.primary
+
+    val keyIconColor = when (unlockPhase) {
+        UnlockPhase.IDLE -> unlockCardStyle.keyIconColorIdle
+        UnlockPhase.SCANNING -> unlockCardStyle.keyIconColorActive
+        else -> null
+    } ?: MaterialTheme.colorScheme.onPrimary
+
+    val successColor = unlockCardStyle.successColor ?: MaterialTheme.colorScheme.success
+    val successIconColor = unlockCardStyle.successIconColor ?: MaterialTheme.colorScheme.onPrimary
+    val buttonElevation = unlockCardStyle.keyButtonShadowRadius ?: 12.dp
 
     // Success state - green background with checkmark
     when (unlockPhase) {
@@ -71,7 +88,7 @@ fun UnlockButton(
                     .size(168.dp)
                     .padding(8.dp)
                     .shadow(
-                        elevation = 24.dp,
+                        elevation = buttonElevation,
                         shape = CircleShape,
                         clip = false
                     )
@@ -90,7 +107,7 @@ fun UnlockButton(
                 Icon(
                     painter = painterResource(R.drawable.key_large),
                     contentDescription = "Key",
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = keyIconColor,
                     modifier = Modifier.size(80.dp),
                 )
             }
@@ -101,7 +118,7 @@ fun UnlockButton(
                     modifier
                         .size(161.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.background)
+                        .background(backgroundColor)
                         .clickable(onClick = onPress),
                 contentAlignment = Alignment.Center,
             ) {
@@ -112,7 +129,7 @@ fun UnlockButton(
                     Icon(
                         painter = painterResource(R.drawable.key_large),
                         contentDescription = "Key",
-                        tint = MaterialTheme.colorScheme.onBackground,
+                        tint = keyIconColor,
                         modifier = Modifier.size(80.dp),
                     )
                 }
@@ -127,10 +144,7 @@ fun UnlockButton(
                         .clip(CircleShape)
                         .background(
                             Brush.linearGradient(
-                                colors = listOf(
-                                    MaterialTheme.colorScheme.success,
-                                    MaterialTheme.colorScheme.success.lighten()
-                                ),
+                                colors = listOf(successColor, successColor.lighten())
                             ),
                         ),
                 contentAlignment = Alignment.Center,
@@ -138,7 +152,7 @@ fun UnlockButton(
                 Icon(
                     imageVector = Icons.Filled.Check,
                     contentDescription = "Success",
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = successIconColor,
                     modifier = Modifier.size(80.dp),
                 )
             }

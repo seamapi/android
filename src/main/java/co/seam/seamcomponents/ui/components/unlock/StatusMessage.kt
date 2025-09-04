@@ -24,6 +24,7 @@
 
 package co.seam.seamcomponents.ui.components.unlock
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -43,15 +44,19 @@ fun StatusMessage(
     instructionText: String? = null,
     modifier: Modifier = Modifier,
 ) {
+    val unlockCardStyle = seamTheme.unlockCard
+    val backgroundColor = unlockCardStyle.cardBackground ?: MaterialTheme.colorScheme.background
+    val titleColor = unlockCardStyle.headerTitleColor ?: MaterialTheme.colorScheme.onBackground
+    val subtitleColor = unlockCardStyle.headerSubtitleColor ?: MaterialTheme.colorScheme.onBackground
     Column(
-        modifier = modifier,
+        modifier = modifier.background(backgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Status message
         Text(
             text = statusText,
             style = seamTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = titleColor,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 10.dp),
         )
@@ -60,7 +65,7 @@ fun StatusMessage(
         Text(
             text = instructionText ?: "",
             style = seamTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = subtitleColor,
             textAlign = TextAlign.Center,
             modifier =
                 Modifier

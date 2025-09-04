@@ -52,9 +52,12 @@ import co.seam.seamcomponents.ui.theme.seamTheme
 fun UnlockInstructions(
     modifier: Modifier = Modifier,
 ) {
+    val unlockCardStyle = seamTheme.unlockCard
+    val backgroundColor = unlockCardStyle.cardBackground ?: MaterialTheme.colorScheme.background
     Column(
         modifier =
             modifier
+                .background(backgroundColor)
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
     ) {
@@ -98,7 +101,10 @@ private fun InstructionStep(
     text: String,
     modifier: Modifier = Modifier,
 ) {
-    val theme = seamTheme
+    val unlockCardStyle = seamTheme.unlockCard
+    val bulletColor = unlockCardStyle.bulletBackground ?: MaterialTheme.colorScheme.primary
+    val bulletTextColor = unlockCardStyle.bulletTextColor ?: MaterialTheme.colorScheme.onPrimary
+    val instructionTextColor = unlockCardStyle.instructionTextColor ?: MaterialTheme.colorScheme.onBackground
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -108,22 +114,22 @@ private fun InstructionStep(
                 Modifier
                     .size(22.dp)
                     .background(
-                        color = MaterialTheme.colorScheme.primary,
+                        color = bulletColor,
                         shape = CircleShape,
                     ),
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = number,
-                style = theme.typography.bodyMediumBold,
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = seamTheme.typography.bodyMediumBold,
+                color = bulletTextColor,
             )
         }
 
         Text(
             text = text,
-            style = theme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
+            style = seamTheme.typography.bodyMedium,
+            color = instructionTextColor,
             modifier = Modifier.padding(start = 8.dp),
         )
     }
