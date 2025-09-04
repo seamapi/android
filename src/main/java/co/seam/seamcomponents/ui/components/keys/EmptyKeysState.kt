@@ -56,7 +56,7 @@ fun EmptyKeysState(
             modifier
                 .fillMaxWidth()
                 .height(400.dp)
-                .padding(24.dp),
+                .padding(vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

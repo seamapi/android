@@ -40,13 +40,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.lighten
-import co.seam.seamcomponents.ui.theme.SeamTheme
+import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
+import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.success
 
 /**
@@ -150,7 +150,7 @@ fun UnlockButton(
 @Preview(showBackground = true)
 @Composable
 fun UnlockButtonIdlePreview() {
-    SeamTheme {
+    SeamThemeProvider {
         UnlockButton(
             unlockPhase = UnlockPhase.IDLE,
             onPress = { },
@@ -161,7 +161,7 @@ fun UnlockButtonIdlePreview() {
 @Preview(showBackground = true)
 @Composable
 fun UnlockButtonScanningPreview() {
-    SeamTheme {
+    SeamThemeProvider {
         UnlockButton(
             unlockPhase = UnlockPhase.SCANNING,
             onPress = { },
@@ -172,7 +172,7 @@ fun UnlockButtonScanningPreview() {
 @Preview(showBackground = true)
 @Composable
 fun UnlockButtonSuccessPreview() {
-    SeamTheme {
+    SeamThemeProvider {
         UnlockButton(
             unlockPhase = UnlockPhase.SUCCESS,
             onPress = { },

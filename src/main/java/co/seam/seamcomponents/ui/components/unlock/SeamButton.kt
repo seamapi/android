@@ -38,7 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.seam.seamcomponents.ui.theme.SeamTheme
+import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
@@ -140,7 +140,7 @@ fun SeamSecondaryButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun SeamButtonPreview() {
-    SeamTheme {
+    SeamThemeProvider {
         SeamButton(
             text = "Tap to Unlock",
             onClick = { },
