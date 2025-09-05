@@ -91,6 +91,7 @@ fun KeyCardComponent(
     val shadowColor = keyCardStyle.shadowColor ?: Color(0x33000000)
     val shadowOffsetY = keyCardStyle.shadowYOffset ?: 5.dp
     val accentColor = keyCardStyle.accentColor ?: MaterialTheme.colorScheme.primary
+    val textColor = keyCardStyle.textColor ?: MaterialTheme.colorScheme.onPrimary
 
     // Format checkout date
     val formatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
@@ -204,7 +205,7 @@ fun KeyCardComponent(
                     Text(
                         text = keyCard.name,
                         style = seamTheme.typography.titleSmallSemiBold,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = textColor,
                     )
 
                     // Room info
@@ -214,13 +215,13 @@ fun KeyCardComponent(
                         Text(
                             text = stringResource(R.string.access_code_label),
                             style = seamTheme.typography.captionSemiBold,
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+                            color = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.padding(end = 8.dp),
                         )
                         Text(
                             text = keyCard.code ?: "-",
                             style = seamTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = textColor,
                         )
                     }
 
@@ -231,13 +232,13 @@ fun KeyCardComponent(
                         Text(
                             text = stringResource(R.string.check_out_uppercase),
                             style = seamTheme.typography.captionSemiBold,
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+                            color = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.padding(end = 8.dp),
                         )
                         Text(
                             text = formattedDate,
                             style = seamTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = textColor,
                         )
                     }
                 }
@@ -368,6 +369,7 @@ fun KeyCardComponentLoadingPreview() {
                 cornerRadius = 24.dp,
                 shadowColor = Color.Yellow,
                 shadowYOffset = 5.dp,
+                textColor = Color.Blue,
             ),
         )
     ) {

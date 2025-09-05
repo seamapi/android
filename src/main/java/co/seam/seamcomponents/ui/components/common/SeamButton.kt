@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package co.seam.seamcomponents.ui.components.unlock
+package co.seam.seamcomponents.ui.components.common
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 

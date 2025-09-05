@@ -44,7 +44,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,8 +52,8 @@ import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.ErrorBanner
 import co.seam.seamcomponents.ui.components.common.darken
 import co.seam.seamcomponents.ui.components.keys.KeyCard
-import co.seam.seamcomponents.ui.components.unlock.SeamPrimaryButton
-import co.seam.seamcomponents.ui.components.unlock.SeamSecondaryButton
+import co.seam.seamcomponents.ui.components.common.SeamPrimaryButton
+import co.seam.seamcomponents.ui.components.common.SeamSecondaryButton
 import co.seam.seamcomponents.ui.components.unlock.UnlockContent
 import co.seam.seamcomponents.ui.components.unlock.UnlockError
 import co.seam.seamcomponents.ui.components.unlock.UnlockHeader

@@ -50,9 +50,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.seam.seamcomponents.R
-import co.seam.seamcomponents.ui.components.unlock.SeamPrimaryButton
-import co.seam.seamcomponents.ui.components.unlock.SeamSecondaryButton
+import co.seam.seamcomponents.ui.components.common.SeamPrimaryButton
+import co.seam.seamcomponents.ui.components.common.SeamSecondaryButton
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,8 +89,7 @@ fun BluetoothRedirectScreen(
 
             Text(
                 text = stringResource(R.string.bluetooth_turned_off_title),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium,
+                style = seamTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground, // slate-900
                 textAlign = TextAlign.Center,
                 lineHeight = 29.sp
@@ -99,8 +99,7 @@ fun BluetoothRedirectScreen(
 
             Text(
                 text = stringResource(R.string.bluetooth_turned_off_description),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
+                style = seamTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
                 lineHeight = 24.sp

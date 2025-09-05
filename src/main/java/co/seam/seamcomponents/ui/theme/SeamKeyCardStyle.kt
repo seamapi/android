@@ -34,6 +34,7 @@ data class SeamKeyCardStyle(
     val brandLogoUrl: String? = null,
     @DrawableRes val brandLogoRes: Int? = null,
     @DrawableRes val backgroundTextureRes: Int? = null,
+    val textColor: Color? = null,
     val backgroundGradient: List<Color>? = null,
     val errorColor: Color? = null,
     val accentColor: Color? = null,

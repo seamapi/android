@@ -223,12 +223,12 @@ fun MyAccessScreen() {
     // Rendering the Cards view
     SeamCredentialsView(
         onNavigateToUnlock = { keyCard ->
-            // handling card click. 
+            // handling card click.
             unlockKeyCard = keyCard
         }
     )
 
-    // Navigate to Unlock view when unlockKeyCard is not null 
+    // Navigate to Unlock view when unlockKeyCard is not null
     unlockKeyCard?.let {
         SeamUnlockCardView(
             keyCard = it,
@@ -268,7 +268,7 @@ fun MyTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
-    
+
 
     // Instead of MaterialTheme use SeamComponentsTheme here
     SeamComponentsTheme(
@@ -316,7 +316,7 @@ fun MyTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
-    
+
 
     // Instead of MaterialTheme use SeamComponentsTheme here
     SeamComponentsTheme(
@@ -338,10 +338,11 @@ fun MyTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
-    
+
     // Define the Key Card Style
     val keyCardStyle = SeamKeyCardStyle(
         backgroundGradient = listOf(Color.Red, Color.Cyan),
+        textColor = Color.Green,
         accentColor = Color.Green,
         cornerRadius = 24.dp,
         shadowColor = Color.Gray,
@@ -375,10 +376,11 @@ fun MyTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme)  DarkColorScheme else LightColorScheme
-    
+
     // Define the Key Card Style
     val keyCardStyle = SeamKeyCardStyle(
         backgroundGradient = listOf(Color.Red, Color.Cyan),
+        textColor = Color.Green,
         accentColor = Color.Green,
         cornerRadius = 24.dp,
         shadowColor = Color.Gray,
