@@ -63,6 +63,19 @@ import co.seam.seamcomponents.ui.theme.seamTheme
 import co.seam.seamcomponents.ui.viewmodel.UnlockViewModel
 import java.time.LocalDateTime
 
+/**
+ * A modal bottom sheet composable that provides a user interface for unlocking credentials.
+ *
+ * This composable displays an unlock interface as a modal bottom sheet that overlays the current screen.
+ * It manages the unlock process through different phases (idle, scanning, success, failed) and provides
+ * appropriate UI feedback for each state.
+ *
+ * @param keyCard The key card containing credential information to unlock
+ * @param onNavigateBack Callback invoked when the user dismisses the unlock interface or completes the process
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param viewModel The optional view model that manages unlock state and operations, defaults to a new instance
+ *
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeamUnlockCardView(

@@ -52,7 +52,14 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
- * Header component for the unlock bottom sheet showing key card information
+ * A header composable that displays key card information in the unlock interface.
+ * 
+ * This component shows a summary of the key card details including the room/location name,
+ * checkout date, and an optional brand logo preview. It's typically used at the top
+ * of unlock modals to provide context about which credential is being unlocked.
+ * 
+ * @param keyCard The key card data containing information to display
+ * @param modifier Optional Modifier for styling and layout customization
  */
 @Composable
 fun UnlockHeader(

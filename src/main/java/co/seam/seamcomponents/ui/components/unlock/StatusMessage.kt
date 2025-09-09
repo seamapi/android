@@ -38,11 +38,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 
+/**
+ * A composable that displays status information during the unlock process.
+ *
+ * This component shows a primary status message and optional instructional text
+ * below it. It's used to provide feedback to users about the current state of
+ * the unlock operation with appropriate styling from the theme.
+ *
+ * @param statusText The primary status message to display
+ * @param instructionText Optional secondary instruction text, null hides this text
+ * @param modifier Optional Modifier for styling and layout customization
+ */
 @Composable
 fun StatusMessage(
     statusText: String,
-    instructionText: String? = null,
     modifier: Modifier = Modifier,
+    instructionText: String? = null,
 ) {
     val unlockCardStyle = seamTheme.unlockCard
     val backgroundColor = unlockCardStyle.cardBackground ?: MaterialTheme.colorScheme.background

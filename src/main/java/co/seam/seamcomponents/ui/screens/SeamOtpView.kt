@@ -29,18 +29,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -59,10 +54,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import co.seam.seamcomponents.R
 
-/**
- * Custom top bar composable that mimics Material3 top bar styling
- * without using Scaffold, suitable for modal dialogs.
- */
 @Composable
 private fun CustomTopBar(
     title: String,
@@ -100,6 +91,19 @@ private fun CustomTopBar(
     }
 }
 
+/**
+ * A full-screen dialog composable that displays an OTP (One-Time Password) verification interface.
+ *
+ * This composable renders a WebView in a full-screen dialog to handle OTP verification flows.
+ * It includes a custom top bar with navigation controls and loads the provided OTP URL with
+ * JavaScript enabled for interactive functionality.
+ *
+ * @param otpUrl The URL to load in the WebView for OTP verification
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onNavigateBack Callback invoked when the user dismisses the OTP dialog or navigates back
+ *
+ * @see CustomTopBar
+ */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun SeamOtpView(

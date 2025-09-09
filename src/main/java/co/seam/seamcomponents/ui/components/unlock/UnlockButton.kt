@@ -54,6 +54,21 @@ import co.seam.seamcomponents.ui.theme.success
  * Creates a darker shade of the given color by reducing brightness
  */
 
+/**
+ * A central unlock button that adapts its appearance and behavior based on the unlock phase.
+ * 
+ * This component displays different visual states for the unlock process:
+ * - IDLE: Gradient button with key icon, ready to initiate unlock
+ * - SCANNING: Animated spinner around key icon during unlock attempt
+ * - SUCCESS: Green background with checkmark icon
+ * - FAILED: No visual representation (handled elsewhere)
+ * 
+ * The styling is customizable through SeamUnlockCardStyle theming.
+ * 
+ * @param unlockPhase The current phase of the unlock process
+ * @param onPress Callback invoked when the button is pressed (when applicable)
+ * @param modifier Optional Modifier for styling and layout customization
+ */
 @Composable
 fun UnlockButton(
     unlockPhase: UnlockPhase,

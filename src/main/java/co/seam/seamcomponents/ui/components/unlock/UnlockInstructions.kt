@@ -48,6 +48,15 @@ import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A composable that displays step-by-step unlock instructions with illustration.
+ * 
+ * This component shows a numbered list of instructions for using the unlock feature,
+ * accompanied by an illustration. It's typically displayed in the idle state to guide
+ * users through the unlock process.
+ * 
+ * @param modifier Optional Modifier for styling and layout customization
+ */
 @Composable
 fun UnlockInstructions(
     modifier: Modifier = Modifier,

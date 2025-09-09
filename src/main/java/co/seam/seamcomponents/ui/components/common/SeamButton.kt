@@ -41,6 +41,23 @@ import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A customizable button composable that follows Seam design system standards.
+ *
+ * This is the base button component that supports various styling options including
+ * background colors, borders, text colors, and full-width layouts. It provides
+ * consistent styling and behavior across the Seam components.
+ *
+ * @param text The button text to display
+ * @param onClick Callback invoked when the button is tapped
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param backgroundColor Optional background color, defaults to primary theme color
+ * @param borderColor Optional border color, null means no border
+ * @param textColor Optional text color, defaults to onPrimary theme color
+ * @param enabled Whether the button is enabled for interaction, defaults to true
+ * @param isFullWidth Whether the button should take the full available width, defaults to false
+ *
+ */
 @Composable
 fun SeamButton(
     text: String,
@@ -80,6 +97,18 @@ fun SeamButton(
     }
 }
 
+/**
+ * A primary button composable styled with the primary theme colors.
+ *
+ * This is a convenience wrapper around SeamButton that provides consistent
+ * primary button styling. It's full-width by default and uses the primary
+ * color scheme from the Material theme.
+ *
+ * @param buttonText The button text to display
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onClick Callback invoked when the button is tapped
+ *
+ */
 @Composable
 fun SeamPrimaryButton(
     buttonText: String,
@@ -96,6 +125,18 @@ fun SeamPrimaryButton(
     )
 }
 
+/**
+ * A secondary button composable styled with the secondary theme colors.
+ *
+ * This is a convenience wrapper around SeamButton that provides consistent
+ * secondary button styling. It's full-width by default and uses the secondary
+ * color scheme with an outline border.
+ *
+ * @param buttonText The button text to display
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onClick Callback invoked when the button is tapped
+ *
+ */
 @Composable
 fun SeamSecondaryButton(
     buttonText: String,

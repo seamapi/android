@@ -46,6 +46,16 @@ import co.seam.seamcomponents.ui.components.common.SeamSecondaryButton
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A composable that displays an empty state when no keys are available.
+ *
+ * This component shows a centered layout with an illustration, title, subtitle, and refresh button
+ * to inform users that no mobile keys are currently available and provide an action to retry.
+ *
+ * @param onRefresh Callback invoked when the user taps the refresh button to retry loading keys
+ * @param modifier Optional Modifier for styling and layout customization
+ *
+ */
 @Composable
 fun EmptyKeysState(
     onRefresh: () -> Unit,

@@ -44,6 +44,18 @@ import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A composable that displays an error state with appropriate messaging and retry functionality.
+ *
+ * This component shows a full-screen error interface with a title, contextual error message
+ * based on the error type, and a retry button. It handles different types of Seam errors
+ * and provides user-friendly messages for each scenario.
+ *
+ * @param errorState The specific error state that occurred, used to determine the displayed message
+ * @param onRetry Callback invoked when the user taps the retry button to attempt the operation again
+ * @param modifier Optional Modifier for styling and layout customization
+ *
+ */
 @Composable
 fun ErrorContent(
     errorState: SeamErrorState,

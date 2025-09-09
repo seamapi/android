@@ -51,6 +51,18 @@ import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A composable that displays a dismissible error banner with animation support.
+ *
+ * This component shows an animated error banner at the top of the screen when an error
+ * message is provided. The banner includes a warning icon, error text, and a dismiss button.
+ * It automatically shows/hides with smooth animations based on whether an error message exists.
+ *
+ * @param errorMessage The error message to display, null hides the banner
+ * @param onDismiss Callback invoked when the user taps the dismiss button
+ * @param modifier Optional Modifier for styling and layout customization
+ *
+ */
 @Composable
 fun ErrorBanner(
     errorMessage: String?,

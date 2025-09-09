@@ -55,6 +55,17 @@ import co.seam.seamcomponents.ui.components.common.SeamSecondaryButton
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A full-screen composable that guides users to enable Bluetooth when it's required for key operations.
+ * 
+ * This screen displays information about why Bluetooth is needed and provides buttons to open
+ * system Bluetooth settings or skip the requirement. It's typically shown when Bluetooth
+ * is disabled but required for credential operations.
+ * 
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onSkipClicked Optional callback invoked when the user chooses to skip Bluetooth setup,
+ * null hides the skip button
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BluetoothRedirectScreen(

@@ -44,6 +44,17 @@ import co.seam.seamcomponents.ui.components.unlock.CircleSpinner
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A composable that displays a loading state with a spinner and optional custom text.
+ *
+ * This component shows a centered circular spinner with loading text to indicate
+ * that an operation is in progress. The loading text can be customized or will
+ * default to a generic "Loading" message.
+ *
+ * @param title Optional custom loading text to display, defaults to generic loading message
+ * @param modifier Optional Modifier for styling and layout customization
+ *
+ */
 @Composable
 fun LoadingContent(
     title: String? = null,

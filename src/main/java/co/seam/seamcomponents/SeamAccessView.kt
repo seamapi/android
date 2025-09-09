@@ -59,13 +59,25 @@ import co.seam.seamcomponents.ui.viewmodel.SeamSDKState
 import co.seam.seamcomponents.ui.viewmodel.SeamViewModel
 import co.seam.seamcomponents.ui.viewmodel.UnlockViewModel
 
+
 /**
- * Main SeamApp composable that provides the complete Seam mobile key experience.
- * This is the primary entry point for the SeamComponents module.
+ * The main entry point composable for the Seam access management interface.
  *
- * @param clientSessionToken The Seam client session token for authentication
- * @param context The Android context (optional, uses LocalContext by default)
- * @param navController The navigation controller (optional, creates one by default)
+ * This composable manages the entire user flow for accessing and managing credentials through
+ * the Seam SDK. It handles SDK initialization, navigation between different screens, and manages
+ * various UI states including loading, error handling, OTP authorization, and Bluetooth permissions.
+ *
+ * The component orchestrates navigation between:
+ * - Credentials list screen for viewing available keys
+ * - OTP authorization screen for completing authentication flows
+ * - Bluetooth redirect screen for permission handling
+ * - Unlock overlay for interacting with individual credentials
+ *
+ * @param clientSessionToken The session token required for SDK authentication and initialization
+ * @param context The Android context, defaults to the current composition's local context
+ * @param navController The navigation controller for managing screen transitions,
+ * defaults to a new instance
+ *
  */
 @Composable
 fun SeamAccessView(
@@ -147,6 +159,7 @@ fun SeamAccessView(
                 }
                 SeamSDKState.Initialized -> {
                     SeamCredentialsView(
+                        viewModel = keysViewModel,
                         onNavigateToUnlock = { keyCard ->
                             // Find the keyCard and show overlay instead of navigation
                             val keyCard = keysViewModel.getKeyCardById(keyCard.id)
@@ -159,7 +172,6 @@ fun SeamAccessView(
                             // reset otp skipped state
                             isOtpScreenSkipped = false
                         },
-                        viewModel = keysViewModel,
                     )
                 }
             }

@@ -73,6 +73,18 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+/**
+ * A composable that displays a stylized key card with gradient background and credential information.
+ *
+ * This component renders a card representing a mobile key with hotel/location information,
+ * access codes, checkout dates, and optional brand logos. The card supports theming through
+ * SeamKeyCardStyle and displays different states (loading, expired, active).
+ *
+ * @param keyCard The key card data containing credential information and metadata
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onPress Optional callback invoked when the card is tapped, null disables interaction
+ *
+ */
 @Composable
 fun KeyCardComponent(
     keyCard: KeyCard,

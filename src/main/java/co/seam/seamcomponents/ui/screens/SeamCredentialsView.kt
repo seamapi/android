@@ -59,11 +59,25 @@ import co.seam.seamcomponents.ui.viewmodel.KeysUiState
 import co.seam.seamcomponents.ui.viewmodel.KeysViewModel
 import java.time.LocalDateTime
 
+/**
+ * A composable screen that displays Cards for user credentials (keys) with support for refreshing
+ * and navigation.
+ *
+ * This screen manages different UI states including loading, success with data, and empty states.
+ * It provides pull-to-refresh functionality and handles error states with appropriate user feedback.
+ * Users can tap on individual key cards to navigate to the unlock interface.
+ *
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param viewModel The optional view model that manages credentials state and operations,
+ * defaults to a new instance
+ * @param onNavigateToUnlock Callback invoked when a user taps on a key card to unlock it
+ *
+ */
 @Composable
 fun SeamCredentialsView(
-    onNavigateToUnlock: (keyCard: KeyCard) -> Unit = {},
-    viewModel: KeysViewModel = viewModel(),
     modifier: Modifier = Modifier,
+    viewModel: KeysViewModel = viewModel(),
+    onNavigateToUnlock: (keyCard: KeyCard) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val errorState by viewModel.errorState.collectAsState()

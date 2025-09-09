@@ -46,6 +46,17 @@ import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
+/**
+ * A composable that displays the main unlock interface content based on the current phase.
+ * 
+ * This component renders different UI states for the unlock process including idle state with
+ * instructions, scanning state with animations, and handles the unlock button interactions.
+ * It adapts the displayed content and instructions based on the current unlock phase.
+ * 
+ * @param unlockPhase The current phase of the unlock process
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onPressPrimaryButton Callback invoked when the primary unlock button is pressed
+ */
 @Composable
 fun UnlockContent(
     unlockPhase: UnlockPhase,
