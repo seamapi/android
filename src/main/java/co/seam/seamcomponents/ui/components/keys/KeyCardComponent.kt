@@ -204,7 +204,7 @@ fun KeyCardComponent(
                 ) {
                     Text(
                         text = keyCard.name,
-                        style = seamTheme.typography.titleSmallSemiBold,
+                        style = seamTheme.typography.headlineMedium,
                         color = textColor,
                     )
 
@@ -214,7 +214,7 @@ fun KeyCardComponent(
                     ) {
                         Text(
                             text = stringResource(R.string.access_code_label),
-                            style = seamTheme.typography.captionSemiBold,
+                            style = seamTheme.typography.labelSmall,
                             color = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.padding(end = 8.dp),
                         )
@@ -231,7 +231,7 @@ fun KeyCardComponent(
                     ) {
                         Text(
                             text = stringResource(R.string.check_out_uppercase),
-                            style = seamTheme.typography.captionSemiBold,
+                            style = seamTheme.typography.labelSmall,
                             color = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.padding(end = 8.dp),
                         )

@@ -121,7 +121,7 @@ private fun InstructionStep(
         ) {
             Text(
                 text = number,
-                style = seamTheme.typography.bodyMediumBold,
+                style = seamTheme.typography.labelLarge,
                 color = bulletTextColor,
             )
         }

@@ -35,36 +35,17 @@ import androidx.compose.ui.unit.sp
 data class SeamTypography(
     // Core typography styles that are actually used
     val headlineSmall: TextStyle,
+    val headlineMedium: TextStyle,
+    val headlineLarge: TextStyle,
     val titleLarge: TextStyle,
     val titleMedium: TextStyle,
     val titleSmall: TextStyle,
     val bodyLarge: TextStyle,
     val bodyMedium: TextStyle,
     val bodySmall: TextStyle,
+    val labelSmall: TextStyle,
     val labelMedium: TextStyle,
     val labelLarge: TextStyle,
-    // Extra styles
-    val titleSmallSemiBold: TextStyle = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp,
-    ),
-    val captionSemiBold: TextStyle = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 10.sp,
-        lineHeight = 12.sp,
-        letterSpacing = 0.4.sp,
-    ),
-    val bodyMediumBold: TextStyle = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp,
-    ),
 ) {
     companion object {
         /**
@@ -77,6 +58,20 @@ data class SeamTypography(
                 fontSize = 24.sp,
                 lineHeight = 32.sp,
                 letterSpacing = 0.sp,
+            ),
+            headlineMedium = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                letterSpacing = 0.1.sp,
+            ),
+            headlineLarge = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.Normal,
+                fontSize = 20.sp,
+                lineHeight = 26.sp,
+                letterSpacing = 0.5.sp,
             ),
             titleLarge = TextStyle(
                 fontFamily = FontFamily.Default,
@@ -120,6 +115,13 @@ data class SeamTypography(
                 lineHeight = 16.sp,
                 letterSpacing = 0.4.sp,
             ),
+            labelSmall = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 10.sp,
+                lineHeight = 12.sp,
+                letterSpacing = 0.4.sp,
+            ),
             labelMedium = TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Medium,
@@ -129,10 +131,10 @@ data class SeamTypography(
             ),
             labelLarge = TextStyle(
                 fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 20.sp,
-                lineHeight = 26.sp,
-                letterSpacing = 0.5.sp,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                letterSpacing = 0.25.sp,
             ),
         )
     }
@@ -144,12 +146,15 @@ data class SeamTypography(
  */
 fun SeamTypography.toMaterial3Typography() = Typography(
     headlineSmall = headlineSmall,
+    headlineMedium = headlineMedium,
+    headlineLarge = headlineLarge,
     titleLarge = titleLarge,
     titleMedium = titleMedium,
     titleSmall = titleSmall,
     bodyLarge = bodyLarge,
     bodyMedium = bodyMedium,
     bodySmall = bodySmall,
+    labelSmall = labelSmall,
     labelMedium = labelMedium,
     labelLarge = labelLarge,
 )
@@ -157,12 +162,15 @@ fun SeamTypography.toMaterial3Typography() = Typography(
 internal fun Typography.fromMaterial3Typography(): SeamTypography {
     return SeamTypography(
         headlineSmall = this.headlineSmall,
+        headlineMedium = this.headlineMedium,
+        headlineLarge = this.headlineLarge,
         titleLarge = this.titleLarge,
         titleMedium = this.titleMedium,
         titleSmall = this.titleSmall,
         bodyLarge = this.bodyLarge,
         bodyMedium = this.bodyMedium,
         bodySmall = this.bodySmall,
+        labelSmall = this.labelSmall,
         labelMedium = this.labelMedium,
         labelLarge = this.labelLarge,
     )
