@@ -28,11 +28,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,6 +47,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,7 +93,7 @@ fun SeamUnlockCardView(
     val unlockCardStyle = seamTheme.unlockCard
     val containerColor = unlockCardStyle.cardBackground ?: MaterialTheme.colorScheme.background
     val headerContainerColor = unlockCardStyle.headerBackground
-        ?: MaterialTheme.colorScheme.background.darken(0.7f)
+        ?: MaterialTheme.colorScheme.background.darken(0.85f)
 
     val unlockPhase by viewModel.unlockPhase.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
@@ -106,37 +112,43 @@ fun SeamUnlockCardView(
     ModalBottomSheet(
         onDismissRequest = handleDismiss,
         sheetState = bottomSheetState,
-        modifier = modifier
-            .safeDrawingPadding()
-            .padding(top = 32.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-        containerColor = containerColor,
-        tonalElevation = 8.dp,
-        dragHandle = null
+        containerColor = headerContainerColor,
+        dragHandle = null,
+        contentWindowInsets = {
+            WindowInsets(0, 0, 0, 0)
+        }
     ) {
-        // Bottom sheet content with minimum height for peek behavior
         Column(
             modifier = Modifier
+                .fillMaxWidth()
+                .background(headerContainerColor)
+                .statusBarsPadding()
+        ) {
+            UnlockHeader(
+                keyCard = keyCard,
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .shadow(16.dp, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
                 .background(containerColor)
                 .fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(headerContainerColor)
-                    .padding(top = 4.dp)
-            ) {
-                Box(
-                    modifier
-                        .align(Alignment.CenterHorizontally)
-                        .width(32.dp)
-                        .height(6.dp)
-                        .background(containerColor, RoundedCornerShape(2.dp))
-                )
-                UnlockHeader(
-                    keyCard = keyCard,
-                )
-            }
+
+            // Bottom Sheet handle
+            Box(
+                modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .width(32.dp)
+                    .height(6.dp)
+                    .background(headerContainerColor, RoundedCornerShape(2.dp))
+
+            )
 
             if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
@@ -152,7 +164,7 @@ fun SeamUnlockCardView(
                 )
                 UnlockContent(
                     unlockPhase = unlockPhase,
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(vertical = 16.dp),
                     onPressPrimaryButton = {
                         if (unlockPhase == UnlockPhase.IDLE) {
                             viewModel.unlockCredential(keyCard.id)

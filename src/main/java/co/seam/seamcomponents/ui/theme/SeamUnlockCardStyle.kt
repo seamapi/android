@@ -34,10 +34,6 @@ data class SeamUnlockCardStyle(
      */
     val keyButtonGradient: List<Color>? = null,
     /**
-     * The shadow color that the Key Button casts.
-     */
-    val keyButtonShadowColor: Color? = null,
-    /**
      * The shadow blur radius that the Key Button casts.
      */
     val keyButtonShadowRadius: Dp? = null,
