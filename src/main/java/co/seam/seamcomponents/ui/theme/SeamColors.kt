@@ -34,8 +34,9 @@ import androidx.compose.ui.graphics.Color
  * Uses Figma design system: emerald/500 (light) and emerald/400 (dark)
  */
 val ColorScheme.success: Color
-    @Composable get() = if (isSystemInDarkTheme()) {
-        Emerald400 // Dark mode success - emerald/400
-    } else {
-        Emerald500 // Light mode success - emerald/500
-    }
+    @Composable get() =
+        if (isSystemInDarkTheme()) {
+            Emerald400 // Dark mode success - emerald/400
+        } else {
+            Emerald500 // Light mode success - emerald/500
+        }

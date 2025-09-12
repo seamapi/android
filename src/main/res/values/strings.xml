@@ -38,11 +38,19 @@
     <string name="go_to_settings">Go to Settings</string>
     <string name="skip">Skip</string>
 
+    <!-- PermissionsRedirectScreen strings -->
+    <string name="permissions_required_title">Permissions required</string>
+    <string name="permissions_required_description">The app needs permissions to unlock doors. You can grant them in your phone\'s Settings app.</string>
+
     <!-- KeyCardComponent strings -->
     <string name="check_out_uppercase">CHECK OUT</string>
     <string name="access_code_label">CODE</string>
     <string name="key_card_expired">Expired</string>
     <string name="key_card_loading">Loading</string>
+    <string name="key_card_bluetooth_error">Bluetooth Required</string>
+    <string name="key_card_internet_error">Internet Required</string>
+    <string name="key_card_complete_authorization">Complete Authorization</string>
+    <string name="key_card_grant_permissions">Grant Permissions</string>
 
     <!-- LoadingScreen strings -->
     <string name="loading">Loading…</string>
@@ -52,7 +60,7 @@
 
     <!-- ErrorInternet strings -->
     <string name="error_internet_title">Not connected to the Internet</string>
-    <string name="error_internet_description">You can still access your keys, but the information you see may not be up to date.</string>
+    <string name="error_internet_description">The app can\'t unlock doors without Internet. You can turn it on in your phone\'s Settings app.</string>
     <string name="error_internet_image_description">No internet connection icon</string>
 
     <!-- ErrorContent strings -->

@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.keys.KeyCard
+import co.seam.seamcomponents.ui.components.keys.KeyCardErrorState
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 import coil.compose.AsyncImage
@@ -53,11 +54,11 @@ import java.time.format.DateTimeFormatter
 
 /**
  * A header composable that displays key card information in the unlock interface.
- * 
+ *
  * This component shows a summary of the key card details including the room/location name,
  * checkout date, and an optional brand logo preview. It's typically used at the top
  * of unlock modals to provide context about which credential is being unlocked.
- * 
+ *
  * @param keyCard The key card data containing information to display
  * @param modifier Optional Modifier for styling and layout customization
  */
@@ -67,14 +68,17 @@ fun UnlockHeader(
     modifier: Modifier = Modifier,
 ) {
     val unlockCardStyle = seamTheme.unlockCard
-    val headerTitleColor = unlockCardStyle.headerTitleColor
-        ?: MaterialTheme.colorScheme.onBackground
-    val headerSubtitleColor = unlockCardStyle.headerSubtitleColor
-        ?: MaterialTheme.colorScheme.onBackground
+    val headerTitleColor =
+        unlockCardStyle.headerTitleColor
+            ?: MaterialTheme.colorScheme.onBackground
+    val headerSubtitleColor =
+        unlockCardStyle.headerSubtitleColor
+            ?: MaterialTheme.colorScheme.onBackground
     Row(
-        modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -90,10 +94,11 @@ fun UnlockHeader(
 
             keyCard.checkoutDate?.let { checkoutDate ->
                 Text(
-                    text = stringResource(
-                        R.string.check_out_label,
-                        checkoutDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
-                    ),
+                    text =
+                        stringResource(
+                            R.string.check_out_label,
+                            checkoutDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                        ),
                     style = seamTheme.typography.labelMedium,
                     color = headerSubtitleColor,
                 )
@@ -108,9 +113,7 @@ fun UnlockHeader(
 }
 
 @Composable
-private fun MiniKeyCard(
-    modifier: Modifier = Modifier,
-) {
+private fun MiniKeyCard(modifier: Modifier = Modifier) {
     val theme = seamTheme
     Box(
         modifier = modifier.size(width = 64.dp, height = 40.dp),
@@ -148,6 +151,7 @@ fun UnlockHeaderPreview() {
                 name = "1205",
                 checkoutDate = LocalDateTime.now().plusDays(2),
                 code = "1234",
+                firstErrorToSolve = KeyCardErrorState.None,
             )
 
         UnlockHeader(

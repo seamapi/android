@@ -51,11 +51,11 @@ import co.seam.seamcomponents.ui.theme.seamTheme
 
 /**
  * A customizable animated circular spinner composable with gradient effects.
- * 
+ *
  * This component displays a rotating circular spinner with a gradient sweep effect.
- * It supports theming through SeamUnlockCardStyle and can optionally display a 
+ * It supports theming through SeamUnlockCardStyle and can optionally display a
  * background ring and custom content in the center.
- * 
+ *
  * @param size The diameter of the spinner in dp, defaults to 160
  * @param borderWidth The width of the spinner stroke in pixels, defaults to 16f
  * @param showBackgroundRing Whether to display a subtle background ring, defaults to false
@@ -71,10 +71,12 @@ fun CircleSpinner(
     content: @Composable () -> Unit = {},
 ) {
     val unlockCardStyle = seamTheme.unlockCard
-    val spinnerColorPrimary = unlockCardStyle.keyButtonGradient?.getOrNull(0)
-        ?: MaterialTheme.colorScheme.primary
-    val spinnerColorSecondary = unlockCardStyle.cardBackground
-        ?: MaterialTheme.colorScheme.background
+    val spinnerColorPrimary =
+        unlockCardStyle.keyButtonGradient?.getOrNull(0)
+            ?: MaterialTheme.colorScheme.primary
+    val spinnerColorSecondary =
+        unlockCardStyle.cardBackground
+            ?: MaterialTheme.colorScheme.background
     // colors are inverted to make the animation look better
     val colors = listOf(spinnerColorSecondary, spinnerColorPrimary)
     val infiniteTransition = rememberInfiniteTransition(label = "spinner_rotation")

@@ -32,4 +32,5 @@ object SeamDestinations {
     const val UNLOCK_ROUTE = "unlock"
     const val OTP_AUTHORIZATION_ROUTE = "otp_authorization"
     const val BLUETOOTH_REDIRECT_ROUTE = "bluetooth_redirect"
+    const val PERMISSION_REDIRECT_ROUTE = "permission_redirect"
 }

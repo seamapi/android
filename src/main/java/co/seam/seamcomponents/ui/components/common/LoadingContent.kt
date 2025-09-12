@@ -61,9 +61,10 @@ fun LoadingContent(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -97,7 +98,7 @@ fun LoadingContentPreview() {
 fun LoadingContentWithCustomTitlePreview() {
     SeamThemeProvider {
         LoadingContent(
-            title = "Initializing mobile credentials…"
+            title = "Initializing mobile credentials…",
         )
     }
 }
@@ -107,7 +108,7 @@ fun LoadingContentWithCustomTitlePreview() {
 fun LoadingContentWithLongTitlePreview() {
     SeamThemeProvider {
         LoadingContent(
-            title = "Loading your mobile keys and synchronizing with the server…"
+            title = "Loading your mobile keys and synchronizing with the server…",
         )
     }
 }

@@ -38,11 +38,19 @@
     <string name="go_to_settings">Aller aux Paramètres</string>
     <string name="skip">Ignorer</string>
 
+    <!-- PermissionsRedirectScreen strings -->
+    <string name="permissions_required_title">Autorisations requises</string>
+    <string name="permissions_required_description">L\'application a besoin d\'autorisations pour déverrouiller les portes. Vous pouvez les accorder dans les Paramètres de votre téléphone.</string>
+
     <!-- KeyCardComponent strings -->
     <string name="check_out_uppercase">CHECK-OUT</string>
     <string name="access_code_label">CODE</string>
     <string name="key_card_expired">Expiré</string>
     <string name="key_card_loading">Chargement</string>
+    <string name="key_card_bluetooth_error">Bluetooth requis</string>
+    <string name="key_card_internet_error">Internet requis</string>
+    <string name="key_card_complete_authorization">Terminer l\'Autorisation</string>
+    <string name="key_card_grant_permissions">Accorder les Permissions</string>
 
     <!-- LoadingScreen strings -->
     <string name="loading">Chargement…</string>
@@ -52,7 +60,7 @@
 
     <!-- ErrorInternet strings -->
     <string name="error_internet_title">Pas connecté à Internet</string>
-    <string name="error_internet_description">Vous pouvez toujours accéder à vos clés, mais les informations que vous voyez peuvent ne pas être à jour.</string>
+    <string name="error_internet_description">L\'application ne peut pas déverrouiller les portes sans Internet. Vous pouvez l\'activer dans les Paramètres de votre téléphone.</string>
     <string name="error_internet_image_description">Icône d\'aucune connexion internet</string>
 
     <!-- ErrorContent strings -->

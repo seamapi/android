@@ -20,7 +20,6 @@ data class SeamUnlockCardStyle(
      * Text color for the header subtitle.
      */
     val headerSubtitleColor: Color? = null,
-
     /**
      * Key icon color when idle (before user interaction).
      */

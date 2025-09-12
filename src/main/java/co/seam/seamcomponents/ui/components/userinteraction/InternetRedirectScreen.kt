@@ -1,0 +1,152 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2025 Seam Labs, Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package co.seam.seamcomponents.ui.components.userinteraction
+
+import android.content.Intent
+import android.provider.Settings
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import co.seam.seamcomponents.R
+import co.seam.seamcomponents.ui.components.common.SeamPrimaryButton
+import co.seam.seamcomponents.ui.components.common.SeamSecondaryButton
+import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
+
+
+/**
+ * A full-screen composable that guides users to enable Internet when it's required for key operations.
+ *
+ * This screen displays information about why Internet connection is needed and provides buttons to open
+ * system Internet/WiFi settings or skip the requirement. It's typically shown when Internet connection
+ * is disabled but required for credential operations.
+ *
+ * @param modifier Optional Modifier for styling and layout customization
+ * @param onSkipClicked Optional callback invoked when the user chooses to skip Internet setup,
+ * null hides the skip button
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InternetRedirectScreen(
+    modifier: Modifier = Modifier,
+    onSkipClicked: (() -> Unit)? = null,
+) {
+    val context = LocalContext.current
+
+    Column(
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+        // Main content area
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 48.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.image_internet),
+                contentDescription = stringResource(id = R.string.error_internet_image_description),
+                tint = null,
+                modifier = Modifier.size(100.dp),
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = stringResource(R.string.error_internet_title),
+                style = seamTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground, // slate-900
+                textAlign = TextAlign.Center,
+                lineHeight = 29.sp,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.error_internet_description),
+                style = seamTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center,
+                lineHeight = 24.sp,
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            // Settings button
+            SeamPrimaryButton(
+                buttonText = stringResource(R.string.go_to_settings),
+                onClick = {
+                    val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+                    context.startActivity(intent)
+                    onSkipClicked?.invoke()
+                },
+            )
+        }
+
+        // Skip button at bottom
+        if (onSkipClicked != null) {
+            SeamSecondaryButton(
+                buttonText = stringResource(R.string.skip),
+                modifier = Modifier.padding(bottom = 72.dp),
+                onClick = onSkipClicked,
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun InternetRedirectScreenPreview() {
+    SeamThemeProvider {
+        InternetRedirectScreen(
+            onSkipClicked = { /* Skip action */ },
+        )
+    }
+}

@@ -50,17 +50,15 @@ import co.seam.seamcomponents.ui.theme.seamTheme
 
 /**
  * A composable that displays step-by-step unlock instructions with illustration.
- * 
+ *
  * This component shows a numbered list of instructions for using the unlock feature,
  * accompanied by an illustration. It's typically displayed in the idle state to guide
  * users through the unlock process.
- * 
+ *
  * @param modifier Optional Modifier for styling and layout customization
  */
 @Composable
-fun UnlockInstructions(
-    modifier: Modifier = Modifier,
-) {
+fun UnlockInstructions(modifier: Modifier = Modifier) {
     val unlockCardStyle = seamTheme.unlockCard
     val backgroundColor = unlockCardStyle.cardBackground ?: MaterialTheme.colorScheme.background
     Column(
@@ -68,7 +66,7 @@ fun UnlockInstructions(
             modifier
                 .background(backgroundColor)
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = 8.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().animateContentSize(),

@@ -38,10 +38,19 @@
     <string name="go_to_settings">Ir para Configurações</string>
     <string name="skip">Pular</string>
 
+    <!-- PermissionsRedirectScreen strings -->
+    <string name="permissions_required_title">Permissões necessárias</string>
+    <string name="permissions_required_description">O aplicativo precisa de permissões para desbloquear portas. Você pode concedê-las nas Configurações do seu telefone.</string>
+
     <!-- KeyCardComponent strings -->
     <string name="check_out_uppercase">CHECK-OUT</string>
+    <string name="access_code_label">CÓDIGO</string>
     <string name="key_card_expired">Expirado</string>
     <string name="key_card_loading">Carregando</string>
+    <string name="key_card_bluetooth_error">Bluetooth necessário</string>
+    <string name="key_card_internet_error">Internet necessário</string>
+    <string name="key_card_complete_authorization">Completar Autorização</string>
+    <string name="key_card_grant_permissions">Conceder Permissões</string>
 
     <!-- LoadingScreen strings -->
     <string name="loading">Carregando…</string>
@@ -51,13 +60,12 @@
 
     <!-- ErrorInternet strings -->
     <string name="error_internet_title">Não conectado à Internet</string>
-    <string name="error_internet_description">Você ainda pode acessar suas chaves, mas as informações que vê podem não estar atualizadas.</string>
+    <string name="error_internet_description">O aplicativo não pode desbloquear portas sem Internet. Você pode ligá-lo nas Configurações do seu telefone.</string>
     <string name="error_internet_image_description">Ícone de sem conexão com a internet</string>
 
     <!-- ErrorContent strings -->
     <string name="error_content_title">Erro</string>
     <string name="error_content_try_again">Tentar novamente</string>
-    <string name="access_code_label">CÓDIGO</string>
     <string name="error_initialization_required">O SDK precisa ser inicializado antes do uso. Por favor, entre em contato com o suporte.</string>
     <string name="error_activation_required">Sua conta precisa ser ativada. Por favor, entre em contato com o suporte.</string>
     <string name="error_integration_not_found">A integração necessária não foi encontrada. Por favor, entre em contato com o suporte.</string>

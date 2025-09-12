@@ -52,42 +52,46 @@ fun ShadowCard(
     Box(modifier = modifier) {
         // Shadow layer with proper blur effect using BlurMaskFilter
         Box(
-            modifier = Modifier
-                .matchParentSize()
-                .drawBehind {
-                    drawIntoCanvas { canvas ->
-                        val paint = android.graphics.Paint().apply {
-                            color = shadowColor.toArgb()
-                            maskFilter = BlurMaskFilter(
-                                with(density) { shadowBlur.toPx() },
-                                BlurMaskFilter.Blur.NORMAL
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .drawBehind {
+                        drawIntoCanvas { canvas ->
+                            val paint =
+                                android.graphics.Paint().apply {
+                                    color = shadowColor.toArgb()
+                                    maskFilter =
+                                        BlurMaskFilter(
+                                            with(density) { shadowBlur.toPx() },
+                                            BlurMaskFilter.Blur.NORMAL,
+                                        )
+                                }
+
+                            // Draw the shadow with offset and side bleeding
+                            val shadowPadding = with(density) { shadowBlur.toPx() }
+                            canvas.nativeCanvas.drawRoundRect(
+                                with(density) {
+                                    android.graphics.RectF(
+                                        -shadowPadding,
+                                        shadowOffsetY.toPx(),
+                                        size.width + shadowPadding,
+                                        size.height + shadowOffsetY.toPx(),
+                                    )
+                                },
+                                with(density) { cornerRadius.toPx() },
+                                with(density) { cornerRadius.toPx() },
+                                paint,
                             )
                         }
-
-                        // Draw the shadow with offset and side bleeding
-                        val shadowPadding = with(density) { shadowBlur.toPx() }
-                        canvas.nativeCanvas.drawRoundRect(
-                            with(density) {
-                                android.graphics.RectF(
-                                    -shadowPadding,
-                                    shadowOffsetY.toPx(),
-                                    size.width + shadowPadding,
-                                    size.height + shadowOffsetY.toPx()
-                                )
-                            },
-                            with(density) { cornerRadius.toPx() },
-                            with(density) { cornerRadius.toPx() },
-                            paint
-                        )
-                    }
-                }
+                    },
         )
 
         // Content layer on top
         Box(
-            modifier = Modifier
-                .matchParentSize()
-                .clip(RoundedCornerShape(cornerRadius))
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .clip(RoundedCornerShape(cornerRadius)),
         ) {
             content()
         }

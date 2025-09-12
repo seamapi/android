@@ -58,24 +58,25 @@ import co.seam.seamcomponents.R
 private fun CustomTopBar(
     title: String,
     onNavigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = 4.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(horizontal = 4.dp),
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
-            onClick = onNavigateBack
+            onClick = onNavigateBack,
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Navigate back",
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         }
 
@@ -84,9 +85,10 @@ private fun CustomTopBar(
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Start,
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 56.dp) // Balance the back button
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(end = 56.dp), // Balance the back button
         )
     }
 }
@@ -114,23 +116,26 @@ fun SeamOtpView(
     // Use Dialog for window-level rendering that overlays the host app's UI
     Dialog(
         onDismissRequest = onNavigateBack,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false,
-            decorFitsSystemWindows = true // Solution 1: Try true instead of false
-        )
+        properties =
+            DialogProperties(
+                usePlatformDefaultWidth = false,
+                decorFitsSystemWindows = true, // Solution 1: Try true instead of false
+            ),
     ) {
         // Solution 4: Use Box layout for guaranteed positioning
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .safeDrawingPadding()
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .safeDrawingPadding(),
         ) {
             CustomTopBar(
                 title = stringResource(R.string.otp_title),
                 onNavigateBack = onNavigateBack,
-                modifier = Modifier
-                    .zIndex(1f) // Solution 3: Force top bar to stay on top
+                modifier =
+                    Modifier
+                        .zIndex(1f), // Solution 3: Force top bar to stay on top
             )
             // Full-screen WebView as background
             AndroidView(

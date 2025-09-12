@@ -22,9 +22,10 @@
  * SOFTWARE.
  */
 
-package co.seam.seamcomponents.ui.components.bluetooth
+package co.seam.seamcomponents.ui.components.userinteraction
 
 import android.content.Intent
+import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,9 +45,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,64 +57,65 @@ import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
 /**
- * A full-screen composable that guides users to enable Bluetooth when it's required for key operations.
- * 
- * This screen displays information about why Bluetooth is needed and provides buttons to open
- * system Bluetooth settings or skip the requirement. It's typically shown when Bluetooth
- * is disabled but required for credential operations.
- * 
+ * A full-screen composable that guides users to grant permissions when they're required for key operations.
+ *
+ * This screen displays information about why permissions are needed and provides buttons to open
+ * the app's permission settings or skip the requirement. It's typically shown when required permissions
+ * are denied but needed for credential operations.
+ *
  * @param modifier Optional Modifier for styling and layout customization
- * @param onSkipClicked Optional callback invoked when the user chooses to skip Bluetooth setup,
+ * @param onSkipClicked Optional callback invoked when the user chooses to skip permission setup,
  * null hides the skip button
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BluetoothRedirectScreen(
+fun PermissionsRedirectScreen(
     modifier: Modifier = Modifier,
-    onSkipClicked: (() -> Unit)? = null
+    onSkipClicked: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 32.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
-
         // Main content area
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 48.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 48.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_bluetooth),
-                contentDescription = "Bluetooth",
-                tint = null,
+                imageVector = Icons.Filled.Settings,
+                contentDescription = "Permissions",
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(100.dp),
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = stringResource(R.string.bluetooth_turned_off_title),
+                text = stringResource(R.string.permissions_required_title),
                 style = seamTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground, // slate-900
                 textAlign = TextAlign.Center,
-                lineHeight = 29.sp
+                lineHeight = 29.sp,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = stringResource(R.string.bluetooth_turned_off_description),
+                text = stringResource(R.string.permissions_required_description),
                 style = seamTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
-                lineHeight = 24.sp
+                lineHeight = 24.sp,
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -122,9 +124,12 @@ fun BluetoothRedirectScreen(
             SeamPrimaryButton(
                 buttonText = stringResource(R.string.go_to_settings),
                 onClick = {
-                    val intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", context.packageName, null)
+                    }
                     context.startActivity(intent)
-                }
+                    onSkipClicked?.invoke()
+                },
             )
         }
 
@@ -133,7 +138,7 @@ fun BluetoothRedirectScreen(
             SeamSecondaryButton(
                 buttonText = stringResource(R.string.skip),
                 modifier = Modifier.padding(bottom = 72.dp),
-                onClick = onSkipClicked
+                onClick = onSkipClicked,
             )
         }
     }
@@ -141,10 +146,10 @@ fun BluetoothRedirectScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun BluetoothRedirectScreenPreview() {
+fun PermissionsRedirectScreenPreview() {
     SeamThemeProvider {
-        BluetoothRedirectScreen(
-            onSkipClicked = { /* Skip action */ }
+        PermissionsRedirectScreen(
+            onSkipClicked = { /* Skip action */ },
         )
     }
 }

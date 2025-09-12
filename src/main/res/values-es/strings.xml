@@ -38,11 +38,19 @@
     <string name="go_to_settings">Ir a Configuración</string>
     <string name="skip">Omitir</string>
 
+    <!-- PermissionsRedirectScreen strings -->
+    <string name="permissions_required_title">Permisos requeridos</string>
+    <string name="permissions_required_description">La aplicación necesita permisos para desbloquear puertas. Puedes otorgarlos en la Configuración de tu teléfono.</string>
+
     <!-- KeyCardComponent strings -->
     <string name="check_out_uppercase">CHECK-OUT</string>
     <string name="access_code_label">CÓDIGO</string>
     <string name="key_card_expired">Expirado</string>
     <string name="key_card_loading">Cargando</string>
+    <string name="key_card_bluetooth_error">Bluetooth requerido</string>
+    <string name="key_card_internet_error">Internet requerido</string>
+    <string name="key_card_complete_authorization">Completar Autorización</string>
+    <string name="key_card_grant_permissions">Conceder Permisos</string>
 
     <!-- LoadingScreen strings -->
     <string name="loading">Cargando…</string>
@@ -52,7 +60,7 @@
 
     <!-- ErrorInternet strings -->
     <string name="error_internet_title">No conectado a Internet</string>
-    <string name="error_internet_description">Aún puedes acceder a tus llaves, pero la información que ves puede no estar actualizada.</string>
+    <string name="error_internet_description">La aplicación no puede desbloquear puertas sin Internet. Puedes activarlo en la Configuración de tu teléfono.</string>
     <string name="error_internet_image_description">Icono de sin conexión a internet</string>
 
     <!-- ErrorContent strings -->

@@ -49,11 +49,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.ErrorBanner
-import co.seam.seamcomponents.ui.components.common.ErrorInternet
 import co.seam.seamcomponents.ui.components.common.LoadingContent
-import co.seam.seamcomponents.ui.components.keys.EmptyKeysState
+import co.seam.seamcomponents.ui.components.keys.EmptyKeys
 import co.seam.seamcomponents.ui.components.keys.KeyCard
 import co.seam.seamcomponents.ui.components.keys.KeyCardComponent
+import co.seam.seamcomponents.ui.components.keys.KeyCardErrorState
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.viewmodel.KeysUiState
 import co.seam.seamcomponents.ui.viewmodel.KeysViewModel
@@ -81,12 +81,12 @@ fun SeamCredentialsView(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
-    val hasInternetErrorState by viewModel.hasInternetErrorState.collectAsState()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
     ) {
         // Error banner appears above content when there's an error
         ErrorBanner(
@@ -107,7 +107,6 @@ fun SeamCredentialsView(
                 is KeysUiState.Success -> {
                     KeysSuccessContent(
                         keys = currentState.keys,
-                        hasInternetError = hasInternetErrorState,
                         onKeyCardClick = { keyCard ->
                             onNavigateToUnlock(keyCard)
                         },
@@ -129,7 +128,6 @@ fun SeamCredentialsView(
 private fun KeysSuccessContent(
     keys: List<KeyCard>,
     onKeyCardClick: (KeyCard) -> Unit,
-    hasInternetError: Boolean,
     modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
 ) {
@@ -142,18 +140,13 @@ private fun KeysSuccessContent(
             onRefresh()
             isRefreshing = false
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            if (hasInternetError) {
-                item {
-                    ErrorInternet()
-                }
-            }
             items(keys) { keyCard ->
                 KeyCardComponent(
                     keyCard = keyCard,
@@ -170,7 +163,7 @@ private fun EmptyContent(onRefresh: () -> Unit) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        EmptyKeysState(onRefresh = onRefresh)
+        EmptyKeys(onRefresh = onRefresh)
     }
 }
 
@@ -194,6 +187,7 @@ fun KeysScreenSuccessPreview() {
                     name = "1205",
                     checkoutDate = LocalDateTime.now().plusDays(2),
                     code = "1234",
+                    firstErrorToSolve = KeyCardErrorState.None,
                 ),
                 KeyCard(
                     id = "key-2",
@@ -201,12 +195,12 @@ fun KeysScreenSuccessPreview() {
                     name = "2341",
                     checkoutDate = LocalDateTime.now().plusDays(3),
                     code = "1234",
+                    firstErrorToSolve = KeyCardErrorState.None,
                 ),
             )
 
         KeysSuccessContent(
             keys = mockKeys,
-            hasInternetError = false,
             onKeyCardClick = {},
             modifier = Modifier,
             onRefresh = {},

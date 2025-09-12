@@ -48,13 +48,13 @@ import co.seam.seamcomponents.ui.theme.seamTheme
 
 /**
  * A composable that displays an error state for failed unlock attempts.
- * 
+ *
  * This component shows a full-screen error interface with an error icon, customizable
  * title and description text, and a "Try Again" button. It's used when unlock operations
  * fail and the user needs to be informed with an option to retry.
- * 
+ *
  * @param title The error title to display
- * @param description The detailed error description to display  
+ * @param description The detailed error description to display
  * @param modifier Optional Modifier for styling and layout customization
  * @param onTryAgain Callback invoked when the user taps the "Try Again" button
  */
@@ -66,9 +66,10 @@ fun UnlockError(
     onTryAgain: () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -76,17 +77,19 @@ fun UnlockError(
         Image(
             painter = painterResource(id = R.drawable.lock_error),
             contentDescription = "Unlock error icon",
-            modifier = Modifier
-                .size(160.dp)
-                .padding(bottom = 40.dp),
+            modifier =
+                Modifier
+                    .size(160.dp)
+                    .padding(bottom = 40.dp),
         )
 
         // Error content
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 40.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 40.dp),
         ) {
             // Title
             Text(

@@ -57,7 +57,7 @@ import co.seam.seamcomponents.ui.theme.seamTheme
  *
  */
 @Composable
-fun EmptyKeysState(
+fun EmptyKeys(
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -110,7 +110,7 @@ fun EmptyKeysState(
 @Composable
 fun EmptyKeysStatePreview() {
     SeamThemeProvider {
-        EmptyKeysState(
+        EmptyKeys(
             onRefresh = { },
         )
     }

@@ -24,10 +24,6 @@
 
 package co.seam.seamcomponents.ui.components.unlock
 
-import coil.compose.AsyncImage
-import coil.decode.GifDecoder
-import coil.request.ImageRequest
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,20 +35,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.request.ImageRequest
 
 /**
  * A composable that displays the main unlock interface content based on the current phase.
- * 
+ *
  * This component renders different UI states for the unlock process including idle state with
  * instructions, scanning state with animations, and handles the unlock button interactions.
  * It adapts the displayed content and instructions based on the current unlock phase.
- * 
+ *
  * @param unlockPhase The current phase of the unlock process
  * @param modifier Optional Modifier for styling and layout customization
  * @param onPressPrimaryButton Callback invoked when the primary unlock button is pressed
@@ -64,8 +64,9 @@ fun UnlockContent(
     onPressPrimaryButton: () -> Unit,
 ) {
     val unlockCardStyle = seamTheme.unlockCard
-    val containerColor = unlockCardStyle.cardBackground
-        ?: MaterialTheme.colorScheme.background
+    val containerColor =
+        unlockCardStyle.cardBackground
+            ?: MaterialTheme.colorScheme.background
     // Normal unlock UI
     Column(
         modifier =
@@ -92,10 +93,11 @@ fun UnlockContent(
             UnlockInstructions()
         } else if (unlockPhase == UnlockPhase.SCANNING) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.phone_and_salto_lock)
-                    .decoderFactory(GifDecoder.Factory())
-                    .build(),
+                model =
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(R.drawable.phone_and_salto_lock)
+                        .decoderFactory(GifDecoder.Factory())
+                        .build(),
                 contentDescription = stringResource(R.string.unlock_instructions_phone_illustration_description),
                 modifier = Modifier.size(width = 155.dp, height = 174.dp),
             )

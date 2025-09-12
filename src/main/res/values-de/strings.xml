@@ -38,11 +38,19 @@
     <string name="go_to_settings">Zu den Einstellungen</string>
     <string name="skip">Überspringen</string>
 
+    <!-- PermissionsRedirectScreen strings -->
+    <string name="permissions_required_title">Berechtigungen erforderlich</string>
+    <string name="permissions_required_description">Die App benötigt Berechtigungen, um Türen zu entsperren. Sie können sie in den Einstellungen Ihres Handys gewähren.</string>
+
     <!-- KeyCardComponent strings -->
     <string name="check_out_uppercase">CHECK-OUT</string>
     <string name="access_code_label">CODE</string>
     <string name="key_card_expired">Abgelaufen</string>
     <string name="key_card_loading">Laden</string>
+    <string name="key_card_bluetooth_error">Bluetooth erforderlich</string>
+    <string name="key_card_internet_error">Internet erforderlich</string>
+    <string name="key_card_complete_authorization">Autorisierung abschließen</string>
+    <string name="key_card_grant_permissions">Berechtigungen erteilen</string>
 
     <!-- LoadingScreen strings -->
     <string name="loading">Laden…</string>
@@ -52,7 +60,7 @@
 
     <!-- ErrorInternet strings -->
     <string name="error_internet_title">Nicht mit dem Internet verbunden</string>
-    <string name="error_internet_description">Sie können weiterhin auf Ihre Schlüssel zugreifen, aber die angezeigten Informationen sind möglicherweise nicht aktuell.</string>
+    <string name="error_internet_description">Die App kann ohne Internet keine Türen entsperren. Sie können es in den Einstellungen Ihres Handys aktivieren.</string>
     <string name="error_internet_image_description">Symbol für keine Internetverbindung</string>
 
     <!-- ErrorContent strings -->

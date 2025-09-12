@@ -43,7 +43,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bluetooth
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -63,7 +68,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.ShadowCard
-import co.seam.seamcomponents.ui.theme.SeamComponentsTheme
 import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
 import co.seam.seamcomponents.ui.theme.SeamKeyCardStyle
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
@@ -91,12 +95,12 @@ fun KeyCardComponent(
     modifier: Modifier = Modifier,
     onPress: (() -> Unit)? = null,
 ) {
-
     // Use theme for all styling
-    val gradientColors = seamTheme.keyCard.backgroundGradient ?: listOf(
-        MaterialTheme.colorScheme.surface,
-        MaterialTheme.colorScheme.surfaceVariant
-    )
+    val gradientColors =
+        seamTheme.keyCard.backgroundGradient ?: listOf(
+            MaterialTheme.colorScheme.surface,
+            MaterialTheme.colorScheme.surfaceVariant,
+        )
 
     val keyCardStyle = seamTheme.keyCard
     val cornerRadius = keyCardStyle.cornerRadius ?: 16.dp
@@ -109,15 +113,17 @@ fun KeyCardComponent(
     val formatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
     val formattedDate = keyCard.checkoutDate?.format(formatter) ?: "No expiry"
 
-    val borderGradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xff939393), // Bottom left color
-            Color(0xffffffff)  // Top right color
-        ),
-        start = Offset(0f, Float.POSITIVE_INFINITY), // Bottom left
-        end = Offset(Float.POSITIVE_INFINITY, 0f)    // Top right
-    )
-    val isCardEnabled = onPress != null && !keyCard.isExpired
+    val borderGradient =
+        Brush.linearGradient(
+            colors =
+                listOf(
+                    Color(0xff939393), // Bottom left color
+                    Color(0xffffffff), // Top right color
+                ),
+            start = Offset(0f, Float.POSITIVE_INFINITY), // Bottom left
+            end = Offset(Float.POSITIVE_INFINITY, 0f), // Top right
+        )
+    val isCardEnabled = onPress != null
     ShadowCard(
         modifier =
             modifier
@@ -141,7 +147,7 @@ fun KeyCardComponent(
                     Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(cornerRadius))
-                        .background(Brush.linearGradient(colors = gradientColors))
+                        .background(Brush.linearGradient(colors = gradientColors)),
             )
 
             // Background texture overlay
@@ -207,7 +213,6 @@ fun KeyCardComponent(
                     }
                 }
 
-
                 // Hotel info section (bottom left aligned)
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -256,21 +261,50 @@ fun KeyCardComponent(
                 }
             }
 
-            if (keyCard.isExpired) {
+
+            when (keyCard.firstErrorToSolve) {
+                is KeyCardErrorState.CompleteOtpAuthorization -> {
+                    CardStatus(
+                        iconVector = Icons.Filled.Pin,
+                        text = stringResource(R.string.key_card_complete_authorization),
+                    )
+                }
+                is KeyCardErrorState.GrantPermissions -> {
+                    CardStatus(
+                        iconVector = Icons.Filled.Settings,
+                        text = stringResource(R.string.key_card_grant_permissions),
+                    )
+                }
+                is KeyCardErrorState.CredentialExpired -> {
+                    CardStatus(
+                        icon = R.drawable.icon_error,
+                        text = stringResource(R.string.key_card_expired),
+                    )
+                }
+                is KeyCardErrorState.CredentialLoading -> {
+                    CardStatus(
+                        iconVector = Icons.Filled.Download,
+                        text = stringResource(R.string.key_card_loading),
+                    )
+                }
+                is KeyCardErrorState.EnableBluetooth -> {
+                    CardStatus(
+                        iconVector = Icons.Filled.Bluetooth, // Bluetooth icon
+                        text = stringResource(R.string.key_card_bluetooth_error),
+                    )
+                }
+                is KeyCardErrorState.EnableInternet -> {
+                    CardStatus(
+                        iconVector = Icons.Filled.WifiOff, // Internet/WiFi connectivity icon
+                        text = stringResource(R.string.key_card_internet_error),
+                    )
+                }
+                is KeyCardErrorState.None -> {}
+            }
+
+            if (keyCard.firstErrorToSolve != KeyCardErrorState.None) {
                 Box(
-                    modifier = Modifier.fillMaxSize().background(Color(0xAAFFFFFF))
-                )
-                CardStatus(
-                    icon = R.drawable.icon_error,
-                    text = stringResource(R.string.key_card_expired)
-                )
-            } else if (keyCard.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize().background(Color(0xAAFFFFFF))
-                )
-                CardStatus(
-                    iconVector = Icons.Filled.Refresh,
-                    text = stringResource(R.string.key_card_loading)
+                    modifier = Modifier.fillMaxSize().background(Color(0xAAFFFFFF)),
                 )
             }
         }
@@ -281,28 +315,32 @@ fun KeyCardComponent(
 private fun BoxScope.CardStatus(
     @DrawableRes icon: Int? = null,
     iconVector: ImageVector? = null,
-    text: String
+    text: String,
 ) {
     val keyCardStyle = seamTheme.keyCard
-    val errorColor = keyCardStyle.errorColor ?: MaterialTheme.colorScheme.error
+    val errorColor = keyCardStyle.textColor ?: MaterialTheme.colorScheme.onPrimary
     Row(
-        modifier = Modifier
-            .align(Alignment.TopStart)
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .align(Alignment.TopStart)
+                .padding(8.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0x55FFFFFF))
+                .padding(8.dp),
     ) {
         if (icon != null) {
             Icon(
                 painter = painterResource(id = icon),
                 tint = errorColor,
                 contentDescription = "Error icon",
-                modifier = Modifier.padding(end = 8.dp).size(18.dp)
+                modifier = Modifier.padding(end = 8.dp).size(18.dp),
             )
         } else if (iconVector != null) {
             Icon(
                 imageVector = iconVector,
                 tint = errorColor,
                 contentDescription = "Error icon",
-                modifier = Modifier.padding(end = 8.dp).size(18.dp)
+                modifier = Modifier.padding(end = 8.dp).size(18.dp),
             )
         }
         Text(
@@ -312,7 +350,6 @@ private fun BoxScope.CardStatus(
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -326,6 +363,7 @@ fun KeyCardComponentPreview() {
                     name = "205",
                     code = "1234",
                     checkoutDate = LocalDateTime.now().plusDays(2),
+                    firstErrorToSolve = KeyCardErrorState.None,
                 ),
             onPress = { },
         )
@@ -344,12 +382,12 @@ fun KeyCardComponentSimplePreview() {
                     name = "1401",
                     checkoutDate = LocalDateTime.now().plusDays(1),
                     code = "1234",
+                    firstErrorToSolve = KeyCardErrorState.None,
                 ),
             onPress = { },
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -363,7 +401,7 @@ fun KeyCardComponentExpiredPreview() {
                     name = "1201",
                     checkoutDate = LocalDateTime.now().minusDays(1),
                     code = null,
-                    isExpired = true,
+                    firstErrorToSolve = KeyCardErrorState.CredentialExpired,
                 ),
             onPress = { },
         )
@@ -374,16 +412,18 @@ fun KeyCardComponentExpiredPreview() {
 @Composable
 fun KeyCardComponentLoadingPreview() {
     SeamThemeProvider(
-        seamComponentsTheme = SeamComponentsThemeData(
-            keyCard = SeamKeyCardStyle(
-                backgroundGradient = listOf(Color.Red, Color.Cyan),
-                accentColor = Color.Green,
-                cornerRadius = 24.dp,
-                shadowColor = Color.Yellow,
-                shadowYOffset = 5.dp,
-                textColor = Color.Blue,
+        seamComponentsTheme =
+            SeamComponentsThemeData(
+                keyCard =
+                    SeamKeyCardStyle(
+                        backgroundGradient = listOf(Color.Red, Color.Cyan),
+                        accentColor = Color.Green,
+                        cornerRadius = 24.dp,
+                        shadowColor = Color.Yellow,
+                        shadowYOffset = 5.dp,
+                        textColor = Color.Blue,
+                    ),
             ),
-        )
     ) {
         KeyCardComponent(
             keyCard =
@@ -393,7 +433,45 @@ fun KeyCardComponentLoadingPreview() {
                     name = "205",
                     code = "1234",
                     checkoutDate = LocalDateTime.now().plusDays(2),
-                    isLoading = true,
+                    firstErrorToSolve = KeyCardErrorState.CredentialLoading,
+                ),
+            onPress = { },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun KeyCardComponentBluetoothErrorPreview() {
+    SeamThemeProvider {
+        KeyCardComponent(
+            keyCard =
+                KeyCard(
+                    id = "5",
+                    location = "Tech Conference Hotel",
+                    name = "404",
+                    code = "5678",
+                    checkoutDate = LocalDateTime.now().plusDays(1),
+                    firstErrorToSolve = KeyCardErrorState.EnableBluetooth,
+                ),
+            onPress = { },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun KeyCardComponentInternetErrorPreview() {
+    SeamThemeProvider {
+        KeyCardComponent(
+            keyCard =
+                KeyCard(
+                    id = "6",
+                    location = "Remote Mountain Lodge",
+                    name = "101",
+                    code = "9999",
+                    checkoutDate = LocalDateTime.now().plusDays(3),
+                    firstErrorToSolve = KeyCardErrorState.EnableInternet,
                 ),
             onPress = { },
         )

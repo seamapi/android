@@ -101,11 +101,12 @@ class UnlockViewModel : ViewModel() {
                 _unlockPhase.value = UnlockPhase.SCANNING
                 _errorState.value = null // Clear any existing errors
 
-                unlockJob = SeamSDK.getInstance().unlock(
-                    credentialId = credentialId,
-                    unlockProximity = UnlockProximity.TOUCH,
-                    timeout = 30.seconds,
-                )
+                unlockJob =
+                    SeamSDK.getInstance().unlock(
+                        credentialId = credentialId,
+                        unlockProximity = UnlockProximity.TOUCH,
+                        timeout = 30.seconds,
+                    )
 
                 // Note: The actual unlock status will be handled by handleUnlockStatus
                 // which receives events from the SeamSDK unlock status flow
@@ -133,13 +134,14 @@ class UnlockViewModel : ViewModel() {
         // Cancel any existing timer
         successTimerJob?.cancel()
 
-        successTimerJob = viewModelScope.launch(dispatcher) {
-            kotlinx.coroutines.delay(3.seconds)
-            // Only change to IDLE if we're still in SUCCESS state
-            if (_unlockPhase.value == UnlockPhase.SUCCESS) {
-                _unlockPhase.value = UnlockPhase.IDLE
+        successTimerJob =
+            viewModelScope.launch(dispatcher) {
+                kotlinx.coroutines.delay(3.seconds)
+                // Only change to IDLE if we're still in SUCCESS state
+                if (_unlockPhase.value == UnlockPhase.SUCCESS) {
+                    _unlockPhase.value = UnlockPhase.IDLE
+                }
             }
-        }
     }
 
     /**
@@ -175,24 +177,26 @@ class UnlockViewModel : ViewModel() {
      * Handles errors from SeamSDK operations
      */
     private fun handleError(e: Exception) {
-        val errorMessage = when (e) {
-            is SeamError.InitializationRequired -> "SDK not initialized"
-            is SeamError.ActivationRequired -> "SDK not activated"
-            is SeamError.CredentialErrors -> {
-                val errors = e.errors.joinToString(", ") { error ->
-                    when (error) {
-                        is SeamCredentialError.Expired -> "Credential expired"
-                        is SeamCredentialError.Loading -> "Credential still loading"
-                        is SeamCredentialError.UserInteractionRequired -> "User interaction required"
-                        is SeamCredentialError.Unknown -> "Unknown credential error"
-                    }
+        val errorMessage =
+            when (e) {
+                is SeamError.InitializationRequired -> "SDK not initialized"
+                is SeamError.ActivationRequired -> "SDK not activated"
+                is SeamError.CredentialErrors -> {
+                    val errors =
+                        e.errors.joinToString(", ") { error ->
+                            when (error) {
+                                is SeamCredentialError.Expired -> "Credential expired"
+                                is SeamCredentialError.Loading -> "Credential still loading"
+                                is SeamCredentialError.UserInteractionRequired -> "User interaction required"
+                                is SeamCredentialError.Unknown -> "Unknown credential error"
+                            }
+                        }
+                    "Credential errors: $errors"
                 }
-                "Credential errors: $errors"
+                is SeamError.IntegrationNotFound -> "Integration not found"
+                is SeamError.InternetConnectionRequired -> "Internet connection required"
+                else -> e.message ?: "Failed to unlock credential"
             }
-            is SeamError.IntegrationNotFound -> "Integration not found"
-            is SeamError.InternetConnectionRequired -> "Internet connection required"
-            else -> e.message ?: "Failed to unlock credential"
-        }
         _errorState.value = errorMessage
     }
 }

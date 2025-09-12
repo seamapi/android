@@ -67,11 +67,12 @@ internal fun SeamThemeProvider(
     seamComponentsTheme: SeamComponentsThemeData = SeamComponentsThemeData(),
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if (isSystemInDarkTheme()) {
-        darkColorScheme
-    } else {
-        lightColorScheme
-    }
+    val colorScheme =
+        if (isSystemInDarkTheme()) {
+            darkColorScheme
+        } else {
+            lightColorScheme
+        }
 
     CompositionLocalProvider(
         LocalSeamComponentsTheme provides seamComponentsTheme,
@@ -91,11 +92,12 @@ fun SeamComponentsTheme(
     colorScheme: ColorScheme,
     content: @Composable () -> Unit,
 ) {
-    val seamComponentsTheme = SeamComponentsThemeData(
-        keyCard = seamTheme.keyCard,
-        unlockCard = seamTheme.unlockCard,
-        typography = typography.fromMaterial3Typography(),
-    )
+    val seamComponentsTheme =
+        SeamComponentsThemeData(
+            keyCard = seamTheme.keyCard,
+            unlockCard = seamTheme.unlockCard,
+            typography = typography.fromMaterial3Typography(),
+        )
     CompositionLocalProvider(
         LocalSeamComponentsTheme provides seamComponentsTheme,
     ) {
@@ -110,38 +112,40 @@ fun SeamComponentsTheme(
  * Default light color scheme matching iOS/Material Design conventions.
  */
 @Composable
-fun SeamComponentsLightColorScheme() = lightColorScheme(
-    primary = Slate800,
-    onPrimary = BWWhite,
-    secondary = BWWhite,
-    onSecondary = Slate700,
-    background = BWWhite,
-    onBackground = Slate700,
-    surface = Slate800,
-    onSurface = BWWhite,
-    surfaceVariant = Slate400,
-    onSurfaceVariant = BWWhite,
-    outline = Slate400,
-    error = Amber300,
-    onError = BWWhite,
-)
+fun SeamComponentsLightColorScheme() =
+    lightColorScheme(
+        primary = Slate800,
+        onPrimary = BWWhite,
+        secondary = BWWhite,
+        onSecondary = Slate700,
+        background = BWWhite,
+        onBackground = Slate700,
+        surface = Slate800,
+        onSurface = BWWhite,
+        surfaceVariant = Slate400,
+        onSurfaceVariant = BWWhite,
+        outline = Slate400,
+        error = Amber300,
+        onError = BWWhite,
+    )
 
 /**
  * Default dark color scheme matching iOS/Material Design conventions.
  */
 @Composable
-fun SeamComponentsDarkColorScheme() = darkColorScheme(
-    primary = Color(0xFF0A84FF),
-    onPrimary = Color(0xFF000000),
-    secondary = Color(0xFF1C1C1E),
-    onSecondary = Color(0xFFFFFFFF),
-    background = Color(0xFF1C1C1E),
-    onBackground = Color(0xFFFFFFFF),
-    surface = Color(0xFF1C1C1E),
-    onSurface = Color(0xFFFFFFFF),
-    surfaceVariant = Color(0xFF2C2C2E),
-    onSurfaceVariant = Color(0xFF8E8E93),
-    outline = Color(0xFF8E8E93),
-    error = Color(0xFFFF453A),
-    onError = Color(0xFF000000),
-)
+fun SeamComponentsDarkColorScheme() =
+    darkColorScheme(
+        primary = Color(0xFF0A84FF),
+        onPrimary = Color(0xFF000000),
+        secondary = Color(0xFF1C1C1E),
+        onSecondary = Color(0xFFFFFFFF),
+        background = Color(0xFF1C1C1E),
+        onBackground = Color(0xFFFFFFFF),
+        surface = Color(0xFF1C1C1E),
+        onSurface = Color(0xFFFFFFFF),
+        surfaceVariant = Color(0xFF2C2C2E),
+        onSurfaceVariant = Color(0xFF8E8E93),
+        outline = Color(0xFF8E8E93),
+        error = Color(0xFFFF453A),
+        onError = Color(0xFF000000),
+    )

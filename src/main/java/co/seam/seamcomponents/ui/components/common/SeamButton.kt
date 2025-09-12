@@ -154,7 +154,6 @@ fun SeamSecondaryButton(
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun SeamPrimaryButtonPreview() {
@@ -201,7 +200,6 @@ fun SeamButtonDisabledPreview() {
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

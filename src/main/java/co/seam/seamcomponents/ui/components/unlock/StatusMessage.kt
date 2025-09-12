@@ -28,7 +28,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import co.seam.seamcomponents.ui.theme.seamTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 
 /**
  * A composable that displays status information during the unlock process.
@@ -85,7 +85,6 @@ fun StatusMessage(
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

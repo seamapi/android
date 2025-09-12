@@ -32,6 +32,5 @@ data class KeyCard(
     val name: String,
     val code: String?,
     val checkoutDate: LocalDateTime? = null,
-    val isExpired: Boolean = false,
-    val isLoading: Boolean = false,
+    val firstErrorToSolve: KeyCardErrorState,
 )

@@ -42,8 +42,11 @@ import kotlinx.coroutines.launch
  */
 sealed class SeamSDKState {
     object Idle : SeamSDKState()
+
     object Initializing : SeamSDKState()
+
     object Initialized : SeamSDKState()
+
     data class Error(val errorState: SeamErrorState) : SeamSDKState()
 }
 

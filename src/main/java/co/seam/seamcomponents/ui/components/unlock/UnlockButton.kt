@@ -45,7 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.lighten
-import co.seam.seamcomponents.ui.theme.SeamComponentsThemeData
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 import co.seam.seamcomponents.ui.theme.success
@@ -56,15 +55,15 @@ import co.seam.seamcomponents.ui.theme.success
 
 /**
  * A central unlock button that adapts its appearance and behavior based on the unlock phase.
- * 
+ *
  * This component displays different visual states for the unlock process:
  * - IDLE: Gradient button with key icon, ready to initiate unlock
  * - SCANNING: Animated spinner around key icon during unlock attempt
  * - SUCCESS: Green background with checkmark icon
  * - FAILED: No visual representation (handled elsewhere)
- * 
+ *
  * The styling is customizable through SeamUnlockCardStyle theming.
- * 
+ *
  * @param unlockPhase The current phase of the unlock process
  * @param onPress Callback invoked when the button is pressed (when applicable)
  * @param modifier Optional Modifier for styling and layout customization
@@ -76,21 +75,25 @@ fun UnlockButton(
     modifier: Modifier = Modifier,
 ) {
     val unlockCardStyle = seamTheme.unlockCard
-    val backgroundColor = unlockCardStyle.cardBackground
-        ?: MaterialTheme.colorScheme.background
+    val backgroundColor =
+        unlockCardStyle.cardBackground
+            ?: MaterialTheme.colorScheme.background
     val buttonGradientColors = unlockCardStyle.keyButtonGradient
 
-    val buttonPrimaryColorLighter = buttonGradientColors?.getOrNull(0)
-        ?: MaterialTheme.colorScheme.primary.lighten(0.5f)
-    val buttonPrimaryColor = buttonGradientColors?.getOrNull(1)
-        ?: MaterialTheme.colorScheme.primary
+    val buttonPrimaryColorLighter =
+        buttonGradientColors?.getOrNull(0)
+            ?: MaterialTheme.colorScheme.primary.lighten(0.5f)
+    val buttonPrimaryColor =
+        buttonGradientColors?.getOrNull(1)
+            ?: MaterialTheme.colorScheme.primary
 
-    val keyIconColor = when (unlockPhase) {
-        UnlockPhase.IDLE -> unlockCardStyle.keyIconColorIdle ?: MaterialTheme.colorScheme.onPrimary
-        UnlockPhase.SCANNING -> unlockCardStyle.keyIconColorActive ?: MaterialTheme.colorScheme.onBackground
-        UnlockPhase.SUCCESS -> MaterialTheme.colorScheme.onPrimary
-        UnlockPhase.FAILED -> MaterialTheme.colorScheme.onPrimary
-    }
+    val keyIconColor =
+        when (unlockPhase) {
+            UnlockPhase.IDLE -> unlockCardStyle.keyIconColorIdle ?: MaterialTheme.colorScheme.onPrimary
+            UnlockPhase.SCANNING -> unlockCardStyle.keyIconColorActive ?: MaterialTheme.colorScheme.onBackground
+            UnlockPhase.SUCCESS -> MaterialTheme.colorScheme.onPrimary
+            UnlockPhase.FAILED -> MaterialTheme.colorScheme.onPrimary
+        }
 
     val successColor = unlockCardStyle.successColor ?: MaterialTheme.colorScheme.success
     val successIconColor = unlockCardStyle.successIconColor ?: MaterialTheme.colorScheme.onPrimary
@@ -100,25 +103,28 @@ fun UnlockButton(
     when (unlockPhase) {
         UnlockPhase.IDLE -> {
             Box(
-                modifier = Modifier
-                    .size(168.dp)
-                    .padding(8.dp)
-                    .shadow(
-                        elevation = buttonElevation,
-                        shape = CircleShape,
-                        clip = false
-                    )
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                buttonPrimaryColorLighter,
-                                buttonPrimaryColor
-                            )
-                        ),
-                        shape = CircleShape
-                    )
-                    .clickable(onClick = onPress),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(168.dp)
+                        .padding(8.dp)
+                        .shadow(
+                            elevation = buttonElevation,
+                            shape = CircleShape,
+                            clip = false,
+                        )
+                        .background(
+                            brush =
+                                Brush.linearGradient(
+                                    colors =
+                                        listOf(
+                                            buttonPrimaryColorLighter,
+                                            buttonPrimaryColor,
+                                        ),
+                                ),
+                            shape = CircleShape,
+                        )
+                        .clickable(onClick = onPress),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.key_large),
@@ -160,7 +166,7 @@ fun UnlockButton(
                         .clip(CircleShape)
                         .background(
                             Brush.linearGradient(
-                                colors = listOf(successColor, successColor.lighten())
+                                colors = listOf(successColor, successColor.lighten()),
                             ),
                         ),
                 contentAlignment = Alignment.Center,
