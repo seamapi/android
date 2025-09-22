@@ -65,6 +65,8 @@ class KeysViewModel : ViewModel() {
     private val _errorMessageState = MutableStateFlow<String?>(null)
     val errorState: StateFlow<String?> = _errorMessageState.asStateFlow()
 
+    private var initializationTime = System.currentTimeMillis()
+
     init {
         startCollectingCredentials()
     }
@@ -74,6 +76,7 @@ class KeysViewModel : ViewModel() {
      * This should be called once the SDK is initialized
      */
     fun startCollectingCredentials() {
+        initializationTime = System.currentTimeMillis()
         viewModelScope.launch(dispatcher) {
             try {
                 SeamSDK.getInstance().credentials.collect { credentialsList ->
@@ -90,9 +93,13 @@ class KeysViewModel : ViewModel() {
      */
     private fun processCredentials(credentialsList: List<SeamCredential>) {
         credentialsCache = credentialsList
-
         if (credentialsList.isEmpty()) {
-            _uiState.value = KeysUiState.Empty
+            val elapsedTime = (System.currentTimeMillis() - initializationTime)
+            if (elapsedTime >= INITIALIZATION_TIMEOUT) {
+                _uiState.value = KeysUiState.Empty
+            } else {
+                _uiState.value = KeysUiState.Loading
+            }
             return
         }
 
@@ -165,6 +172,10 @@ class KeysViewModel : ViewModel() {
             return true
         }
         return keyCard.firstErrorToSolve != KeyCardErrorState.None
+    }
+
+    companion object {
+        const val INITIALIZATION_TIMEOUT = 10_000L
     }
 }
 
