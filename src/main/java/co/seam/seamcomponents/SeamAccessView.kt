@@ -91,6 +91,7 @@ fun SeamAccessView(
 
     // Initialize the SeamSDK when the component is first composed
     LaunchedEffect(clientSessionToken) {
+        keysViewModel.reinitialize()
         seamViewModel.initializeSeamSDK(context, clientSessionToken)
     }
 

@@ -151,6 +151,11 @@ class KeysViewModel : ViewModel() {
         _errorMessageState.value = null
     }
 
+    fun reinitialize() {
+        _uiState.value = KeysUiState.Loading
+        initializationTime = System.currentTimeMillis()
+    }
+
     /**
      * Handles errors from SeamSDK operations
      */
