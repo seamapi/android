@@ -54,6 +54,7 @@ import co.seam.seamcomponents.ui.components.keys.EmptyKeys
 import co.seam.seamcomponents.ui.components.keys.KeyCard
 import co.seam.seamcomponents.ui.components.keys.KeyCardComponent
 import co.seam.seamcomponents.ui.components.keys.KeyCardErrorState
+import co.seam.seamcomponents.ui.components.keys.KeyCardSkeleton
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.viewmodel.KeysUiState
 import co.seam.seamcomponents.ui.viewmodel.KeysViewModel
@@ -100,9 +101,7 @@ fun SeamCredentialsView(
         ) {
             when (val currentState = uiState) {
                 is KeysUiState.Loading -> {
-                    LoadingContent(
-                        title = stringResource(R.string.loading_mobile_keys),
-                    )
+                    LoadingSkeletonContent()
                 }
                 is KeysUiState.Success -> {
                     KeysSuccessContent(
@@ -144,7 +143,6 @@ private fun KeysSuccessContent(
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(vertical = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(keys) { keyCard ->
@@ -153,6 +151,19 @@ private fun KeysSuccessContent(
                     onPress = { onKeyCardClick(keyCard) },
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun LoadingSkeletonContent() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        // Render only one skeleton card, but keep the possibility of adding more
+        items(1) {
+            KeyCardSkeleton()
         }
     }
 }
@@ -171,7 +182,7 @@ private fun EmptyContent(onRefresh: () -> Unit) {
 @Composable
 fun KeysScreenLoadingPreview() {
     SeamThemeProvider {
-        LoadingContent()
+        LoadingSkeletonContent()
     }
 }
 

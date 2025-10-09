@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,6 +46,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
@@ -128,7 +130,7 @@ fun KeyCardComponent(
         modifier =
             modifier
                 .fillMaxWidth()
-                .height(192.dp),
+                .aspectRatio(1.586f), // us credit card standard ratio
         cornerRadius = cornerRadius,
         shadowColor = shadowColor,
         shadowBlur = 8.dp,
@@ -219,27 +221,39 @@ fun KeyCardComponent(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = spacedBy(4.dp),
                 ) {
-                    Text(
-                        text = keyCard.name,
-                        style = seamTheme.typography.headlineMedium,
-                        color = textColor,
-                    )
-
                     // Room info
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = stringResource(R.string.access_code_label),
+                            text = stringResource(R.string.access_room_label),
                             style = seamTheme.typography.labelSmall,
                             color = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.padding(end = 8.dp),
                         )
                         Text(
-                            text = keyCard.code ?: "-",
+                            text = keyCard.name,
                             style = seamTheme.typography.bodySmall,
                             color = textColor,
                         )
+                    }
+
+                    if (keyCard.code != null) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.access_code_label),
+                                style = seamTheme.typography.labelSmall,
+                                color = textColor.copy(alpha = 0.5f),
+                                modifier = Modifier.padding(end = 8.dp),
+                            )
+                            Text(
+                                text = keyCard.code,
+                                style = seamTheme.typography.bodySmall,
+                                color = textColor,
+                            )
+                        }
                     }
 
                     // Checkout info
@@ -276,6 +290,12 @@ fun KeyCardComponent(
                     )
                 }
                 is KeyCardErrorState.CredentialExpired -> {
+                    // content will look faded
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xAAFFFFFF)),
+                    )
                     CardStatus(
                         icon = R.drawable.icon_error,
                         text = stringResource(R.string.key_card_expired),
@@ -283,8 +303,8 @@ fun KeyCardComponent(
                 }
                 is KeyCardErrorState.CredentialLoading -> {
                     CardStatus(
-                        iconVector = Icons.Filled.Download,
-                        text = stringResource(R.string.key_card_loading),
+                        iconVector = Icons.Filled.HourglassEmpty,
+                        text = stringResource(R.string.key_card_processing),
                     )
                 }
                 is KeyCardErrorState.EnableBluetooth -> {
@@ -300,12 +320,6 @@ fun KeyCardComponent(
                     )
                 }
                 is KeyCardErrorState.None -> {}
-            }
-
-            if (keyCard.firstErrorToSolve != KeyCardErrorState.None) {
-                Box(
-                    modifier = Modifier.fillMaxSize().background(Color(0xAAFFFFFF)),
-                )
             }
         }
     }

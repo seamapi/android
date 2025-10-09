@@ -152,7 +152,6 @@ class KeysViewModel : ViewModel() {
     }
 
     fun reinitialize() {
-        _uiState.value = KeysUiState.Loading
         initializationTime = System.currentTimeMillis()
     }
 
