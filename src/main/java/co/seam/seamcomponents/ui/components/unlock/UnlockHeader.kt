@@ -39,6 +39,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -108,15 +109,21 @@ fun UnlockHeader(
         Spacer(modifier = Modifier.width(16.dp))
 
         // Mini card visual (removing logo functionality)
-        MiniKeyCard()
+        MiniKeyCard(keyCard)
     }
 }
 
 @Composable
-private fun MiniKeyCard(modifier: Modifier = Modifier) {
+private fun MiniKeyCard(
+    keyCard: KeyCard,
+    modifier: Modifier = Modifier
+) {
     val theme = seamTheme
+    val tint = theme.keyCard.headerLogoTint?.let { color ->
+        ColorFilter.tint(color)
+    }
     Box(
-        modifier = modifier.size(width = 64.dp, height = 40.dp),
+        modifier = modifier.size(width = 64.dp, height = 48.dp),
         contentAlignment = Alignment.Center,
     ) {
         // Display brand logo or fallback to styled box
@@ -132,6 +139,15 @@ private fun MiniKeyCard(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = theme.keyCard.brandLogoRes),
                     contentDescription = "Brand logo",
+                    colorFilter = tint,
+                    modifier = Modifier.size(width = 64.dp, height = 40.dp),
+                )
+            }
+            keyCard.providerLogo != null -> {
+                Image(
+                    painter = painterResource(id = keyCard.providerLogo),
+                    contentDescription = "Provider logo",
+                    colorFilter = tint,
                     modifier = Modifier.size(width = 64.dp, height = 40.dp),
                 )
             }
@@ -152,6 +168,7 @@ fun UnlockHeaderPreview() {
                 checkoutDate = LocalDateTime.now().plusDays(2),
                 code = "1234",
                 firstErrorToSolve = KeyCardErrorState.None,
+                providerLogo = R.drawable.seos_logo,
             )
 
         UnlockHeader(

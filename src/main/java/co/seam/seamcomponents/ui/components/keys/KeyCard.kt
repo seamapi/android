@@ -24,6 +24,7 @@
 
 package co.seam.seamcomponents.ui.components.keys
 
+import androidx.annotation.DrawableRes
 import java.time.LocalDateTime
 
 data class KeyCard(
@@ -31,6 +32,7 @@ data class KeyCard(
     val location: String?,
     val name: String,
     val code: String?,
-    val checkoutDate: LocalDateTime? = null,
     val firstErrorToSolve: KeyCardErrorState,
+    val checkoutDate: LocalDateTime? = null,
+    @DrawableRes val providerLogo: Int? = null,
 )

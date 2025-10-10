@@ -38,6 +38,7 @@ data class SeamKeyCardStyle(
     val backgroundGradient: List<Color>? = null,
     val errorColor: Color? = null,
     val accentColor: Color? = null,
+    val headerLogoTint: Color? = null,
     val cornerRadius: Dp? = null,
     val shadowColor: Color? = null,
     val shadowYOffset: Dp? = null,

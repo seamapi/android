@@ -73,7 +73,7 @@ fun UnlockContent(
             modifier
                 .fillMaxWidth()
                 .background(containerColor)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Unlock button

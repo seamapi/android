@@ -31,6 +31,7 @@ import co.seam.core.api.SeamSDK
 import co.seam.core.sdkerrors.SeamCredentialError
 import co.seam.core.sdkerrors.SeamError
 import co.seam.core.sdkerrors.SeamRequiredUserInteraction
+import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.keys.KeyCard
 import co.seam.seamcomponents.ui.components.keys.KeyCardErrorState
 import kotlinx.coroutines.CoroutineDispatcher
@@ -123,7 +124,24 @@ class KeysViewModel : ViewModel() {
             checkoutDate = credential.expiry?.toJavaLocalDateTime(),
             code = credential.code,
             firstErrorToSolve = firstErrorToSolve,
+            providerLogo = getProviderLogoForProviderName(credential.providerName),
         )
+    }
+
+    private fun getProviderLogoForProviderName(providerName: String) : Int? {
+        return when (providerName) {
+            "salto_ks" -> null
+            "brivo" -> null
+            "latch" -> null
+            "legic_connect" -> null
+            "salto_space" -> R.drawable.salto_space_logo
+            "hid_origo_credential_service",
+            "assa_abloy_credential_service",
+            "visionline_system",
+            "assa_abloy_vostio",
+            "assa_abloy_vostio_credential_service" -> R.drawable.seos_logo
+            else -> null
+        }
     }
 
     /**
