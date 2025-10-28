@@ -57,7 +57,6 @@ sealed class KeysUiState {
  * ViewModel for the Keys screen - manages key cards display and refresh functionality
  */
 class KeysViewModel : ViewModel() {
-    private var credentialsCache: List<SeamCredential> = emptyList()
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
     private val _uiState = MutableStateFlow<KeysUiState>(KeysUiState.Loading)
@@ -65,6 +64,9 @@ class KeysViewModel : ViewModel() {
 
     private val _errorMessageState = MutableStateFlow<String?>(null)
     val errorState: StateFlow<String?> = _errorMessageState.asStateFlow()
+
+    private val _singleKey = MutableStateFlow<KeyCard?>(null)
+    val singleKey: StateFlow<KeyCard?> = _singleKey.asStateFlow()
 
     private var initializationTime = System.currentTimeMillis()
 
@@ -93,7 +95,6 @@ class KeysViewModel : ViewModel() {
      * Processes credentials from the SeamSDK and converts them to KeyCard objects
      */
     private fun processCredentials(credentialsList: List<SeamCredential>) {
-        credentialsCache = credentialsList
         if (credentialsList.isEmpty()) {
             val elapsedTime = (System.currentTimeMillis() - initializationTime)
             if (elapsedTime >= INITIALIZATION_TIMEOUT) {
@@ -108,6 +109,12 @@ class KeysViewModel : ViewModel() {
             credentialsList.map { credential ->
                 convertSeamCredentialToKeyCard(credential)
             }
+
+        if (keyCards.size == 1) {
+            _singleKey.value = keyCards.first()
+        } else {
+            _singleKey.value = null
+        }
 
         _uiState.value = KeysUiState.Success(keyCards)
     }

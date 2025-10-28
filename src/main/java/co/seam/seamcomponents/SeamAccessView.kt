@@ -88,6 +88,8 @@ fun SeamAccessView(
     val unlockViewModel: UnlockViewModel = viewModel()
 
     val sdkState by seamViewModel.sdkState.collectAsState()
+    val singleCredentialKeyCard by keysViewModel.singleKey.collectAsState()
+    val isShownUnlockFirstTime by seamViewModel.isShownUnlockFirstTime.collectAsState()
 
     // Initialize the SeamSDK when the component is first composed
     LaunchedEffect(clientSessionToken) {
@@ -98,7 +100,6 @@ fun SeamAccessView(
     // Overlay state for unlock screen
     var showUnlockOverlay by remember { mutableStateOf(false) }
     var selectedKeyCard by remember { mutableStateOf<KeyCard?>(null) }
-
 
     // Use theme from parent SeamThemeProvider
     Box(modifier = Modifier.fillMaxSize()) {
@@ -134,6 +135,15 @@ fun SeamAccessView(
                                 }
                             },
                         )
+
+                        // Auto navigate to unlock if there's only one key
+                        if (singleCredentialKeyCard != null) {
+                            selectedKeyCard = singleCredentialKeyCard
+                            if (!isShownUnlockFirstTime) {
+                                seamViewModel.setIsShownUnlockFirstTime(true)
+                                showUnlockOverlay = true
+                            }
+                        }
                     }
                 }
             }

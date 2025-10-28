@@ -11,6 +11,8 @@
     <string name="unlock_content_unlocked">Desbloqueado</string>
     <string name="unlock_content_failed">Falhou</string>
     <string name="unlock_content_scanning_instruction">Mantenha a parte traseira do telefone contra a fechadura</string>
+    <string name="unlock_content_preparing_title">Preparando Sua Chave</string>
+    <string name="unlock_content_preparing_description">Sua chave digital está sendo preparada. Por favor, aguarde um momento.</string>
 
     <!-- UnlockInstructions strings -->
     <string name="unlock_instructions_step1">Pressionar botão</string>
