@@ -59,6 +59,7 @@ import co.seam.seamcomponents.ui.components.common.darken
 import co.seam.seamcomponents.ui.components.keys.KeyCard
 import co.seam.seamcomponents.ui.components.keys.KeyCardErrorState
 import co.seam.seamcomponents.ui.components.unlock.UnlockContent
+import co.seam.seamcomponents.ui.components.unlock.UnlockContentPreparing
 import co.seam.seamcomponents.ui.components.unlock.UnlockError
 import co.seam.seamcomponents.ui.components.unlock.UnlockHeader
 import co.seam.seamcomponents.ui.components.unlock.UnlockPhase
@@ -162,17 +163,22 @@ fun SeamUnlockCardView(
                     errorMessage = errorState,
                     onDismiss = viewModel::clearError,
                 )
-                UnlockContent(
-                    unlockPhase = unlockPhase,
-                    modifier = Modifier.padding(vertical = 16.dp),
-                    onPressPrimaryButton = {
-                        if (unlockPhase == UnlockPhase.IDLE) {
-                            viewModel.unlockCredential(keyCard.id)
-                        } else if (unlockPhase == UnlockPhase.SCANNING) {
-                            viewModel.cancelUnlock()
-                        }
-                    },
-                )
+                val hasErrorToSolve = keyCard.firstErrorToSolve != KeyCardErrorState.None
+                if (hasErrorToSolve) {
+                    UnlockContentPreparing()
+                } else {
+                    UnlockContent(
+                        unlockPhase = unlockPhase,
+                        modifier = Modifier.padding(vertical = 16.dp),
+                        onPressPrimaryButton = {
+                            if (unlockPhase == UnlockPhase.IDLE) {
+                                viewModel.unlockCredential(keyCard.id)
+                            } else if (unlockPhase == UnlockPhase.SCANNING) {
+                                viewModel.cancelUnlock()
+                            }
+                        },
+                    )
+                }
             }
 
             // Spacer to push buttons to bottom when fully expanded

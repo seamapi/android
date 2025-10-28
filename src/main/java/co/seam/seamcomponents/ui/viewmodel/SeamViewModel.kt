@@ -63,6 +63,9 @@ class SeamViewModel : ViewModel() {
     // Store client session token
     private var clientSessionToken: String = ""
 
+    private val _isShownUnlockFirstTime = MutableStateFlow(false)
+    val isShownUnlockFirstTime: StateFlow<Boolean> = _isShownUnlockFirstTime.asStateFlow()
+
     /**
      * Initializes the Seam SDK with the provided client session token.
      *
@@ -95,6 +98,10 @@ class SeamViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun setIsShownUnlockFirstTime(isShownUnlockFirstTime: Boolean) {
+        _isShownUnlockFirstTime.value = isShownUnlockFirstTime
     }
 
     private fun getSeamErrorState(seamError: SeamError): SeamErrorState? {

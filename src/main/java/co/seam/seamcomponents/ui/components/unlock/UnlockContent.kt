@@ -25,12 +25,16 @@
 package co.seam.seamcomponents.ui.components.unlock
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.HourglassTop
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -106,6 +110,36 @@ fun UnlockContent(
 }
 
 @Composable
+fun UnlockContentPreparing(
+    modifier: Modifier = Modifier,
+) {
+    val unlockCardStyle = seamTheme.unlockCard
+    val containerColor =
+        unlockCardStyle.cardBackground
+            ?: MaterialTheme.colorScheme.background
+    Column(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(containerColor)
+                .padding(top = 64.dp)
+                .padding(horizontal = 24.dp),
+        verticalArrangement = spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Icon(
+            modifier = Modifier.size(64.dp),
+            imageVector = Icons.Filled.HourglassTop,
+            contentDescription = stringResource(R.string.unlock_content_preparing_description),
+        )
+        StatusMessage(
+            instructionText = stringResource(R.string.unlock_content_preparing_description),
+            statusText = stringResource(R.string.unlock_content_preparing_title),
+        )
+    }
+}
+
+@Composable
 private fun getTitleByUnlockPhase(unlockPhase: UnlockPhase): String {
     return when (unlockPhase) {
         UnlockPhase.IDLE -> stringResource(R.string.unlock_content_tap_to_unlock)
@@ -177,3 +211,12 @@ fun UnlockContentFailedPreview() {
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun UnlockContentPreparingPreview() {
+    SeamThemeProvider {
+        UnlockContentPreparing()
+    }
+}
+
