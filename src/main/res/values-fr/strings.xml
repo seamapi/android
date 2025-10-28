@@ -45,7 +45,8 @@
     <string name="permissions_required_description">L\'application a besoin d\'autorisations pour déverrouiller les portes. Vous pouvez les accorder dans les Paramètres de votre téléphone.</string>
 
     <!-- KeyCardComponent strings -->
-    <string name="check_out_uppercase">CHECK-OUT</string>
+    <string name="check_out_uppercase">EXPIRE LE</string>
+    <string name="no_check_out_uppercase">SANS EXPIRATION</string>
     <string name="access_code_label">CODE</string>
     <string name="access_room_label">CHAMBRE</string>
     <string name="key_card_expired">Expiré</string>

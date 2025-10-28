@@ -45,7 +45,8 @@
     <string name="permissions_required_description">Die App benötigt Berechtigungen, um Türen zu entsperren. Sie können sie in den Einstellungen Ihres Handys gewähren.</string>
 
     <!-- KeyCardComponent strings -->
-    <string name="check_out_uppercase">CHECK-OUT</string>
+    <string name="check_out_uppercase">LÄUFT AB AM</string>
+    <string name="no_check_out_uppercase">KEIN ABLAUFDATUM</string>
     <string name="access_code_label">CODE</string>
     <string name="access_room_label">ZIMMER</string>
     <string name="key_card_expired">Abgelaufen</string>

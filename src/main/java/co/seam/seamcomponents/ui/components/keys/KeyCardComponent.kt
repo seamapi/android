@@ -113,7 +113,7 @@ fun KeyCardComponent(
 
     // Format checkout date
     val formatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
-    val formattedDate = keyCard.checkoutDate?.format(formatter) ?: "No expiry"
+    val formattedDate = keyCard.checkoutDate?.format(formatter)
 
     val borderGradient =
         Brush.linearGradient(
@@ -260,17 +260,24 @@ fun KeyCardComponent(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
+                        val checkoutLabel = if (formattedDate == null) {
+                            stringResource(R.string.no_check_out_uppercase)
+                        } else {
+                            stringResource(R.string.check_out_uppercase)
+                        }
                         Text(
-                            text = stringResource(R.string.check_out_uppercase),
+                            text = checkoutLabel,
                             style = seamTheme.typography.labelSmall,
                             color = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.padding(end = 8.dp),
                         )
-                        Text(
-                            text = formattedDate,
-                            style = seamTheme.typography.bodySmall,
-                            color = textColor,
-                        )
+                        formattedDate?.let {
+                            Text(
+                                text = formattedDate,
+                                style = seamTheme.typography.bodySmall,
+                                color = textColor,
+                            )
+                        }
                     }
                 }
             }
@@ -491,3 +498,23 @@ fun KeyCardComponentInternetErrorPreview() {
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun KeyCardComponentNoCheckoutDatePreview() {
+    SeamThemeProvider {
+        KeyCardComponent(
+            keyCard =
+                KeyCard(
+                    id = "6",
+                    location = "Remote Mountain Lodge",
+                    name = "101",
+                    code = "9999",
+                    checkoutDate = null,
+                    firstErrorToSolve = KeyCardErrorState.EnableInternet,
+                ),
+            onPress = { },
+        )
+    }
+}
+

@@ -45,7 +45,8 @@
     <string name="permissions_required_description">The app needs permissions to unlock doors. You can grant them in your phone\'s Settings app.</string>
 
     <!-- KeyCardComponent strings -->
-    <string name="check_out_uppercase">CHECK OUT</string>
+    <string name="check_out_uppercase">EXPIRES AT</string>
+    <string name="no_check_out_uppercase">NO EXPIRATION</string>
     <string name="access_code_label">CODE</string>
     <string name="access_room_label">ROOM</string>
     <string name="key_card_expired">Expired</string>

@@ -45,7 +45,8 @@
     <string name="permissions_required_description">La aplicación necesita permisos para desbloquear puertas. Puedes otorgarlos en la Configuración de tu teléfono.</string>
 
     <!-- KeyCardComponent strings -->
-    <string name="check_out_uppercase">CHECK-OUT</string>
+    <string name="check_out_uppercase">EXPIRA EL</string>
+    <string name="no_check_out_uppercase">SIN EXPIRACIÓN</string>
     <string name="access_code_label">CÓDIGO</string>
     <string name="access_room_label">HABITACIÓN</string>
     <string name="key_card_expired">Expirado</string>
