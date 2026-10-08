@@ -97,6 +97,8 @@ fun SeamUnlockCardView(
 
     val unlockPhase by viewModel.unlockPhase.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
+    val isAccessDenied by viewModel.isAccessDenied.collectAsState()
+    val accessDeniedReason by viewModel.accessDeniedReason.collectAsState()
 
     val bottomSheetState =
         rememberModalBottomSheetState(
@@ -151,7 +153,16 @@ fun SeamUnlockCardView(
                     .background(headerContainerColor, RoundedCornerShape(2.dp)),
             )
 
-            if (unlockPhase == UnlockPhase.FAILED) {
+            if (unlockPhase == UnlockPhase.FAILED && isAccessDenied) {
+                UnlockError(
+                    title = stringResource(R.string.unlock_content_access_denied_title),
+                    description =
+                        accessDeniedReason
+                            ?: stringResource(R.string.unlock_content_access_denied_description),
+                    modifier = Modifier.padding(16.dp),
+                    onTryAgain = { viewModel.unlockCredential(keyCard.id) },
+                )
+            } else if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
                     title = stringResource(R.string.unlock_content_unlocking_failed_title),
                     description = stringResource(R.string.unlock_content_unlocking_failed_description),
