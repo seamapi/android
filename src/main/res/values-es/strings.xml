@@ -3,6 +3,8 @@
     <!-- UnlockContent strings -->
     <string name="unlock_content_lock_error_description">Error de cerradura</string>
     <string name="unlock_content_unlocking_failed_title">Desbloqueo fallido</string>
+    <string name="unlock_content_access_denied_title">Acceso denegado</string>
+    <string name="unlock_content_access_denied_description">La cerradura rechazó esta llave.</string>
     <string name="unlock_content_unlocking_failed_description">No se pudo desbloquear la puerta. Intenta mantener tu teléfono más cerca de la cerradura.</string>
     <string name="unlock_content_door_unlock_failed_message">No se pudo desbloquear la puerta.</string>
     <string name="unlock_content_try_again_button">Intentar de nuevo</string>

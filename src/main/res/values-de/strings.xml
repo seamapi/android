@@ -3,6 +3,8 @@
     <!-- UnlockContent strings -->
     <string name="unlock_content_lock_error_description">Schloss-Fehler</string>
     <string name="unlock_content_unlocking_failed_title">Entsperrung fehlgeschlagen</string>
+    <string name="unlock_content_access_denied_title">Zugang verweigert</string>
+    <string name="unlock_content_access_denied_description">Das Schloss hat diesen Schlüssel abgelehnt.</string>
     <string name="unlock_content_unlocking_failed_description">Die Tür konnte nicht entsperrt werden. Versuchen Sie, Ihr Handy näher an das Schloss zu halten.</string>
     <string name="unlock_content_door_unlock_failed_message">Die Tür konnte nicht entsperrt werden.</string>
     <string name="unlock_content_try_again_button">Erneut versuchen</string>

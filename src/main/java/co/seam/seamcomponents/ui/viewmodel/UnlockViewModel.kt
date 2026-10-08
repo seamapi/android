@@ -57,6 +57,13 @@ class UnlockViewModel : ViewModel() {
     private val _errorState = MutableStateFlow<String?>(null)
     val errorState: StateFlow<String?> = _errorState.asStateFlow()
 
+    // Set when the lock was reached but rejected the credential; holds the lock's reason, if any.
+    private val _accessDeniedReason = MutableStateFlow<String?>(null)
+    val accessDeniedReason: StateFlow<String?> = _accessDeniedReason.asStateFlow()
+
+    private val _isAccessDenied = MutableStateFlow(false)
+    val isAccessDenied: StateFlow<Boolean> = _isAccessDenied.asStateFlow()
+
     init {
         // Start collecting unlock status events
         startCollectingUnlockStatus()
@@ -83,6 +90,7 @@ class UnlockViewModel : ViewModel() {
         successTimerJob?.cancel()
         _unlockPhase.value = UnlockPhase.IDLE
         _errorState.value = null
+        clearAccessDenied()
     }
 
     fun cancelUnlock() {
@@ -90,6 +98,7 @@ class UnlockViewModel : ViewModel() {
         successTimerJob?.cancel()
         _unlockPhase.value = UnlockPhase.IDLE
         _errorState.value = null
+        clearAccessDenied()
     }
 
     /**
@@ -100,6 +109,7 @@ class UnlockViewModel : ViewModel() {
             try {
                 _unlockPhase.value = UnlockPhase.SCANNING
                 _errorState.value = null // Clear any existing errors
+                clearAccessDenied()
 
                 unlockJob =
                     SeamSDK.getInstance().unlock(
@@ -170,7 +180,18 @@ class UnlockViewModel : ViewModel() {
                 _unlockPhase.value = UnlockPhase.FAILED
                 _errorState.value = "Reader error: ${seamUnlockEvent.message}"
             }
+            is SeamUnlockEvent.AccessDenied -> {
+                println("UnlockViewModel - Access denied: ${seamUnlockEvent.reason}")
+                _accessDeniedReason.value = seamUnlockEvent.reason
+                _isAccessDenied.value = true
+                _unlockPhase.value = UnlockPhase.FAILED
+            }
         }
+    }
+
+    private fun clearAccessDenied() {
+        _isAccessDenied.value = false
+        _accessDeniedReason.value = null
     }
 
     /**
