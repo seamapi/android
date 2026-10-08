@@ -5,6 +5,12 @@
     <string name="unlock_content_unlocking_failed_title">Entsperrung fehlgeschlagen</string>
     <string name="unlock_content_access_denied_title">Zugang verweigert</string>
     <string name="unlock_content_access_denied_description">Das Schloss hat diesen Schlüssel abgelehnt.</string>
+    <string name="starts_at_uppercase">BEGINNT AM</string>
+    <string name="check_in_label">Beginnt: %1$s</string>
+    <string name="unlock_content_not_active_yet_title">Schlüssel noch nicht aktiv</string>
+    <string name="unlock_content_not_active_yet_description">Dieser Schlüssel ist gültig ab %1$s.</string>
+    <string name="unlock_content_expired_title">Schlüssel abgelaufen</string>
+    <string name="unlock_content_expired_description">Dieser Schlüssel war gültig bis %1$s.</string>
     <string name="unlock_content_unlocking_failed_description">Die Tür konnte nicht entsperrt werden. Versuchen Sie, Ihr Handy näher an das Schloss zu halten.</string>
     <string name="unlock_content_door_unlock_failed_message">Die Tür konnte nicht entsperrt werden.</string>
     <string name="unlock_content_try_again_button">Erneut versuchen</string>

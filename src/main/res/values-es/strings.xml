@@ -5,6 +5,12 @@
     <string name="unlock_content_unlocking_failed_title">Desbloqueo fallido</string>
     <string name="unlock_content_access_denied_title">Acceso denegado</string>
     <string name="unlock_content_access_denied_description">La cerradura rechazó esta llave.</string>
+    <string name="starts_at_uppercase">EMPIEZA</string>
+    <string name="check_in_label">Empieza: %1$s</string>
+    <string name="unlock_content_not_active_yet_title">La llave aún no está activa</string>
+    <string name="unlock_content_not_active_yet_description">Esta llave es válida desde %1$s.</string>
+    <string name="unlock_content_expired_title">Llave vencida</string>
+    <string name="unlock_content_expired_description">Esta llave era válida hasta %1$s.</string>
     <string name="unlock_content_unlocking_failed_description">No se pudo desbloquear la puerta. Intenta mantener tu teléfono más cerca de la cerradura.</string>
     <string name="unlock_content_door_unlock_failed_message">No se pudo desbloquear la puerta.</string>
     <string name="unlock_content_try_again_button">Intentar de nuevo</string>

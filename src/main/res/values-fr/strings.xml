@@ -5,6 +5,12 @@
     <string name="unlock_content_unlocking_failed_title">Déverrouillage échoué</string>
     <string name="unlock_content_access_denied_title">Accès refusé</string>
     <string name="unlock_content_access_denied_description">La serrure a refusé cette clé.</string>
+    <string name="starts_at_uppercase">COMMENCE LE</string>
+    <string name="check_in_label">Début : %1$s</string>
+    <string name="unlock_content_not_active_yet_title">Clé pas encore active</string>
+    <string name="unlock_content_not_active_yet_description">Cette clé est valable à partir du %1$s.</string>
+    <string name="unlock_content_expired_title">Clé expirée</string>
+    <string name="unlock_content_expired_description">Cette clé était valable jusqu\'au %1$s.</string>
     <string name="unlock_content_unlocking_failed_description">La porte n\'a pas pu être déverrouillée. Essayez de maintenir votre téléphone plus près de la serrure.</string>
     <string name="unlock_content_door_unlock_failed_message">La porte n\'a pas pu être déverrouillée.</string>
     <string name="unlock_content_try_again_button">Réessayer</string>

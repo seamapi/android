@@ -5,6 +5,12 @@
     <string name="unlock_content_unlocking_failed_title">Unlocking failed</string>
     <string name="unlock_content_access_denied_title">Access denied</string>
     <string name="unlock_content_access_denied_description">The lock rejected this key.</string>
+    <string name="starts_at_uppercase">STARTS AT</string>
+    <string name="check_in_label">Starts: %1$s</string>
+    <string name="unlock_content_not_active_yet_title">Key not active yet</string>
+    <string name="unlock_content_not_active_yet_description">This key is valid from %1$s.</string>
+    <string name="unlock_content_expired_title">Key expired</string>
+    <string name="unlock_content_expired_description">This key was valid until %1$s.</string>
     <string name="unlock_content_unlocking_failed_description">The door couldn\'t be unlocked. Try holding your phone closer to the lock.</string>
     <string name="unlock_content_door_unlock_failed_message">The door couldn\'t be unlocked.</string>
     <string name="unlock_content_try_again_button">Try Again</string>

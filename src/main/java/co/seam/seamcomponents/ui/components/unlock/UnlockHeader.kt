@@ -93,6 +93,18 @@ fun UnlockHeader(
                 color = headerTitleColor,
             )
 
+            keyCard.startDate?.let { startDate ->
+                Text(
+                    text =
+                        stringResource(
+                            R.string.check_in_label,
+                            startDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                        ),
+                    style = seamTheme.typography.labelMedium,
+                    color = headerSubtitleColor,
+                )
+            }
+
             keyCard.checkoutDate?.let { checkoutDate ->
                 Text(
                     text =

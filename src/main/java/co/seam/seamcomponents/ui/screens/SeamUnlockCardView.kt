@@ -24,6 +24,9 @@
 
 package co.seam.seamcomponents.ui.screens
 
+import co.seam.seamcomponents.ui.viewmodel.OutsideValidPeriod
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -99,6 +102,7 @@ fun SeamUnlockCardView(
     val errorState by viewModel.errorState.collectAsState()
     val isAccessDenied by viewModel.isAccessDenied.collectAsState()
     val accessDeniedReason by viewModel.accessDeniedReason.collectAsState()
+    val outsideValidPeriod by viewModel.outsideValidPeriod.collectAsState()
 
     val bottomSheetState =
         rememberModalBottomSheetState(
@@ -153,21 +157,48 @@ fun SeamUnlockCardView(
                     .background(headerContainerColor, RoundedCornerShape(2.dp)),
             )
 
-            if (unlockPhase == UnlockPhase.FAILED && isAccessDenied) {
+            val currentOutsideValidPeriod = outsideValidPeriod
+            if (unlockPhase == UnlockPhase.FAILED && currentOutsideValidPeriod != null) {
+                val dateFormatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
+                UnlockError(
+                    title =
+                        when (currentOutsideValidPeriod) {
+                            is OutsideValidPeriod.NotYetActive ->
+                                stringResource(R.string.unlock_content_not_active_yet_title)
+                            is OutsideValidPeriod.Expired ->
+                                stringResource(R.string.unlock_content_expired_title)
+                        },
+                    description =
+                        when (currentOutsideValidPeriod) {
+                            is OutsideValidPeriod.NotYetActive ->
+                                stringResource(
+                                    R.string.unlock_content_not_active_yet_description,
+                                    currentOutsideValidPeriod.startDate.format(dateFormatter),
+                                )
+                            is OutsideValidPeriod.Expired ->
+                                stringResource(
+                                    R.string.unlock_content_expired_description,
+                                    currentOutsideValidPeriod.checkoutDate.format(dateFormatter),
+                                )
+                        },
+                    modifier = Modifier.padding(16.dp),
+                    onTryAgain = { viewModel.unlockKeyCard(keyCard) },
+                )
+            } else if (unlockPhase == UnlockPhase.FAILED && isAccessDenied) {
                 UnlockError(
                     title = stringResource(R.string.unlock_content_access_denied_title),
                     description =
                         accessDeniedReason
                             ?: stringResource(R.string.unlock_content_access_denied_description),
                     modifier = Modifier.padding(16.dp),
-                    onTryAgain = { viewModel.unlockCredential(keyCard.id) },
+                    onTryAgain = { viewModel.unlockKeyCard(keyCard) },
                 )
             } else if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
                     title = stringResource(R.string.unlock_content_unlocking_failed_title),
                     description = stringResource(R.string.unlock_content_unlocking_failed_description),
                     modifier = Modifier.padding(16.dp),
-                    onTryAgain = { viewModel.unlockCredential(keyCard.id) },
+                    onTryAgain = { viewModel.unlockKeyCard(keyCard) },
                 )
             } else {
                 ErrorBanner(
@@ -183,7 +214,7 @@ fun SeamUnlockCardView(
                         modifier = Modifier.padding(vertical = 16.dp),
                         onPressPrimaryButton = {
                             if (unlockPhase == UnlockPhase.IDLE) {
-                                viewModel.unlockCredential(keyCard.id)
+                                viewModel.unlockKeyCard(keyCard)
                             } else if (unlockPhase == UnlockPhase.SCANNING) {
                                 viewModel.cancelUnlock()
                             }

@@ -24,6 +24,9 @@
 
 package co.seam.seamcomponents.ui.viewmodel
 
+import co.seam.seamcomponents.SeamUnlockPolicy
+import co.seam.seamcomponents.ui.components.keys.KeyCard
+import java.time.LocalDateTime
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.seam.core.api.SeamSDK
@@ -63,6 +66,10 @@ class UnlockViewModel : ViewModel() {
 
     private val _isAccessDenied = MutableStateFlow(false)
     val isAccessDenied: StateFlow<Boolean> = _isAccessDenied.asStateFlow()
+
+    // Set when the unlock was not attempted because the key is outside its validity period.
+    private val _outsideValidPeriod = MutableStateFlow<OutsideValidPeriod?>(null)
+    val outsideValidPeriod: StateFlow<OutsideValidPeriod?> = _outsideValidPeriod.asStateFlow()
 
     init {
         // Start collecting unlock status events
@@ -104,6 +111,31 @@ class UnlockViewModel : ViewModel() {
     /**
      * Unlocks a credential using the SeamSDK
      */
+    /**
+     * Unlocks [keyCard], unless [SeamUnlockPolicy.blocksUnlockOutsideValidPeriod] is on and the key is
+     * outside its validity period, in which case the unlock is not attempted.
+     */
+    fun unlockKeyCard(keyCard: KeyCard) {
+        if (SeamUnlockPolicy.blocksUnlockOutsideValidPeriod) {
+            val now = LocalDateTime.now()
+            val startDate = keyCard.startDate
+            val checkoutDate = keyCard.checkoutDate
+            val outsideValidPeriod = when {
+                startDate != null && now.isBefore(startDate) -> OutsideValidPeriod.NotYetActive(startDate)
+                checkoutDate != null && now.isAfter(checkoutDate) -> OutsideValidPeriod.Expired(checkoutDate)
+                else -> null
+            }
+            if (outsideValidPeriod != null) {
+                clearAccessDenied()
+                _errorState.value = null
+                _outsideValidPeriod.value = outsideValidPeriod
+                _unlockPhase.value = UnlockPhase.FAILED
+                return
+            }
+        }
+        unlockCredential(keyCard.id)
+    }
+
     fun unlockCredential(credentialId: String) {
         viewModelScope.launch(dispatcher) {
             try {
@@ -192,6 +224,7 @@ class UnlockViewModel : ViewModel() {
     private fun clearAccessDenied() {
         _isAccessDenied.value = false
         _accessDeniedReason.value = null
+        _outsideValidPeriod.value = null
     }
 
     /**
@@ -220,4 +253,12 @@ class UnlockViewModel : ViewModel() {
             }
         _errorState.value = errorMessage
     }
+}
+
+/**
+ * Why an unlock was not attempted because the key is outside its validity period.
+ */
+sealed class OutsideValidPeriod {
+    data class NotYetActive(val startDate: LocalDateTime) : OutsideValidPeriod()
+    data class Expired(val checkoutDate: LocalDateTime) : OutsideValidPeriod()
 }

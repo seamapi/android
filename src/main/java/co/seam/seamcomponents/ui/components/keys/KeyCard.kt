@@ -35,4 +35,5 @@ data class KeyCard(
     val firstErrorToSolve: KeyCardErrorState,
     val checkoutDate: LocalDateTime? = null,
     @DrawableRes val providerLogo: Int? = null,
+    val startDate: LocalDateTime? = null,
 )

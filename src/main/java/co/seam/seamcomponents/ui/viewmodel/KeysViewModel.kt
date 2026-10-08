@@ -129,6 +129,7 @@ class KeysViewModel : ViewModel() {
             location = credential.location,
             name = credential.name,
             checkoutDate = credential.expiry?.toJavaLocalDateTime(),
+            startDate = credential.startsAt?.toJavaLocalDateTime(),
             code = credential.code,
             firstErrorToSolve = firstErrorToSolve,
             providerLogo = getProviderLogoForProviderName(credential.providerName),
