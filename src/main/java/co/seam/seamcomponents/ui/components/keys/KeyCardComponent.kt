@@ -114,6 +114,7 @@ fun KeyCardComponent(
     // Format checkout date
     val formatter = DateTimeFormatter.ofPattern("EEE, MMM d 'at' h:mm a", Locale.getDefault())
     val formattedDate = keyCard.checkoutDate?.format(formatter)
+    val formattedStartDate = keyCard.startDate?.format(formatter)
 
     val borderGradient =
         Brush.linearGradient(
@@ -250,6 +251,24 @@ fun KeyCardComponent(
                             )
                             Text(
                                 text = keyCard.code,
+                                style = seamTheme.typography.bodySmall,
+                                color = textColor,
+                            )
+                        }
+                    }
+
+                    formattedStartDate?.let {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.starts_at_uppercase),
+                                style = seamTheme.typography.labelSmall,
+                                color = textColor.copy(alpha = 0.5f),
+                                modifier = Modifier.padding(end = 8.dp),
+                            )
+                            Text(
+                                text = formattedStartDate,
                                 style = seamTheme.typography.bodySmall,
                                 color = textColor,
                             )
