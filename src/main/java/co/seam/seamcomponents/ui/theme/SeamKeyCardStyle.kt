@@ -26,8 +26,11 @@ package co.seam.seamcomponents.ui.theme
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 
 @Immutable
 data class SeamKeyCardStyle(
@@ -42,6 +45,14 @@ data class SeamKeyCardStyle(
     val cornerRadius: Dp? = null,
     val shadowColor: Color? = null,
     val shadowYOffset: Dp? = null,
+    /** Whether to draw the accent-colored bar along the top-right edge. */
+    val showAccentBar: Boolean = true,
+    /** Where the brand logo sits in the area above the key details. */
+    val logoAlignment: Alignment = Alignment.CenterEnd,
+    /** The box the brand logo is fitted into. */
+    val logoSize: DpSize = DpSize(120.dp, 80.dp),
+    /** Whether to show the key's location in the card's top-left corner. */
+    val showLocation: Boolean = false,
 ) {
     companion object {
         /**

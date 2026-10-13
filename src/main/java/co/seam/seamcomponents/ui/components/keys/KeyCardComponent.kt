@@ -66,6 +66,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
@@ -166,15 +167,17 @@ fun KeyCardComponent(
             )
 
             // Accent bar at top right
-            Box(
-                modifier =
-                    Modifier
-                        .align(Alignment.TopEnd)
-                        .width(149.dp)
-                        .height(8.dp)
-                        .clip(RoundedCornerShape(topEnd = cornerRadius))
-                        .background(accentColor),
-            )
+            if (keyCardStyle.showAccentBar) {
+                Box(
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .width(149.dp)
+                            .height(8.dp)
+                            .clip(RoundedCornerShape(topEnd = cornerRadius))
+                            .background(accentColor),
+                )
+            }
 
             // Card content
             Column(
@@ -184,14 +187,37 @@ fun KeyCardComponent(
                         .padding(16.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                // Brand section (top right aligned)
+                // Brand section: logo, plus the location when enabled
                 Box(
                     modifier =
                         Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                    contentAlignment = Alignment.CenterEnd,
+                    contentAlignment = keyCardStyle.logoAlignment,
                 ) {
+                    val location = keyCard.location
+                    if (keyCardStyle.showLocation && !location.isNullOrBlank()) {
+                        // The location takes the top corner the logo leaves free.
+                        val logoOnStart =
+                            keyCardStyle.logoAlignment in
+                                listOf(Alignment.TopStart, Alignment.CenterStart, Alignment.BottomStart)
+                        val logoGap = keyCardStyle.logoSize.width + 12.dp
+                        Text(
+                            text = location,
+                            style = seamTheme.typography.labelMedium,
+                            color = textColor.copy(alpha = 0.7f),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier =
+                                if (logoOnStart) {
+                                    Modifier.align(Alignment.TopEnd).padding(start = logoGap)
+                                } else {
+                                    Modifier.align(Alignment.TopStart).padding(end = logoGap)
+                                },
+                        )
+                    }
+
+                    val logoSize = keyCardStyle.logoSize
                     val brandLogoRes = seamTheme.keyCard.brandLogoRes
                     // Brand logo or name display
                     when {
@@ -199,18 +225,16 @@ fun KeyCardComponent(
                             AsyncImage(
                                 model = seamTheme.keyCard.brandLogoUrl,
                                 contentDescription = "Brand logo",
-                                modifier =
-                                    Modifier
-                                        .size(width = 120.dp, height = 80.dp),
+                                alignment = keyCardStyle.logoAlignment,
+                                modifier = Modifier.size(logoSize),
                             )
                         }
                         brandLogoRes != null -> {
                             Image(
                                 painter = painterResource(id = brandLogoRes),
                                 contentDescription = "Brand logo",
-                                modifier =
-                                    Modifier
-                                        .size(width = 120.dp, height = 80.dp),
+                                alignment = keyCardStyle.logoAlignment,
+                                modifier = Modifier.size(logoSize),
                             )
                         }
                     }
