@@ -100,15 +100,6 @@ class UnlockViewModel : ViewModel() {
         clearAccessDenied()
     }
 
-    /**
-     * Stops waiting for the lock's result and asks the user to check the lock's lights.
-     */
-    fun ignoreUnlockResult() {
-        unlockJob?.cancel()
-        successTimerJob?.cancel()
-        _unlockPhase.value = UnlockPhase.UNCONFIRMED
-    }
-
     fun cancelUnlock() {
         unlockJob?.cancel()
         successTimerJob?.cancel()
@@ -221,11 +212,9 @@ class UnlockViewModel : ViewModel() {
                 _unlockPhase.value = UnlockPhase.FAILED
                 _errorState.value = "Reader error: ${seamUnlockEvent.message}"
             }
-            is SeamUnlockEvent.AwaitingResult -> {
-                _unlockPhase.value = UnlockPhase.AWAITING_RESULT
-            }
-            is SeamUnlockEvent.ResultUnconfirmed -> {
-                _unlockPhase.value = UnlockPhase.UNCONFIRMED
+            is SeamUnlockEvent.KeyDelivered -> {
+                _unlockPhase.value = UnlockPhase.KEY_DELIVERED
+                _errorState.value = null
             }
             is SeamUnlockEvent.AccessDenied -> {
                 println("UnlockViewModel - Access denied: ${seamUnlockEvent.reason}")

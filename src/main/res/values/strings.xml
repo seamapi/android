@@ -16,11 +16,8 @@
     <string name="unlock_content_try_again_button">Try Again</string>
     <string name="unlock_content_tap_to_unlock">Tap to unlock</string>
     <string name="unlock_content_connecting">Connecting…</string>
-    <string name="unlock_content_awaiting_result">Checking the lock…</string>
-    <string name="unlock_content_awaiting_result_instruction">The lock received your key. Waiting for its result.</string>
-    <string name="unlock_content_ignore_result_button">Ignore</string>
-    <string name="unlock_content_unconfirmed_title">Check the lock</string>
-    <string name="unlock_content_unconfirmed_description">We couldn\'t confirm whether the door opened. Check the lock\'s lights, or try again.</string>
+    <string name="unlock_content_key_delivered_title">Check the lock</string>
+    <string name="unlock_content_key_delivered_description">Your key was sent to the lock. Check the lock\'s lights to see if it opened.</string>
     <string name="unlock_content_unlocked">Unlocked</string>
     <string name="unlock_content_failed">Failed</string>
     <string name="unlock_content_scanning_instruction">Hold the back of your phone against the lock</string>
