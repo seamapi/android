@@ -24,26 +24,24 @@
 
 package co.seam.seamcomponents.ui.components.unlock
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.seam.seamcomponents.R
-import co.seam.seamcomponents.ui.components.common.SeamSecondaryButton
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
 
@@ -52,12 +50,10 @@ import co.seam.seamcomponents.ui.theme.seamTheme
  * checks the lock's lights.
  *
  * @param modifier Optional Modifier for styling and layout customization
- * @param onTryAgain Callback invoked when the user wants to send the key again
  */
 @Composable
 fun UnlockKeyDelivered(
     modifier: Modifier = Modifier,
-    onTryAgain: () -> Unit,
 ) {
     Column(
         modifier =
@@ -67,13 +63,12 @@ fun UnlockKeyDelivered(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Icon(
-            imageVector = Icons.Filled.Lock,
+        Image(
+            painter = painterResource(id = R.drawable.check_lock),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
             modifier =
                 Modifier
-                    .size(120.dp)
+                    .size(160.dp)
                     .padding(bottom = 40.dp),
         )
 
@@ -100,11 +95,6 @@ fun UnlockKeyDelivered(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-
-        SeamSecondaryButton(
-            buttonText = stringResource(R.string.unlock_try_again),
-            onClick = onTryAgain,
-        )
     }
 }
 
@@ -112,6 +102,6 @@ fun UnlockKeyDelivered(
 @Composable
 fun UnlockKeyDeliveredPreview() {
     SeamThemeProvider {
-        UnlockKeyDelivered(onTryAgain = { })
+        UnlockKeyDelivered()
     }
 }

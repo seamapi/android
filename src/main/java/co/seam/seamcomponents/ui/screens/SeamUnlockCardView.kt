@@ -197,7 +197,6 @@ fun SeamUnlockCardView(
             } else if (unlockPhase == UnlockPhase.KEY_DELIVERED) {
                 UnlockKeyDelivered(
                     modifier = Modifier.padding(16.dp),
-                    onTryAgain = { viewModel.unlockKeyCard(keyCard) },
                 )
             } else if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
