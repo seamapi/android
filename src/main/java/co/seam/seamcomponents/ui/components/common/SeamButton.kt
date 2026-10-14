@@ -92,7 +92,7 @@ fun SeamButton(
     ) {
         Text(
             text = text,
-            style = theme.typography.headlineLarge,
+            style = theme.typography.titleMedium,
         )
     }
 }

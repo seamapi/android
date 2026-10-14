@@ -16,6 +16,8 @@
     <string name="unlock_content_try_again_button">Try Again</string>
     <string name="unlock_content_tap_to_unlock">Tap to unlock</string>
     <string name="unlock_content_connecting">Connecting…</string>
+    <string name="unlock_content_key_delivered_title">Check the lock</string>
+    <string name="unlock_content_key_delivered_description">Your key was sent to the lock. Check the lock\'s lights to see if it opened.</string>
     <string name="unlock_content_unlocked">Unlocked</string>
     <string name="unlock_content_failed">Failed</string>
     <string name="unlock_content_scanning_instruction">Hold the back of your phone against the lock</string>

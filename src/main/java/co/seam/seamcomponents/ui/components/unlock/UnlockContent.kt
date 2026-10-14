@@ -145,6 +145,7 @@ private fun getTitleByUnlockPhase(unlockPhase: UnlockPhase): String {
         UnlockPhase.IDLE -> stringResource(R.string.unlock_content_tap_to_unlock)
         UnlockPhase.SCANNING -> stringResource(R.string.unlock_content_connecting)
         UnlockPhase.SUCCESS -> stringResource(R.string.unlock_content_unlocked)
+        UnlockPhase.KEY_DELIVERED -> stringResource(R.string.unlock_content_key_delivered_title)
         UnlockPhase.FAILED -> stringResource(R.string.unlock_content_failed)
     }
 }

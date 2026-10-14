@@ -16,6 +16,8 @@
     <string name="unlock_content_try_again_button">Intentar de nuevo</string>
     <string name="unlock_content_tap_to_unlock">Toca para desbloquear</string>
     <string name="unlock_content_connecting">Conectando…</string>
+    <string name="unlock_content_key_delivered_title">Revisa la cerradura</string>
+    <string name="unlock_content_key_delivered_description">Tu llave se envió a la cerradura. Revisa las luces de la cerradura para ver si se abrió.</string>
     <string name="unlock_content_unlocked">Desbloqueado</string>
     <string name="unlock_content_failed">Fallido</string>
     <string name="unlock_content_scanning_instruction">Mantén la parte trasera de tu teléfono contra la cerradura</string>

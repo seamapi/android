@@ -28,5 +28,6 @@ enum class UnlockPhase {
     IDLE,
     SCANNING,
     SUCCESS,
+    KEY_DELIVERED,
     FAILED,
 }

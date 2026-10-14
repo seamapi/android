@@ -212,6 +212,10 @@ class UnlockViewModel : ViewModel() {
                 _unlockPhase.value = UnlockPhase.FAILED
                 _errorState.value = "Reader error: ${seamUnlockEvent.message}"
             }
+            is SeamUnlockEvent.KeyDelivered -> {
+                _unlockPhase.value = UnlockPhase.KEY_DELIVERED
+                _errorState.value = null
+            }
             is SeamUnlockEvent.AccessDenied -> {
                 println("UnlockViewModel - Access denied: ${seamUnlockEvent.reason}")
                 _accessDeniedReason.value = seamUnlockEvent.reason

@@ -65,6 +65,7 @@ import co.seam.seamcomponents.ui.components.unlock.UnlockContent
 import co.seam.seamcomponents.ui.components.unlock.UnlockContentPreparing
 import co.seam.seamcomponents.ui.components.unlock.UnlockError
 import co.seam.seamcomponents.ui.components.unlock.UnlockHeader
+import co.seam.seamcomponents.ui.components.unlock.UnlockKeyDelivered
 import co.seam.seamcomponents.ui.components.unlock.UnlockPhase
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
 import co.seam.seamcomponents.ui.theme.seamTheme
@@ -193,6 +194,10 @@ fun SeamUnlockCardView(
                     modifier = Modifier.padding(16.dp),
                     onTryAgain = { viewModel.unlockKeyCard(keyCard) },
                 )
+            } else if (unlockPhase == UnlockPhase.KEY_DELIVERED) {
+                UnlockKeyDelivered(
+                    modifier = Modifier.padding(16.dp),
+                )
             } else if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
                     title = stringResource(R.string.unlock_content_unlocking_failed_title),
@@ -229,7 +234,10 @@ fun SeamUnlockCardView(
             )
 
             // Footer with Cancel/Done button
-            if (unlockPhase == UnlockPhase.SUCCESS || unlockPhase == UnlockPhase.FAILED) {
+            if (unlockPhase == UnlockPhase.SUCCESS ||
+                unlockPhase == UnlockPhase.KEY_DELIVERED ||
+                unlockPhase == UnlockPhase.FAILED
+            ) {
                 SeamPrimaryButton(
                     buttonText = stringResource(R.string.done),
                     onClick = handleDismiss,

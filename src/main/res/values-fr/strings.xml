@@ -16,6 +16,8 @@
     <string name="unlock_content_try_again_button">Réessayer</string>
     <string name="unlock_content_tap_to_unlock">Toucher pour déverrouiller</string>
     <string name="unlock_content_connecting">Connexion…</string>
+    <string name="unlock_content_key_delivered_title">Vérifiez la serrure</string>
+    <string name="unlock_content_key_delivered_description">Votre clé a été envoyée à la serrure. Vérifiez les voyants de la serrure pour savoir si elle s\'est ouverte.</string>
     <string name="unlock_content_unlocked">Déverrouillé</string>
     <string name="unlock_content_failed">Échoué</string>
     <string name="unlock_content_scanning_instruction">Maintenez l\'arrière de votre téléphone contre la serrure</string>

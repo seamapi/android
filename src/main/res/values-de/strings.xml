@@ -16,6 +16,8 @@
     <string name="unlock_content_try_again_button">Erneut versuchen</string>
     <string name="unlock_content_tap_to_unlock">Zum Entsperren tippen</string>
     <string name="unlock_content_connecting">Verbinden…</string>
+    <string name="unlock_content_key_delivered_title">Schloss prüfen</string>
+    <string name="unlock_content_key_delivered_description">Ihr Schlüssel wurde an das Schloss gesendet. Prüfen Sie die Leuchten am Schloss, um zu sehen, ob es geöffnet hat.</string>
     <string name="unlock_content_unlocked">Entsperrt</string>
     <string name="unlock_content_failed">Fehlgeschlagen</string>
     <string name="unlock_content_scanning_instruction">Halten Sie die Rückseite Ihres Handys an das Schloss</string>
