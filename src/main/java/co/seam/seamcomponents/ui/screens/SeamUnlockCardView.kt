@@ -193,6 +193,13 @@ fun SeamUnlockCardView(
                     modifier = Modifier.padding(16.dp),
                     onTryAgain = { viewModel.unlockKeyCard(keyCard) },
                 )
+            } else if (unlockPhase == UnlockPhase.UNCONFIRMED) {
+                UnlockError(
+                    title = stringResource(R.string.unlock_content_unconfirmed_title),
+                    description = stringResource(R.string.unlock_content_unconfirmed_description),
+                    modifier = Modifier.padding(16.dp),
+                    onTryAgain = { viewModel.unlockKeyCard(keyCard) },
+                )
             } else if (unlockPhase == UnlockPhase.FAILED) {
                 UnlockError(
                     title = stringResource(R.string.unlock_content_unlocking_failed_title),
@@ -229,10 +236,22 @@ fun SeamUnlockCardView(
             )
 
             // Footer with Cancel/Done button
-            if (unlockPhase == UnlockPhase.SUCCESS || unlockPhase == UnlockPhase.FAILED) {
+            if (unlockPhase == UnlockPhase.SUCCESS ||
+                unlockPhase == UnlockPhase.FAILED ||
+                unlockPhase == UnlockPhase.UNCONFIRMED
+            ) {
                 SeamPrimaryButton(
                     buttonText = stringResource(R.string.done),
                     onClick = handleDismiss,
+                    modifier =
+                        Modifier
+                            .padding(bottom = 72.dp)
+                            .padding(horizontal = 16.dp),
+                )
+            } else if (unlockPhase == UnlockPhase.AWAITING_RESULT) {
+                SeamSecondaryButton(
+                    buttonText = stringResource(R.string.unlock_content_ignore_result_button),
+                    onClick = { viewModel.ignoreUnlockResult() },
                     modifier =
                         Modifier
                             .padding(bottom = 72.dp)

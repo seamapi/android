@@ -144,8 +144,10 @@ private fun getTitleByUnlockPhase(unlockPhase: UnlockPhase): String {
     return when (unlockPhase) {
         UnlockPhase.IDLE -> stringResource(R.string.unlock_content_tap_to_unlock)
         UnlockPhase.SCANNING -> stringResource(R.string.unlock_content_connecting)
+        UnlockPhase.AWAITING_RESULT -> stringResource(R.string.unlock_content_awaiting_result)
         UnlockPhase.SUCCESS -> stringResource(R.string.unlock_content_unlocked)
         UnlockPhase.FAILED -> stringResource(R.string.unlock_content_failed)
+        UnlockPhase.UNCONFIRMED -> stringResource(R.string.unlock_content_unconfirmed_title)
     }
 }
 
@@ -153,6 +155,7 @@ private fun getTitleByUnlockPhase(unlockPhase: UnlockPhase): String {
 private fun getInstructionTextByUnlockPhase(unlockPhase: UnlockPhase): String? {
     return when (unlockPhase) {
         UnlockPhase.SCANNING -> stringResource(R.string.unlock_content_scanning_instruction)
+        UnlockPhase.AWAITING_RESULT -> stringResource(R.string.unlock_content_awaiting_result_instruction)
         else -> null
     }
 }

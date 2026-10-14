@@ -90,9 +90,13 @@ fun UnlockButton(
     val keyIconColor =
         when (unlockPhase) {
             UnlockPhase.IDLE -> unlockCardStyle.keyIconColorIdle ?: MaterialTheme.colorScheme.onPrimary
-            UnlockPhase.SCANNING -> unlockCardStyle.keyIconColorActive ?: MaterialTheme.colorScheme.onBackground
-            UnlockPhase.SUCCESS -> MaterialTheme.colorScheme.onPrimary
-            UnlockPhase.FAILED -> MaterialTheme.colorScheme.onPrimary
+            UnlockPhase.SCANNING,
+            UnlockPhase.AWAITING_RESULT,
+            -> unlockCardStyle.keyIconColorActive ?: MaterialTheme.colorScheme.onBackground
+            UnlockPhase.SUCCESS,
+            UnlockPhase.FAILED,
+            UnlockPhase.UNCONFIRMED,
+            -> MaterialTheme.colorScheme.onPrimary
         }
 
     val successColor = unlockCardStyle.successColor ?: MaterialTheme.colorScheme.success
@@ -134,7 +138,9 @@ fun UnlockButton(
                 )
             }
         }
-        UnlockPhase.SCANNING -> {
+        UnlockPhase.SCANNING,
+        UnlockPhase.AWAITING_RESULT,
+        -> {
             Box(
                 modifier =
                     modifier
@@ -179,7 +185,9 @@ fun UnlockButton(
                 )
             }
         }
-        UnlockPhase.FAILED -> {}
+        UnlockPhase.FAILED,
+        UnlockPhase.UNCONFIRMED,
+        -> {}
     }
 }
 
