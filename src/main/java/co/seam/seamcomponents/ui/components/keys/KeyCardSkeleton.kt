@@ -24,13 +24,13 @@
 
 package co.seam.seamcomponents.ui.components.keys
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,48 +38,68 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import co.seam.seamcomponents.R
 import co.seam.seamcomponents.ui.components.common.ShadowCard
 import co.seam.seamcomponents.ui.components.common.shimmer
 import co.seam.seamcomponents.ui.theme.SeamThemeProvider
+import co.seam.seamcomponents.ui.theme.seamTheme
 
 /**
  * A skeleton loading placeholder that mimics the KeyCardComponent structure.
  *
- * This composable displays a grayscale version of the key card with a shimmer animation
- * to indicate loading state. It matches the dimensions and layout structure of the actual
- * KeyCardComponent to provide a smooth transition when the real data loads.
+ * It draws the key card's own shell from the theme - the same gradient, texture, corner
+ * radius and shadow as [KeyCardComponent] - with placeholder bars in the card's text color
+ * and a highlight sweeping across. So the placeholder matches the branded card that replaces
+ * it, in light and dark, rather than flashing a grey card first.
  *
  * @param modifier Optional Modifier for styling and layout customization
  */
 @Composable
 fun KeyCardSkeleton(modifier: Modifier = Modifier) {
-    val cornerRadius = 16.dp
-    val shadowColor = Color(0x1A000000)
-    val shadowOffsetY = 5.dp
+    // Same theme values and fallbacks as KeyCardComponent.
+    val keyCardStyle = seamTheme.keyCard
+    val gradientColors =
+        keyCardStyle.backgroundGradient ?: listOf(
+            MaterialTheme.colorScheme.surface,
+            MaterialTheme.colorScheme.surfaceVariant,
+        )
+    val cornerRadius = keyCardStyle.cornerRadius ?: 16.dp
+    val shadowColor = keyCardStyle.shadowColor ?: Color(0x33000000)
+    val shadowOffsetY = keyCardStyle.shadowYOffset ?: 5.dp
+    val textColor = keyCardStyle.textColor ?: MaterialTheme.colorScheme.onPrimary
 
-    // Grayscale colors for skeleton
-    val baseGray = Color(0xFFE0E0E0)
-    val lightGray = Color(0xFFF0F0F0)
-    val mediumGray = Color(0xFFD0D0D0)
+    // Placeholder bars in the card's text color; labels fainter than values, as on the card.
+    val bar = textColor.copy(alpha = 0.18f)
+    val faintBar = textColor.copy(alpha = 0.10f)
+
+    // A white sweep reads on both light and dark cards when it's softer on dark ones.
+    val isDarkCard = gradientColors.first().luminance() < 0.5f
+    val highlight = Color.White.copy(alpha = if (isDarkCard) 0.12f else 0.55f)
 
     val borderGradient =
         Brush.linearGradient(
             colors =
                 listOf(
-                    Color(0xFFE0E0E0),
-                    Color(0xFFF5F5F5),
+                    Color(0xff939393), // Bottom left color
+                    Color(0xffffffff), // Top right color
                 ),
-            start = Offset(0f, Float.POSITIVE_INFINITY),
-            end = Offset(Float.POSITIVE_INFINITY, 0f),
+            start = Offset(0f, Float.POSITIVE_INFINITY), // Bottom left
+            end = Offset(Float.POSITIVE_INFINITY, 0f), // Top right
         )
 
     ShadowCard(
@@ -104,25 +124,19 @@ fun KeyCardSkeleton(modifier: Modifier = Modifier) {
                     Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(cornerRadius))
-                        .background(
-                            Brush.linearGradient(
-                                colors = listOf(lightGray, baseGray),
-                            ),
-                        ),
+                        .background(Brush.linearGradient(colors = gradientColors)),
             )
 
-            // Accent bar at top right
-            Box(
+            // Background texture overlay, as on the card
+            Image(
+                painter = painterResource(id = keyCardStyle.backgroundTextureRes ?: R.drawable.card_gradient),
+                contentDescription = null,
                 modifier =
                     Modifier
-                        .align(Alignment.TopEnd)
-                        .width(149.dp)
-                        .height(8.dp)
-                        .clip(RoundedCornerShape(topEnd = cornerRadius))
-                        .shimmer(
-                            baseColor = mediumGray,
-                            highlightColor = lightGray,
-                        ),
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(cornerRadius))
+                        .alpha(0.4f),
+                contentScale = ContentScale.Crop,
             )
 
             // Card content
@@ -133,107 +147,70 @@ fun KeyCardSkeleton(modifier: Modifier = Modifier) {
                         .padding(16.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                // Brand logo placeholder (top right aligned)
+                // Brand logo placeholder, where the card puts the logo
                 Box(
                     modifier =
                         Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                    contentAlignment = Alignment.CenterEnd,
+                    contentAlignment = keyCardStyle.logoAlignment,
                 ) {
-                    Box(
-                        modifier =
-                            Modifier
-                                .width(100.dp)
-                                .height(40.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .shimmer(
-                                    baseColor = mediumGray,
-                                    highlightColor = lightGray,
-                                ),
-                    )
+                    SkeletonBar(color = bar, width = 100.dp, height = 40.dp, cornerRadius = 8.dp)
                 }
 
-                // Hotel info section (bottom left aligned)
+                // Key details (bottom left aligned)
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     // Room name placeholder
-                    Box(
-                        modifier =
-                            Modifier
-                                .width(80.dp)
-                                .height(24.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .shimmer(
-                                    baseColor = mediumGray,
-                                    highlightColor = lightGray,
-                                ),
-                    )
+                    SkeletonBar(color = bar, width = 80.dp, height = 24.dp)
 
                     // Access code row
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Box(
-                            modifier =
-                                Modifier
-                                    .width(90.dp)
-                                    .height(14.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .shimmer(
-                                        baseColor = mediumGray.copy(alpha = 0.6f),
-                                        highlightColor = lightGray.copy(alpha = 0.6f),
-                                    ),
-                        )
-                        Box(
-                            modifier =
-                                Modifier
-                                    .width(50.dp)
-                                    .height(14.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .shimmer(
-                                        baseColor = mediumGray,
-                                        highlightColor = lightGray,
-                                    ),
-                        )
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        SkeletonBar(color = faintBar, width = 90.dp, height = 14.dp)
+                        SkeletonBar(color = bar, width = 50.dp, height = 14.dp)
                     }
 
                     // Checkout info row
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Box(
-                            modifier =
-                                Modifier
-                                    .width(80.dp)
-                                    .height(14.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .shimmer(
-                                        baseColor = mediumGray.copy(alpha = 0.6f),
-                                        highlightColor = lightGray.copy(alpha = 0.6f),
-                                    ),
-                        )
-                        Box(
-                            modifier =
-                                Modifier
-                                    .width(150.dp)
-                                    .height(14.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .shimmer(
-                                        baseColor = mediumGray,
-                                        highlightColor = lightGray,
-                                    ),
-                        )
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        SkeletonBar(color = faintBar, width = 80.dp, height = 14.dp)
+                        SkeletonBar(color = bar, width = 150.dp, height = 14.dp)
                     }
                 }
             }
+
+            // Highlight sweeping across the whole card
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(cornerRadius))
+                        .shimmer(
+                            baseColor = highlight.copy(alpha = 0f),
+                            highlightColor = highlight,
+                        ),
+            )
         }
     }
+}
+
+@Composable
+private fun SkeletonBar(
+    color: Color,
+    width: Dp,
+    height: Dp,
+    cornerRadius: Dp = 4.dp,
+) {
+    Box(
+        modifier =
+            Modifier
+                .width(width)
+                .height(height)
+                .clip(RoundedCornerShape(cornerRadius))
+                .background(color),
+    )
 }
 
 @Preview(showBackground = true)
