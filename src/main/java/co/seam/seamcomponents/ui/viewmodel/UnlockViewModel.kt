@@ -41,6 +41,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -82,7 +83,9 @@ class UnlockViewModel : ViewModel() {
     private fun startCollectingUnlockStatus() {
         viewModelScope.launch(dispatcher) {
             try {
-                SeamSDK.getInstance().unlockStatus.filterNotNull().collect { unlockEvent ->
+                // unlockStatus keeps the SDK's last event for the life of the process and replays it to
+                // every new collector; without drop(1) a reopened view starts on the previous unlock's result.
+                SeamSDK.getInstance().unlockStatus.drop(1).filterNotNull().collect { unlockEvent ->
                     handleUnlockStatus(unlockEvent)
                 }
             } catch (e: Exception) {
